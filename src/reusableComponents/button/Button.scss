@@ -1,0 +1,10 @@
+.main-button {
+    border: 1px #C4C3C3 solid;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+    font-weight: 400;
+
+    &.primary{
+        background-color: #78C8F5;
+    }
+}
