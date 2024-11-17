@@ -6,8 +6,20 @@
     -webkit-box-shadow: 0 4px 4px 0 rgba(0,0,0,0.25);
     -moz-box-shadow: 0 4px 4px 0 rgba(0,0,0,0.25);
     box-shadow: 0 4px 4px 0 rgba(0,0,0,0.25);
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover{
+        cursor: pointer;
+        background-color: #f6f6f6;
+    }
 
     &.primary{
         background-color: #78C8F5;
+
+        &:hover{
+            cursor: pointer;
+            background-color: #5fabd8;
+        }
     }
+
 }
