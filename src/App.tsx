@@ -1,12 +1,20 @@
 import Security from './components/Security/Security';
 import Header from './components/Header/Header';
+import ProfileEmployee from "./components/Profiles/ProfileEmployee";
+import  "./App.scss"
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 function App() {
   return (
+      <Router>
     <div className="App">
       <Header />
-      <Security />
+        <Routes>
+            <Route path="/login" element={  <Security />} />
+            <Route path="/profile/employee" element={<ProfileEmployee />} />
+        </Routes>
     </div>
+      </Router>
   );
 }
 
