@@ -12,8 +12,17 @@ i18n.use(initReactI18next).init({
                 downloadHere: "Download Here",
                 additionalInformation: "Additional information:",
                 establishContact: "Establish contact",
-                WriteMessage: "Write a message",
-                AboutMe: "About me",
+                writeMessage: "Write a message",
+                aboutMe: "About me",
+            },
+
+            profileHR: {
+                myContacts: "My contacts",
+                moreDetailsHere: "More details here",
+                additionalInformation: "Additional information:",
+                addNewVacancy: "Add new vacancy",
+                openVacancies: "Open vacancies",
+                aboutCompany: "About company",
             }
             }
         },
@@ -24,8 +33,17 @@ i18n.use(initReactI18next).init({
                     downloadHere: "Завантажити тут",
                     additionalInformation: "Додаткова інформація:",
                     establishContact: "Встановити контакт",
-                    WriteMessage: "Написати повідомлення",
-                    AboutMe: "Про мене",
+                    writeMessage: "Написати повідомлення",
+                    aboutMe: "Про мене",
+                },
+
+                profileHR: {
+                    myContacts: "Мої контакти",
+                    moreDetailsHere: "Детальніше тут",
+                    additionalInformation: "Додаткова інформація:",
+                    addNewVacancy: "Додати нову ваканцію",
+                    openVacancies: "Відкриті ваканції",
+                    aboutCompany: "Про компанію",
                 }
             }
         }

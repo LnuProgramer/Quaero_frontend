@@ -1,8 +1,8 @@
 import React from 'react';
-import Button from "../../reusableComponents/button/Button";
+import Button from "../../../reusableComponents/button/Button";
 import "./ProfileEmployee.scss"
-import Text from "../../reusableComponents/text/Text";
-import "../../utils/i18n"
+import Text from "../../../reusableComponents/text/Text";
+import "../../../utils/i18n"
 import {useTranslation} from "react-i18next";
 
 function ProfileEmployee() {
@@ -14,8 +14,8 @@ function ProfileEmployee() {
             <div className="bg-circle" id="right-bottom-bg-circle"></div>
             <div id="profile-employee-wrapper">
                 <div id="profile-employee-content-wrapper">
-                    <div id="photo-wrapper">
-                        <img id="profile-photo" src="/images/profile/UserDefaultPhoto.svg" alt="profile-photo"></img>
+                    <div id="photo-employee-wrapper">
+                        <img className="profile-photo" src="/images/profile/UserDefaultPhoto.svg" alt="profile-photo"></img>
                     </div>
                     <div id="profile-employee-main-content-wrapper">
                         <div id="profile-employee-left-content-wrapper">
@@ -38,10 +38,10 @@ function ProfileEmployee() {
                         <div id="profile-employee-right-content-wrapper">
                             <div id="profile-employee-buttons-wrapper">
                                 <Button fontSize={20} fontWeight={500} buttonText={t("profileEmployee.establishContact")} className="profile-employee-buttons"/>
-                                <Button fontSize={20} fontWeight={500} buttonColor="primary" buttonText={t("profileEmployee.WriteMessage")} className="profile-employee-buttons"/>
+                                <Button fontSize={20} fontWeight={500} buttonColor="primary" buttonText={t("profileEmployee.writeMessage")} className="profile-employee-buttons"/>
                             </div>
                             <div id="profile-employee-about-wrapper" className="profile-employee-block">
-                                <Text fontSize={20} as="h2">{t("profileEmployee.AboutMe")}</Text>
+                                <Text fontSize={20} as="h2">{t("profileEmployee.aboutMe")}</Text>
                                 <Text fontSize={20} as="p">Some Text About Me </Text>
                             </div>
                         </div>
