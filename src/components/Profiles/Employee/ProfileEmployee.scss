@@ -39,20 +39,20 @@
   height: 100%;
 }
 
-#photo-wrapper{
+#photo-employee-wrapper{
   display: flex;
   align-items: end;
   padding-left: 50px;
   width: 100%;
   height: 350px ;
   border-radius: 0 0 30px 30px;
-  background-image: url("../../../public/images/profile/ProfileEmployee.png");
+  background-image: url("../../../../public/images/profile/ProfileEmployee.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-#profile-photo {
+.profile-photo {
   border-radius: 100%;
   width: 255px;
   height: 255px;
