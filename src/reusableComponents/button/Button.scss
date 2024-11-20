@@ -17,9 +17,31 @@
         background-color: #78C8F5;
 
         &:hover{
-            cursor: pointer;
             background-color: #5fabd8;
         }
     }
 
+    &.green{
+        background-color: #6EB040;
+
+        &:hover{
+            background-color: #58912c;
+        }
+    }
+
+    &.pink{
+        background-color: #F99191;
+
+        &:hover{
+            background-color: #d16868;
+        }
+    }
+
+    &.grey{
+        background-color: #7B7D79;
+
+        &:hover{
+            background-color: #525552;
+        }
+    }
 }
