@@ -7,27 +7,75 @@ i18n.use(initReactI18next).init({
     resources: {
         en:{
             translation:{
-            profileEmployee: {
-                myResume: "My resume",
-                downloadHere: "Download Here",
-                additionalInformation: "Additional information:",
-                establishContact: "Establish contact",
-                writeMessage: "Write a message",
-                aboutMe: "About me",
-            },
+                homePage: {
+                    jobSearch: "Job search",
+                    postAd : "Post an ad",
+                    featuredAds: "Featured ads",
+                    addResume: "Add a resume!",
+                    addResumeDescription: "Post your resume so that employers notice you faster",
+                    create: "Create",
+                    downloadFile: "Download the file",
+                    howPrepareForInterview: "How to prepare for an interview",
+                    tipsFromHR: {
+                        tipsFrom: "Tips from the ",
+                        headHr: "Head of HR ",
+                        at:"at ",
+                        google: "Google!",
+                    },
+                    readMore: "Read more",
+                    featuredAdsForYou: "Featured ads for you",
+                    articles: "Articles",
+                    contacts: "Contacts",
+                    aboutUs: "About Us",
+                    help: "Help",
+                    ourPartners: "Our partners",
+                    socialNetworks: "Social Networks",
+                },
+                profileEmployee: {
+                    myResume: "My resume",
+                    downloadHere: "Download Here",
+                    additionalInformation: "Additional information:",
+                    establishContact: "Establish contact",
+                    writeMessage: "Write a message",
+                    aboutMe: "About me",
+                },
 
-            profileHR: {
-                myContacts: "My contacts",
-                moreDetailsHere: "More details here",
-                additionalInformation: "Additional information:",
-                addNewVacancy: "Add new vacancy",
-                openVacancies: "Open vacancies",
-                aboutCompany: "About company",
-            }
+                profileHR: {
+                    myContacts: "My contacts",
+                    moreDetailsHere: "More details here",
+                    additionalInformation: "Additional information:",
+                    addNewVacancy: "Add new vacancy",
+                    openVacancies: "Open vacancies",
+                    aboutCompany: "About company",
+                }
             }
         },
         ua: {
             translation: {
+                homePage: {
+                    jobSearch: "Пошук вакансій",
+                    postAd : "Розмістити оголошення",
+                    featuredAds: "Рекомендовані оголошення",
+                    addResume: "Додайте резюме!",
+                    addResumeDescription: "Розмістіть ваше резюме щоб роботодавці швидше вас замітили",
+                    create: "Створити",
+                    downloadFile: "Завантажити файл",
+                    howPrepareForInterview: "Поради від Head of HR компанії Google!",
+                    tipsFromHR: {
+                        tipsFrom: "Поради від",
+                        headHr: "Head of HR",
+                        at:"компанії",
+                        google: "Google!",
+                    },
+                    readMore: "Читати далі",
+                    featuredAdsForYou: "Рекомендовані оголошення для вас",
+                    articles: "Статті",
+                    contacts: "Контакти",
+                    aboutUs: "Про нас",
+                    help: "Допомога",
+                    ourPartners: "Наші партнери",
+                    socialNetworks: "Соцмережі",
+                },
                 profileEmployee: {
                     myResume: "Моє резюме",
                     downloadHere: "Завантажити тут",
