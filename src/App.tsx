@@ -4,6 +4,7 @@ import ProfileEmployee from "./components/Profiles/Employee/ProfileEmployee";
 import  "./App.scss"
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import ProfileHR from "./components/Profiles/HR/ProfileHR";
+import Home from "./components/Home/Home";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
     <div className="App">
       <Header />
         <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Security />} />
             <Route path="/profile/employee" element={<ProfileEmployee />} />
             <Route path="/profile/hr" element={<ProfileHR />} />

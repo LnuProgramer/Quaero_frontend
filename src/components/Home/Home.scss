@@ -1,0 +1,210 @@
+#home {
+  width: 100%;
+  height: 100%;
+  padding: 131px 56px 0 56px;
+  background: rgb(255,250,245);
+  background: linear-gradient(180deg, rgba(255,250,245,1) 31%, rgba(249,145,145,1) 100%);
+  z-index: -2;
+
+  a:hover{
+    cursor: pointer;
+  }
+}
+
+.home-circles {
+  position: absolute;
+  background-color: #EF3231;
+  border-radius: 100%;
+
+  &.home-gradient-1 {
+    background: rgb(254, 184, 83);
+    background: linear-gradient(80deg, rgba(254, 184, 83, 1) 0%, rgba(255, 112, 112, 1) 42%, rgba(247, 134, 134, 1) 60%, rgba(255, 255, 255, 1) 100%);
+  }
+
+  &.home-gradient-2 {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(227deg, rgba(255, 255, 255, 1) 0%, rgba(250, 158, 158, 1) 28%, rgba(249, 129, 129, 1) 42%, rgba(248, 109, 109, 1) 53%, rgba(254, 132, 121, 1) 74%, rgba(254, 170, 106, 1) 100%);
+  }
+
+  &#home-circle-small-1 {
+    width: 25px;
+    height: 25px;
+    opacity: 0.8;
+    right: calc(555px * 0.70);
+    top: 130px;
+  }
+
+  &#home-circle-small-2 {
+    width: 38px;
+    height: 38px;
+    opacity: 0.8;
+    right: calc(555px * 0.60);
+    top: 140px;
+  }
+
+  &#home-circle-big-1 {
+    width: 555px;
+    height: 515px;
+    right: calc(555px * -0.35);
+    top: 65px;
+    opacity: 0.9;
+  }
+
+  &#home-circle-big-2 {
+    width: 367px;
+    height: 326px;
+    right: calc(367px * -0.45);
+    top: 515px;
+    z-index: 1;
+  }
+}
+
+#home-buttons-wrapper {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  margin-left: 56px;
+
+  .home-buttons
+  {
+    height: 112px;
+    border-radius: 40px;
+    font-weight: 600;
+  }
+}
+
+#home-additional-info-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 230px;
+  gap: 64px;
+
+  h1{
+    font-weight: 600;
+  }
+}
+
+#home-additional-info-block-wrapper{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.home-additional-info-block{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: 74px;
+  -webkit-box-shadow: 0 10px 4px 0 rgba(0,0,0,0.25);
+  -moz-box-shadow: 0 10px 4px 0 rgba(0,0,0,0.25);
+  box-shadow: 0 10px 4px 0 rgba(0,0,0,0.25);
+  padding: 41px 28px 41px 28px;
+  background-color: #FFFFFF;
+  width: 45%;
+
+  span{
+    font-weight: 500;
+  }
+}
+
+#home-additional-info-block-buttons-wrapper {
+  margin-top: 12px;
+  display: flex;
+  gap: 24px;
+}
+
+.home-additional-info-block-button{
+  padding: 20px 30px 20px 30px;
+  border-radius: 72px;
+}
+
+#home-additional-info-block-right-button{
+  margin-top: 12px;
+  width: 70%;
+}
+
+#recommended-vacancies-wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  margin-top: 48px;
+  width: 85%;
+}
+
+#recommended-vacancies-text-wrapper{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  a{
+    transition: font-weight 0.3s ease-in-out;
+    &:hover{
+      font-weight: 500;
+    }
+  }
+}
+
+footer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #000000;
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
+  height: 205px;
+  width: 99vw;
+  padding: 24px 64px 24px 64px;
+
+  #footer-left-wrapper{
+    display: flex;
+    gap: 100px;
+    .footer-left-block{
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      a{
+        color: white;
+        transition: color 0.3s ease-in-out;
+        &:hover{
+          color: #b1b1b1;
+        }
+      }
+    }
+  }
+
+  #footer-right-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  p{
+    color: #FFFFFF;
+  }
+
+  #footer-right-social-networks-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .social-networks-button{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 48px;
+      height: 48px;
+      background-color: #FFFFFF;
+      border-radius: 100%;
+      transition: background-color 0.3s ease-in-out;
+
+      &:hover{
+        background-color: #b1b1b1;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
