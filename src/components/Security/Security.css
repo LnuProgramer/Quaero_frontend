@@ -20,19 +20,6 @@
   position: relative;
 }
 
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #FF0000;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
 .avatar-container {
   display: flex;
   justify-content: center;

@@ -51,6 +51,11 @@ i18n.use(initReactI18next).init({
 
                 vacancy: {
                     applyPosition: "Apply for position"
+                },
+
+                header: {
+                    loginNav: "Login",
+                    seacrhPlaceHolder: "Search...",
                 }
             }
         },
@@ -101,6 +106,10 @@ i18n.use(initReactI18next).init({
 
                 vacancy: {
                     applyPosition: "Подайте заявку на посаду"
+                },
+                header: {
+                    loginNav: "Увійти",
+                    seacrhPlaceHolder: "Пошук...",
                 }
             }
         }
