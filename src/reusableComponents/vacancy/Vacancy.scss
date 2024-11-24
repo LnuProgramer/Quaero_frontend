@@ -1,0 +1,24 @@
+.vacancy{
+  display: flex;
+  justify-content: space-between;
+  padding: 32px 45px 32px 45px;
+  background-color: #FFFFFF;
+  border-radius: 30px;
+
+  .vacancy-info{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .vacancy-button-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+
+    .vacancy-buttons{
+      padding: 18px 0 18px 0;
+      width: 420px;
+    }
+  }
+}
