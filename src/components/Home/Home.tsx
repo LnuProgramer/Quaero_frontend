@@ -4,6 +4,7 @@ import Button from "../../reusableComponents/button/Button";
 import { useTranslation } from "react-i18next";
 import Text from "../../reusableComponents/text/Text";
 import { FaXTwitter, FaInstagram, FaFacebookF } from "react-icons/fa6";
+import Vacancy from "../../reusableComponents/vacancy/Vacancy";
 
 function Home() {
 
@@ -44,7 +45,8 @@ function Home() {
                     <Text fontSize={30} as="h2">{t("homePage.featuredAdsForYou")}</Text>
                     <Text fontSize={30} as="a">{t("homePage.articles")}</Text>
                     </div>
-                    <div></div>
+                    <Vacancy></Vacancy>
+                    <Vacancy></Vacancy>
                 </div>
                 <footer>
                     <div id="footer-left-wrapper">

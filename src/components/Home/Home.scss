@@ -5,6 +5,10 @@
   background: rgb(255,250,245);
   background: linear-gradient(180deg, rgba(255,250,245,1) 31%, rgba(249,145,145,1) 100%);
   z-index: -2;
+
+  a:hover{
+    cursor: pointer;
+  }
 }
 
 .home-circles {
@@ -123,6 +127,9 @@
 }
 
 #recommended-vacancies-wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
   margin-top: 48px;
   width: 85%;
 }
@@ -131,6 +138,13 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+
+  a{
+    transition: font-weight 0.3s ease-in-out;
+    &:hover{
+      font-weight: 500;
+    }
+  }
 }
 
 footer{
@@ -151,8 +165,13 @@ footer{
       display: flex;
       flex-direction: column;
       gap: 12px;
+
       a{
         color: white;
+        transition: color 0.3s ease-in-out;
+        &:hover{
+          color: #b1b1b1;
+        }
       }
     }
   }
@@ -179,6 +198,12 @@ footer{
       height: 48px;
       background-color: #FFFFFF;
       border-radius: 100%;
+      transition: background-color 0.3s ease-in-out;
+
+      &:hover{
+        background-color: #b1b1b1;
+        cursor: pointer;
+      }
     }
   }
 }

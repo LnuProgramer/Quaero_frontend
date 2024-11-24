@@ -47,10 +47,15 @@ i18n.use(initReactI18next).init({
                     addNewVacancy: "Add new vacancy",
                     openVacancies: "Open vacancies",
                     aboutCompany: "About company",
+                },
+
+                vacancy: {
+                    applyPosition: "Apply for position"
                 }
             }
         },
-        ua: {
+
+        uk: {
             translation: {
                 homePage: {
                     jobSearch: "Пошук вакансій",
@@ -60,7 +65,7 @@ i18n.use(initReactI18next).init({
                     addResumeDescription: "Розмістіть ваше резюме щоб роботодавці швидше вас замітили",
                     create: "Створити",
                     downloadFile: "Завантажити файл",
-                    howPrepareForInterview: "Поради від Head of HR компанії Google!",
+                    howPrepareForInterview: "Як підготуватись до співбесіди",
                     tipsFromHR: {
                         tipsFrom: "Поради від",
                         headHr: "Head of HR",
@@ -92,6 +97,10 @@ i18n.use(initReactI18next).init({
                     addNewVacancy: "Додати нову ваканцію",
                     openVacancies: "Відкриті ваканції",
                     aboutCompany: "Про компанію",
+                },
+
+                vacancy: {
+                    applyPosition: "Подайте заявку на посаду"
                 }
             }
         }
