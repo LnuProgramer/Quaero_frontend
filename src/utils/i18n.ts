@@ -55,7 +55,10 @@ i18n.use(initReactI18next).init({
 
                 header: {
                     loginNav: "Login",
-                    seacrhPlaceHolder: "Search...",
+                    vacancies: "Vacancies",
+                    messages: "Messages",
+                    profile: "Profile",
+                    searchPlaceHolder: "Search...",
                 }
             }
         },
@@ -109,7 +112,10 @@ i18n.use(initReactI18next).init({
                 },
                 header: {
                     loginNav: "Увійти",
-                    seacrhPlaceHolder: "Пошук...",
+                    vacancies: "Вакансії",
+                    messages: "Повідомлення",
+                    profile: "Профіль",
+                    searchPlaceHolder: "Пошук...",
                 }
             }
         }
