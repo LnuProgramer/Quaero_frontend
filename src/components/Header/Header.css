@@ -11,7 +11,9 @@
 .logo h1 {
     font-size: 24px;
     margin: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: "Abel", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
   
 .logo p {
