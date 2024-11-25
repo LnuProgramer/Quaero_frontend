@@ -6,6 +6,7 @@ import "./utils/i18n"
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import ProfileHR from "./components/Profiles/HR/ProfileHR";
 import Home from "./components/Home/Home";
+import VacancyCreator from "./components/VacancyCreator/VacancyCreator";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/login" element={<Security />} />
             <Route path="/profile/employee" element={<ProfileEmployee />} />
             <Route path="/profile/hr" element={<ProfileHR />} />
+            <Route path="/vacancy/create" element={<VacancyCreator />} />
         </Routes>
     </div>
       </Router>
