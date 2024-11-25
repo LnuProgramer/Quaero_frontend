@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from "../../../reusableComponents/button/Button";
 import "./ProfileEmployee.scss"
 import Text from "../../../reusableComponents/text/Text";
 import {useTranslation} from "react-i18next";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.bubble.css";
 
 function ProfileEmployee() {
     const {t, i18n} = useTranslation();
+    const [text, setText] = useState("");
+
+    const modules = {
+        toolbar: [
+            ["bold", "italic", "underline"], // Жирний, курсив, підкреслення
+            [{ header: 1 }, { header: 2 }], // Заголовки
+            [{ list: "ordered" }, { list: "bullet" }], // Нумеровані й марковані списки
+            ["link", "image"], // Посилання та зображення
+            ["clean"], // Очистити форматування
+        ],
+    };
 
     return (
         <div id="profile-employee">
@@ -41,7 +54,7 @@ function ProfileEmployee() {
                             </div>
                             <div id="profile-employee-about-wrapper" className="profile-employee-block">
                                 <Text fontSize={20} as="h2">{t("profileEmployee.aboutMe")}</Text>
-                                <Text fontSize={20} as="p">Some Text About Me </Text>
+                                <ReactQuill theme="bubble" value={text} onChange={setText} modules={modules} placeholder={t("profileHR.aboutPlaceholder")} id="profile-employee-about-text" />
                             </div>
                         </div>
                     </div>
