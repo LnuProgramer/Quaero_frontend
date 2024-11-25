@@ -59,6 +59,20 @@ i18n.use(initReactI18next).init({
                     messages: "Messages",
                     profile: "Profile",
                     searchPlaceHolder: "Search...",
+                },
+
+                security: {
+                    setLogin: "Login",
+                    setRegister: "Register",
+                    inputEmail: "Email",
+                    inputFirstName: "First Name",
+                    inputLastName: "Last Name",
+                    inputPassword: "Password",
+                    submitLogin: "Login",
+                    submitRegister: "Register",
+                    labelRole: "Role",
+                    optionEmployer: "Employer",
+                    optionEmployee: "Employee",
                 }
             }
         },
@@ -110,12 +124,27 @@ i18n.use(initReactI18next).init({
                 vacancy: {
                     applyPosition: "Подайте заявку на посаду"
                 },
+
                 header: {
                     loginNav: "Увійти",
                     vacancies: "Вакансії",
                     messages: "Повідомлення",
                     profile: "Профіль",
                     searchPlaceHolder: "Пошук...",
+                },
+
+                security: {
+                    setLogin: "Логін",
+                    setRegister: "Зареєструватись",
+                    inputEmail: "Електронна адреса",
+                    inputFirstName: "Ім'я",
+                    inputLastName: "Прізвище",
+                    inputPassword: "Пароль",
+                    submitLogin: "Увійти",
+                    submitRegister: "Зареєструватись",
+                    labelRole: "Роль",
+                    optionEmployer: "Роботодавець",
+                    optionEmployee: "Працівник",
                 }
             }
         }
