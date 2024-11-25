@@ -40,6 +40,7 @@ i18n.use(initReactI18next).init({
                     aboutMe: "About me",
                     aboutPlaceholder: "Write something here...",
                     save: "Save",
+                    edit: "Edit",
                 },
 
                 profileHR: {
@@ -51,6 +52,7 @@ i18n.use(initReactI18next).init({
                     aboutCompany: "About company",
                     aboutPlaceholder: "Write something here...",
                     save: "Save",
+                    edit: "Edit",
                 },
 
                 vacancy: {
@@ -111,6 +113,7 @@ i18n.use(initReactI18next).init({
                     aboutMe: "Про мене",
                     aboutPlaceholder: "Напишіть щось тут...",
                     save: "Зберегти",
+                    edit: "Редагувати",
                 },
 
                 profileHR: {
@@ -122,6 +125,7 @@ i18n.use(initReactI18next).init({
                     aboutCompany: "Про компанію",
                     aboutPlaceholder: "Напишіть щось тут...",
                     save: "Зберегти",
+                    edit: "Редагувати",
                 },
 
                 vacancy: {

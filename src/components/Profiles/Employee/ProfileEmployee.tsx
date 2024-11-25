@@ -110,7 +110,7 @@ function ProfileEmployee() {
                                             <Button
                                                 fontSize={20}
                                                 fontWeight={500}
-                                                buttonText="Edit"
+                                                buttonText={t("profileEmployee.edit")}
                                                 className="additional-info-buttons"
                                                 onClick={() => setIsEditing(true)}
                                             />
@@ -126,7 +126,7 @@ function ProfileEmployee() {
                                             <Button
                                                 fontSize={20}
                                                 fontWeight={500}
-                                                buttonText="Save"
+                                                buttonText={t("profileEmployee.save")}
                                                 buttonColor="primary"
                                                 className="additional-info-buttons"
                                                 onClick={handleSaveAdditionalInfo}
