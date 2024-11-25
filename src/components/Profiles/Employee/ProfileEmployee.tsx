@@ -2,7 +2,6 @@ import React from 'react';
 import Button from "../../../reusableComponents/button/Button";
 import "./ProfileEmployee.scss"
 import Text from "../../../reusableComponents/text/Text";
-import "../../../utils/i18n"
 import {useTranslation} from "react-i18next";
 
 function ProfileEmployee() {

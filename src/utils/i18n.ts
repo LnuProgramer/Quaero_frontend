@@ -38,6 +38,7 @@ i18n.use(initReactI18next).init({
                     establishContact: "Establish contact",
                     writeMessage: "Write a message",
                     aboutMe: "About me",
+                    aboutPlaceholder: "Write something here..."
                 },
 
                 profileHR: {
@@ -47,6 +48,7 @@ i18n.use(initReactI18next).init({
                     addNewVacancy: "Add new vacancy",
                     openVacancies: "Open vacancies",
                     aboutCompany: "About company",
+                    aboutPlaceholder: "Write something here..."
                 },
 
                 vacancy: {
@@ -96,6 +98,7 @@ i18n.use(initReactI18next).init({
                     establishContact: "Встановити контакт",
                     writeMessage: "Написати повідомлення",
                     aboutMe: "Про мене",
+                    aboutPlaceholder: "Напишіть щось тут..."
                 },
 
                 profileHR: {
@@ -105,6 +108,7 @@ i18n.use(initReactI18next).init({
                     addNewVacancy: "Додати нову ваканцію",
                     openVacancies: "Відкриті ваканції",
                     aboutCompany: "Про компанію",
+                    aboutPlaceholder: "Напишіть щось тут..."
                 },
 
                 vacancy: {
