@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from "../../../reusableComponents/button/Button";
 import "./ProfileEmployee.scss"
 import Text from "../../../reusableComponents/text/Text";
@@ -9,6 +9,7 @@ import "react-quill/dist/quill.bubble.css";
 function ProfileEmployee() {
     const {t, i18n} = useTranslation();
     const [text, setText] = useState("");
+    const [isTextChanged, setIsTextChanged] = useState(false);
 
     const modules = {
         toolbar: [
@@ -18,6 +19,17 @@ function ProfileEmployee() {
             ["link", "image"], // Посилання та зображення
             ["clean"], // Очистити форматування
         ],
+    };
+
+    // Перевірка на зміни в тексті
+    useEffect(() => {
+        setIsTextChanged(text !== "");
+    }, [text]);
+
+    // Обробник для кнопки Submit
+    const handleSubmit = () => {
+        console.log(text);
+        setIsTextChanged(false); // При натисканні кнопки приховуємо її
     };
 
     return (
@@ -55,6 +67,18 @@ function ProfileEmployee() {
                             <div id="profile-employee-about-wrapper" className="profile-employee-block">
                                 <Text fontSize={20} as="h2">{t("profileEmployee.aboutMe")}</Text>
                                 <ReactQuill theme="bubble" value={text} onChange={setText} modules={modules} placeholder={t("profileHR.aboutPlaceholder")} id="profile-employee-about-text" />
+                                {isTextChanged && (
+                                    <div id="submit-button-wrapper">
+                                        <Button
+                                            fontSize={20}
+                                            fontWeight={500}
+                                            buttonText={t("profileEmployee.save")}
+                                            buttonColor="primary"
+                                            className="profile-hr-buttons"
+                                            onClick={handleSubmit}
+                                        />
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

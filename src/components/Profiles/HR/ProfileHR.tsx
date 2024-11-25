@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from "../../../reusableComponents/button/Button";
 import "./ProfileHR.scss"
 import Text from "../../../reusableComponents/text/Text";
@@ -9,6 +9,7 @@ import "react-quill/dist/quill.bubble.css";
 function ProfileHR() {
     const {t, i18n} = useTranslation();
     const [text, setText] = useState("");
+    const [isTextChanged, setIsTextChanged] = useState(false);
 
     const modules = {
         toolbar: [
@@ -18,6 +19,17 @@ function ProfileHR() {
             ["link", "image"], // Посилання та зображення
             ["clean"], // Очистити форматування
         ],
+    };
+
+    // Перевірка на зміни в тексті
+    useEffect(() => {
+        setIsTextChanged(text !== "");
+    }, [text]);
+
+    // Обробник для кнопки Submit
+    const handleSubmit = () => {
+        console.log(text);
+        setIsTextChanged(false); // При натисканні кнопки приховуємо її
     };
 
     return (
@@ -54,7 +66,26 @@ function ProfileHR() {
                             </div>
                             <div id="profile-hr-about-wrapper" className="profile-hr-block">
                                 <Text fontSize={20} as="h2">{t("profileHR.aboutCompany")}</Text>
-                                <ReactQuill theme="bubble" value={text} onChange={setText} modules={modules} placeholder={t("profileHR.aboutPlaceholder")} id="profile-hr-about-text" />
+                                <ReactQuill
+                                    theme="bubble"
+                                    value={text}
+                                    onChange={setText}
+                                    modules={modules}
+                                    placeholder={t("profileHR.aboutPlaceholder")}
+                                    id="profile-hr-about-text"
+                                />
+                                {isTextChanged && (
+                                    <div id="submit-button-wrapper">
+                                        <Button
+                                            fontSize={20}
+                                            fontWeight={500}
+                                            buttonText={t("profileHR.save")}
+                                            buttonColor="primary"
+                                            className="profile-hr-buttons"
+                                            onClick={handleSubmit}
+                                        />
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
