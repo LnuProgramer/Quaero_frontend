@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import ProfileHR from "./components/Profiles/HR/ProfileHR";
 import Home from "./components/Home/Home";
 import VacancyCreator from "./components/VacancyCreator/VacancyCreator";
+import Error from "./components/404Error/404Error";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
     <div className="App">
       <Header />
         <Routes>
+            <Route path="*" element={<Error />} />
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Security />} />
             <Route path="/profile/employee" element={<ProfileEmployee />} />

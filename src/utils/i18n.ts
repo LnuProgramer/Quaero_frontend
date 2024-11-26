@@ -79,7 +79,7 @@ i18n.use(initReactI18next).init({
                     labelRole: "Role",
                     optionEmployer: "Employer",
                     optionEmployee: "Employee",
-                }
+                },
                 vacancyCreator:{
                     createVacancy: "Create vacancy",
                     position: "Position",
@@ -88,6 +88,10 @@ i18n.use(initReactI18next).init({
                     salary: "Salary",
                     detailedRequirements: "Detailed description of requirements",
                     create: "Create vacancy",
+                },
+                errorPage:{
+                    error: "Error 404",
+                    description: "This page doesn't exist",
                 },
             }
         },
@@ -165,7 +169,7 @@ i18n.use(initReactI18next).init({
                     labelRole: "Роль",
                     optionEmployer: "Роботодавець",
                     optionEmployee: "Працівник",
-                }
+                },
                 vacancyCreator:{
                     createVacancy: "Створити вакансію",
                     position: "Посада",
@@ -174,6 +178,10 @@ i18n.use(initReactI18next).init({
                     salary: "Зарплата",
                     detailedRequirements: "Детальний опис вимог",
                     create: "Створити",
+                },
+                errorPage:{
+                    error: "Помилка 404",
+                    description: "Цієї сторінки не існує",
                 },
             }
         }
