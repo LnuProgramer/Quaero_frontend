@@ -23,6 +23,7 @@ const Security: React.FC = () => {
     role: '',
   });
 
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -32,25 +33,31 @@ const Security: React.FC = () => {
     e.preventDefault();
     try {
       if (isLogin) {
-        const response = await axios.post('/auth/login', {
+        const response = await axios.post('http://localhost:8080/auth/login', {
           usernameOrEmail: formData.email,
           password: formData.password,
         });
-        console.log('Login successful', response.data);
+        localStorage.setItem('accessToken ', response.data.accessToken);
+        localStorage.setItem('refreshToken ', response.data.refreshToken);
+        localStorage.setItem('id', response.data.userId);
+        return;
       } else {
         if (!formData.role) {
           alert(t("security.roleRequired"));
           return;
         }
 
-        const response = await axios.post('/auth/register', {
+        const response = await axios.post('http://localhost:8080/auth/register', {
           email: formData.email,
           password: formData.password,
           firstName: formData.firstName,
           lastName: formData.lastName,
           role: formData.role,
         });
-        console.log('Registration successful', response.data);
+        localStorage.setItem('accessToken ', response.data.accessToken);
+        localStorage.setItem('refreshToken ', response.data.refreshToken);
+        localStorage.setItem('id', response.data.userId);
+        return;
       }
     } catch (error) {
       console.error('Auth error', error);
