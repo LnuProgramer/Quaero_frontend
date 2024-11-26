@@ -66,6 +66,20 @@ i18n.use(initReactI18next).init({
                     profile: "Profile",
                     searchPlaceHolder: "Search...",
                 },
+
+                security: {
+                    setLogin: "Login",
+                    setRegister: "Register",
+                    inputEmail: "Email",
+                    inputFirstName: "First Name",
+                    inputLastName: "Last Name",
+                    inputPassword: "Password",
+                    submitLogin: "Login",
+                    submitRegister: "Register",
+                    labelRole: "Role",
+                    optionEmployer: "Employer",
+                    optionEmployee: "Employee",
+                }
                 vacancyCreator:{
                     createVacancy: "Create vacancy",
                     position: "Position",
@@ -131,6 +145,7 @@ i18n.use(initReactI18next).init({
                 vacancy: {
                     applyPosition: "Подайте заявку на посаду"
                 },
+
                 header: {
                     loginNav: "Увійти",
                     vacancies: "Вакансії",
@@ -138,6 +153,19 @@ i18n.use(initReactI18next).init({
                     profile: "Профіль",
                     searchPlaceHolder: "Пошук...",
                 },
+                security: {
+                    setLogin: "Логін",
+                    setRegister: "Зареєструватись",
+                    inputEmail: "Електронна адреса",
+                    inputFirstName: "Ім'я",
+                    inputLastName: "Прізвище",
+                    inputPassword: "Пароль",
+                    submitLogin: "Увійти",
+                    submitRegister: "Зареєструватись",
+                    labelRole: "Роль",
+                    optionEmployer: "Роботодавець",
+                    optionEmployee: "Працівник",
+                }
                 vacancyCreator:{
                     createVacancy: "Створити вакансію",
                     position: "Посада",

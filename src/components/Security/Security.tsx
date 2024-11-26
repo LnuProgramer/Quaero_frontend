@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './Security.css';
+import Text from "../../reusableComponents/text/Text";
+import { useTranslation } from "react-i18next";
 
 interface FormData {
   email: string;
   password: string;
-  firstName?: string;
-  lastName?: string;
+  firstName: string;
+  lastName: string;
+  role?: string;
 }
 
 const Security: React.FC = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const { t } = useTranslation();
+  const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
     firstName: '',
     lastName: '',
+    role: '',
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,11 +38,17 @@ const Security: React.FC = () => {
         });
         console.log('Login successful', response.data);
       } else {
+        if (!formData.role) {
+          alert(t("security.roleRequired"));
+          return;
+        }
+
         const response = await axios.post('/auth/register', {
           email: formData.email,
           password: formData.password,
           firstName: formData.firstName,
           lastName: formData.lastName,
+          role: formData.role,
         });
         console.log('Registration successful', response.data);
       }
@@ -47,56 +58,102 @@ const Security: React.FC = () => {
   };
 
   return (
-    <div className="page-container">
-      <div className="form-container">
-        <div className="avatar-container">
-          <div className="avatar">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+      <div className="page-container">
+        <div className="form-container">
+          <div className="avatar-container">
+            <div className="avatar">
+              <img className="avatarSvg" src="/images/profile/UserDefaultPhoto.svg" alt="profile-photo"/>
+            </div>
           </div>
-        </div>
-        <div className="form-toggle">
-          <button className={`toggle-button ${isLogin ? 'active' : ''}`} onClick={() => setIsLogin(true)}>Увійти</button>
-          <button className={`toggle-button ${!isLogin ? 'active' : ''}`} onClick={() => setIsLogin(false)}>Зареєструватись</button>
-        </div>
-        <form className="form" onSubmit={handleSubmit}>
-          <input
-            className="input"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            placeholder="Електронна адреса"
-            required
-          />
-          {!isLogin && (
+          <div className="form-toggle">
+            <button
+                className={`toggle-button ${isLogin ? 'active' : 'inactive'}`}
+                onClick={() => setIsLogin(true)}
+            >
+              {t("security.setLogin")}
+            </button>
+            <button
+                className={`toggle-button ${!isLogin ? 'active' : 'inactive'}`}
+                onClick={() => setIsLogin(false)}
+            >
+              {t("security.setRegister")}
+            </button>
+          </div>
+          <form className="form" onSubmit={handleSubmit}>
+            <Text fontSize={20} as="p">{t("security.inputEmail")}</Text>
             <input
-              className="input"
-              type="text"
-              name="fullName"
-              value={`${formData.firstName} ${formData.lastName}`}
-              onChange={handleInputChange}
-              placeholder="Ім'я та Прізвище"
-              required
+                className="input"
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
             />
-          )}
-          <input
-            className="input"
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            placeholder="Пароль"
-            required
-          />
-          <button className="submit-button" type="submit">
-            {isLogin ? 'Увійти' : 'Зареєструватись'}
-          </button>
-        </form>
+            {!isLogin && (
+                <div className="additional-fields">
+                  <Text fontSize={20} as="p">{t("security.inputFirstName")}</Text>
+                  <input
+                      className="input"
+                      type="text"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      required
+                  />
+                  <Text fontSize={20} as="p">{t("security.inputLastName")}</Text>
+                  <input
+                      className="input"
+                      type="text"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      required
+                  />
+                </div>
+            )}
+            <Text fontSize={20} as="p">{t("security.inputPassword")}</Text>
+            <input
+                className="input"
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+            />
+            {!isLogin && (
+                <div className="form-group role-selection">
+                  <Text fontSize={20} as="p">{t("security.labelRole")}</Text>
+                  <div className="role-options">
+                    <label>
+                      <input
+                          type="radio"
+                          name="role"
+                          value="employer"
+                          onChange={handleInputChange}
+                          required
+                      />
+                      {t("security.optionEmployer")}
+                    </label>
+                    <label>
+                      <input
+                          className="radio"
+                          type="radio"
+                          name="role"
+                          value="employee"
+                          onChange={handleInputChange}
+                          required
+                      />
+                      {t("security.optionEmployee")}
+                    </label>
+                  </div>
+                </div>
+            )}
+            <button className="submit-button" type="submit">
+              {isLogin ? t("security.submitLogin") : t("security.submitRegister")}
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
   );
 };
 
