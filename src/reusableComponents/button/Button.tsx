@@ -4,7 +4,7 @@ import "./Button.scss"
 interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
     fontSize: number;
     fontWeight?: number;
-    buttonText: string;
+    buttonText: any;
     buttonColor?: string;
     className?: string;
 }
