@@ -9,25 +9,19 @@ import "react-quill/dist/quill.bubble.css";
 function ProfileEmployee() {
     const { t } = useTranslation();
 
-    // Стан для введеного тексту в ReactQuill
     const [text, setText] = useState<string>("");
 
-    // Стан для кнопки "Save"
     const [isTextChanged, setIsTextChanged] = useState<boolean>(false);
 
-    // Додаткова інформація
     const [additionalInfo, setAdditionalInfo] = useState<string[]>([
         "https://example.com",
         "Phone number",
     ]);
 
-    // Режим редагування
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
-    // Тимчасовий стан для `textarea`
     const [editedText, setEditedText] = useState<string>(additionalInfo.join("\n"));
 
-    // Конфігурація ReactQuill
     const modules = {
         toolbar: [
             ["bold", "italic", "underline"],
@@ -38,33 +32,28 @@ function ProfileEmployee() {
         ],
     };
 
-    // Ефект для відображення кнопки "Save"
     useEffect(() => {
         setIsTextChanged(text !== "");
     }, [text]);
 
-    // Обробник збереження додаткової інформації
     const handleSaveAdditionalInfo = (): void => {
         const parsedInfo = editedText
             .split("\n")
             .map((line) => line.trim())
-            .filter((line) => line !== ""); // Фільтруємо порожні рядки
+            .filter((line) => line !== "");
         setAdditionalInfo(parsedInfo);
         setIsEditing(false);
 
-        // Надсилання даних на сервер
         console.log("Data sent to server:", parsedInfo);
     };
 
-    // Обробник для кнопки "Save" у ReactQuill
     const handleSubmit = (): void => {
         console.log("Quill text submitted:", text);
         setIsTextChanged(false);
     };
 
-    // Відображення посилань та тексту
     const renderAdditionalInfo = (info: string): JSX.Element => {
-        const urlPattern = /^(https?:\/\/[^\s]+)$/i; // Регулярний вираз для перевірки URL
+        const urlPattern = /^(https?:\/\/[^\s]+)$/i;
         if (urlPattern.test(info)) {
             return (
                 <a href={info} target="_blank" rel="noopener noreferrer" className="info-link">
