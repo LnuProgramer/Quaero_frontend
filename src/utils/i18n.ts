@@ -38,6 +38,8 @@ i18n.use(initReactI18next).init({
                     establishContact: "Establish contact",
                     writeMessage: "Write a message",
                     aboutMe: "About me",
+                    aboutPlaceholder: "Write something here...",
+                    save: "Save",
                 },
 
                 profileHR: {
@@ -47,6 +49,8 @@ i18n.use(initReactI18next).init({
                     addNewVacancy: "Add new vacancy",
                     openVacancies: "Open vacancies",
                     aboutCompany: "About company",
+                    aboutPlaceholder: "Write something here...",
+                    save: "Save",
                 },
 
                 vacancy: {
@@ -74,6 +78,15 @@ i18n.use(initReactI18next).init({
                     optionEmployer: "Employer",
                     optionEmployee: "Employee",
                 }
+                vacancyCreator:{
+                    createVacancy: "Create vacancy",
+                    position: "Position",
+                    company: "Company",
+                    workFormat: "Work format",
+                    salary: "Salary",
+                    detailedRequirements: "Detailed description of requirements",
+                    create: "Create vacancy",
+                },
             }
         },
 
@@ -110,6 +123,8 @@ i18n.use(initReactI18next).init({
                     establishContact: "Встановити контакт",
                     writeMessage: "Написати повідомлення",
                     aboutMe: "Про мене",
+                    aboutPlaceholder: "Напишіть щось тут...",
+                    save: "Зберегти",
                 },
 
                 profileHR: {
@@ -119,6 +134,8 @@ i18n.use(initReactI18next).init({
                     addNewVacancy: "Додати нову ваканцію",
                     openVacancies: "Відкриті ваканції",
                     aboutCompany: "Про компанію",
+                    aboutPlaceholder: "Напишіть щось тут...",
+                    save: "Зберегти",
                 },
 
                 vacancy: {
@@ -132,7 +149,6 @@ i18n.use(initReactI18next).init({
                     profile: "Профіль",
                     searchPlaceHolder: "Пошук...",
                 },
-
                 security: {
                     setLogin: "Логін",
                     setRegister: "Зареєструватись",
@@ -146,6 +162,15 @@ i18n.use(initReactI18next).init({
                     optionEmployer: "Роботодавець",
                     optionEmployee: "Працівник",
                 }
+                vacancyCreator:{
+                    createVacancy: "Створити вакансію",
+                    position: "Посада",
+                    company: "Компанія",
+                    workFormat: "Формат роботи",
+                    salary: "Зарплата",
+                    detailedRequirements: "Детальний опис вимог",
+                    create: "Створити",
+                },
             }
         }
     }

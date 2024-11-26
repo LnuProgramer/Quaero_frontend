@@ -48,7 +48,6 @@
 
 .left-nav{
     display: flex;
-    justify-content: center;
     align-items: center;
     width: 250px;
     margin-left: 50px;
@@ -60,12 +59,11 @@
 }
 
 .search-button {
-    background: none;
     border: none;
     cursor: pointer;
     padding: 10px;
     border-radius: 50%;
-    background-color: #fff;
+    background: #fff none;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -75,8 +73,11 @@
 }
 
 .search-icon-wrapper {
-    width: 29px;
-    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
 }
 
 
