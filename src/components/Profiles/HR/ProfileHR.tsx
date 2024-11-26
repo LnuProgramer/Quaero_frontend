@@ -7,29 +7,62 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 
 function ProfileHR() {
-    const {t, i18n} = useTranslation();
-    const [text, setText] = useState("");
-    const [isTextChanged, setIsTextChanged] = useState(false);
+    const { t } = useTranslation();
+
+    // Стан для введеного тексту в ReactQuill
+    const [text, setText] = useState<string>("");
+
+    const [isTextChanged, setIsTextChanged] = useState<boolean>(false);
+
+    const [additionalInfo, setAdditionalInfo] = useState<string[]>([
+        "https://example.com",
+        "Phone number",
+    ]);
+
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+
+    const [editedText, setEditedText] = useState<string>(additionalInfo.join("\n"));
 
     const modules = {
         toolbar: [
-            ["bold", "italic", "underline"], // Жирний, курсив, підкреслення
-            [{ header: 1 }, { header: 2 }], // Заголовки
-            [{ list: "ordered" }, { list: "bullet" }], // Нумеровані й марковані списки
-            ["link", "image"], // Посилання та зображення
-            ["clean"], // Очистити форматування
+            ["bold", "italic", "underline"],
+            [{ header: 1 }, { header: 2 }],
+            [{ list: "ordered" }, { list: "bullet" }],
+            ["link", "image"],
+            ["clean"],
         ],
     };
 
-    // Перевірка на зміни в тексті
     useEffect(() => {
         setIsTextChanged(text !== "");
     }, [text]);
 
-    // Обробник для кнопки Submit
-    const handleSubmit = () => {
-        console.log(text);
-        setIsTextChanged(false); // При натисканні кнопки приховуємо її
+    const handleSaveAdditionalInfo = (): void => {
+        const parsedInfo = editedText
+            .split("\n")
+            .map((line) => line.trim())
+            .filter((line) => line !== "");
+        setAdditionalInfo(parsedInfo);
+        setIsEditing(false);
+
+        console.log("Data sent to server:", parsedInfo);
+    };
+
+    const handleSubmit = (): void => {
+        console.log("Quill text submitted:", text);
+        setIsTextChanged(false);
+    };
+
+    const renderAdditionalInfo = (info: string): JSX.Element => {
+        const urlPattern = /^(https?:\/\/[^\s]+)$/i; // Регулярний вираз для перевірки URL
+        if (urlPattern.test(info)) {
+            return (
+                <a href={info} target="_blank" rel="noopener noreferrer" className="info-link">
+                    {info}
+                </a>
+            );
+        }
+        return <span>{info}</span>;
     };
 
     return (
@@ -54,15 +87,51 @@ function ProfileHR() {
                                     <Text fontSize={20} as="a">{t("profileHR.moreDetailsHere")}</Text>
                                 </div>
                                 <div className="profile-hr-block">
-                                    <Text fontSize={20} as="h2" id="additional-information-text">{t("profileHR.additionalInformation")}</Text>
-                                    <Text fontSize={20} as="p">Some Info</Text>
+                                    <Text fontSize={20} as="h2" id="additional-information-text">
+                                        {t("profileHR.additionalInformation")}
+                                    </Text>
+                                    {!isEditing ? (
+                                        <>
+                                            {additionalInfo.map((info, index) => (
+                                                <Text key={index} fontSize={20} as="p">
+                                                    {renderAdditionalInfo(info)}
+                                                </Text>
+                                            ))}
+                                            <Button
+                                                fontSize={20}
+                                                fontWeight={500}
+                                                buttonText={t("profileHR.edit")}
+                                                className="additional-info-buttons"
+                                                onClick={() => setIsEditing(true)}
+                                            />
+                                        </>
+                                    ) : (
+                                        <div>
+                                            <textarea
+                                                value={editedText}
+                                                onChange={(e) => setEditedText(e.target.value)}
+                                                className="edit-textarea"
+                                                placeholder="Enter each item (links or text) on a new line"
+                                            />
+                                            <Button
+                                                fontSize={20}
+                                                fontWeight={500}
+                                                buttonText={t("profileHR.save")}
+                                                buttonColor="primary"
+                                                className="additional-info-buttons"
+                                                onClick={handleSaveAdditionalInfo}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
                         <div id="profile-hr-right-content-wrapper">
                             <div id="profile-hr-buttons-wrapper">
-                                <Button fontSize={20} fontWeight={500} buttonText={t("profileHR.addNewVacancy")} className="profile-hr-buttons"/>
-                                <Button fontSize={20} fontWeight={500} buttonText={t("profileHR.openVacancies")} className="profile-hr-buttons"/>
+                                <Button fontSize={20} fontWeight={500} buttonText={t("profileHR.addNewVacancy")}
+                                        className="profile-hr-buttons"/>
+                                <Button fontSize={20} fontWeight={500} buttonText={t("profileHR.openVacancies")}
+                                        className="profile-hr-buttons"/>
                             </div>
                             <div id="profile-hr-about-wrapper" className="profile-hr-block">
                                 <Text fontSize={20} as="h2">{t("profileHR.aboutCompany")}</Text>
