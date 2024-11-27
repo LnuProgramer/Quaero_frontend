@@ -93,6 +93,28 @@ i18n.use(initReactI18next).init({
                     error: "Error 404",
                     description: "This page doesn't exist",
                 },
+                catalog:{
+                    search: "Search by title",
+                    searchByCompany: "Search by company",
+                    filters: "Filters",
+                    workType: "Work type",
+                    optionAll: "All",
+                    optionRemote: "Remote",
+                    optionOnSite:"On-site",
+                    language: "Language",
+                    category: "Category",
+                    experience: "Experience",
+                    experienceRange: "Experience Range",
+                    years: "Years",
+                    sortBy: "Sort by",
+                    ascending: "Ascending",
+                    descending: "Descending",
+                    sortDirection: "Sort Direction",
+                    positionTitle: "Position title",
+                    noVacanies: "No vacanies found",
+                    salary: "Salary",
+                    salaryRange: "Salary Range",
+                }
             }
         },
 
@@ -183,6 +205,28 @@ i18n.use(initReactI18next).init({
                     error: "Помилка 404",
                     description: "Цієї сторінки не існує",
                 },
+                catalog:{
+                    search: "Пошук за назвою",
+                    searchByCompany: "Пошук за компанією",
+                    filters: "Фільтри",
+                    workType: "Тип роботи",
+                    optionAll: "Усі",
+                    optionRemote: "Віддалено",
+                    optionOnSite:"Офіс",
+                    language: "Мова",
+                    category: "Категорія",
+                    experience: "Досвід",
+                    experienceRange: "Діапазон досвіду",
+                    years: "Роки",
+                    sortBy: "Сортувати по",
+                    ascending: "Зростанню",
+                    descending: "Спаданню",
+                    sortDirection: "Напрямок сортування",
+                    positionTitle: "Назва посади",
+                    noVacanies: "Вакансій не знайдено",
+                    salary: "Зарплата",
+                    salaryRange: "Діапазон заробітних плат",
+                }
             }
         }
     }

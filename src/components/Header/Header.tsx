@@ -31,13 +31,6 @@ const Header: React.FC = () => {
                                  alt="search-icon" />
                         </div>
                     </button>
-                    <input
-                        type="text"
-                        className="search-input"
-                        value={searchText}
-                        onChange={handleSearchChange}
-                        placeholder={t("header.searchPlaceHolder")}
-                    />
                 </div>
             </div>
             <nav className="nav">

@@ -45,8 +45,7 @@ function Home() {
                     <Text fontSize={30} as="h2">{t("homePage.featuredAdsForYou")}</Text>
                     <Text fontSize={30} as="a">{t("homePage.articles")}</Text>
                     </div>
-                    <Vacancy></Vacancy>
-                    <Vacancy></Vacancy>
+
                 </div>
                 <footer>
                     <div id="footer-left-wrapper">
