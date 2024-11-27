@@ -2,20 +2,27 @@ import React, { useState } from 'react';
 import './Header.css';
 import Text from "../../reusableComponents/text/Text";
 import { useTranslation } from "react-i18next";
+import { useAuth } from '../../utils/AuthContext';
 
 const Header: React.FC = () => {
+    const { isLoggedIn, setIsLoggedIn } = useAuth();
     const { t, i18n } = useTranslation();
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const [searchText, setSearchText] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const toggleSearch = () => {
         setIsSearchOpen(!isSearchOpen);
+        if (!isSearchOpen) {
+            window.location.href = "/catalog";
+        }
     };
 
-    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchText(event.target.value);
-    };
+    const handleLanguageChange = React.useCallback((lang: string) => {
+        if (i18n.language !== lang) {
+            i18n.changeLanguage(lang).then(() => {
+                localStorage.setItem('selectedLanguage', lang); // Зберігаємо вибрану мову
+            });
+        }
+    }, [i18n]);
 
     return (
         <header className="header">
@@ -27,8 +34,7 @@ const Header: React.FC = () => {
                 <div className={`search-container ${isSearchOpen ? 'open' : ''}`}>
                     <button className="search-button" onClick={toggleSearch}>
                         <div className="search-icon-wrapper">
-                            <img className="search-icon" src="/images/header/Search.svg"
-                                 alt="search-icon" />
+                            <img className="search-icon" src="/images/header/Search.svg" alt="search-icon" />
                         </div>
                     </button>
                 </div>
@@ -36,15 +42,15 @@ const Header: React.FC = () => {
             <nav className="nav">
                 {isLoggedIn ? (
                     <>
-                        <Text className="right-nav"  fontSize={25} as="a" href="/vacancies">
-                            {t("header.vacancies")}
-                        </Text>
-                        <Text className="right-nav"  fontSize={25} as="a" href="/notifications">
+                        <Text className="right-nav" fontSize={25} as="a" href="/notifications">
                             {t("header.messages")}
                         </Text>
-                        <Text className="right-nav"  fontSize={25} as="a" href="/profile">
+                        <Text className="right-nav" fontSize={25} as="a" href="/profile">
                             {t("header.profile")}
                         </Text>
+                        <button onClick={() => setIsLoggedIn(false)}>
+                            {t("header.logout")}
+                        </button>
                     </>
                 ) : (
                     <Text className="right-nav" fontSize={25} as="a" href="/login">
@@ -52,6 +58,21 @@ const Header: React.FC = () => {
                     </Text>
                 )}
             </nav>
+            <div className="language-switcher">
+                <button
+                    onClick={() => handleLanguageChange('en')}
+                    className={`lang-btn ${i18n.language === 'en' ? 'active' : ''}`}
+                >
+                    EN
+                </button>
+                |
+                <button
+                    onClick={() => handleLanguageChange('uk')}
+                    className={`lang-btn ${i18n.language === 'uk' ? 'active' : ''}`}
+                >
+                    UA
+                </button>
+            </div>
         </header>
     );
 };

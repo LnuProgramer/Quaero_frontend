@@ -1,5 +1,7 @@
 import i18n from 'i18next';
-import {initReactI18next} from "react-i18next";
+import { initReactI18next } from 'react-i18next';
+
+const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
 
 i18n.use(initReactI18next).init({
     debug: true,
@@ -247,5 +249,9 @@ i18n.use(initReactI18next).init({
                 }
             }
         }
-    }
-})
+    },
+    lng: savedLanguage, // Використовуємо збережену мову
+    interpolation: {
+        escapeValue: false, // React вже екранує дані
+    },
+});
