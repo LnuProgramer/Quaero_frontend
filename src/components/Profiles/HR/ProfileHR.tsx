@@ -5,19 +5,33 @@ import Text from "../../../reusableComponents/text/Text";
 import {useTranslation} from "react-i18next";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
+import axios from "axios";
 
-function ProfileHR() {
+interface profileHrProps {
+    userID: string;
+}
+
+interface UserDataHr {
+    name: string,
+    surname: string,
+    country: string,
+    city: string,
+    companyName :string,
+    additionalInfo: string[],
+    description: string,
+}
+
+function ProfileHR({userID}: profileHrProps) {
     const { t } = useTranslation();
+    const [userData, setUserData] = useState<UserDataHr | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
 
     // Стан для введеного тексту в ReactQuill
     const [text, setText] = useState<string>("");
 
     const [isTextChanged, setIsTextChanged] = useState<boolean>(false);
 
-    const [additionalInfo, setAdditionalInfo] = useState<string[]>([
-        "https://example.com",
-        "Phone number",
-    ]);
+    const [additionalInfo, setAdditionalInfo] = useState<string[]>([]);
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -34,22 +48,48 @@ function ProfileHR() {
     };
 
     useEffect(() => {
-        setIsTextChanged(text !== "");
-    }, [text]);
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/getUserInfo/${userID}`);
+                const userData = response.data;
 
-    const handleSaveAdditionalInfo = (): void => {
+                setUserData(userData);
+                setText(userData.description || "");
+                setAdditionalInfo(userData.additionalInfo || []);
+                setEditedText((userData.additionalInfo || []).join("\n"));
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+            finally {
+                setLoading(false);
+                setIsTextChanged(false);
+            }
+        };
+
+        fetchUserData();
+    }, [userID]);
+
+    useEffect(() => {
+        if (!loading) {
+            setIsTextChanged(text !== userData?.description);
+        }
+    }, [text, userData, loading]);
+
+    const handleSaveAdditionalInfo =  async () => {
         const parsedInfo = editedText
             .split("\n")
             .map((line) => line.trim())
             .filter((line) => line !== "");
         setAdditionalInfo(parsedInfo);
+        await axios.put(`http://localhost:8080/setAdditionalInfo${userID}`, parsedInfo);
         setIsEditing(false);
-
-        console.log("Data sent to server:", parsedInfo);
     };
 
-    const handleSubmit = (): void => {
-        console.log("Quill text submitted:", text);
+    const handleSubmit = async () => {
+        await axios.put(`http://localhost:8080/setAboutMe${userID}`, text,{
+            headers: {
+                "Content-Type": "text/plain",
+            },})
         setIsTextChanged(false);
     };
 
@@ -77,9 +117,9 @@ function ProfileHR() {
                     <div id="profile-hr-main-content-wrapper">
                         <div id="profile-hr-left-content-wrapper">
                             <div id="profile-hr-user-info-wrapper">
-                                <Text fontSize={30} as="h1">Ім’я Прізвище HR</Text>
-                                <Text fontSize={25} as="h2">Назва компанії</Text>
-                                <Text fontSize={25} as="h2">Країна, місто</Text>
+                                <Text fontSize={30} as="h1">{userData?.name && userData?.surname ? `${userData.name} ${userData.surname}` : t("profileHR.nameSurname")}</Text>
+                                <Text fontSize={25} as="h2">{userData?.companyName ? `${userData.companyName}` : t("profileHR.companyName")}</Text>
+                                <Text fontSize={25} as="h2">{userData?.country && userData?.city ? `${userData.country}, ${userData.city}` : t("profileEmployee.countryCity")}</Text>
                             </div>
                             <div id="profile-hr-other-info-wrapper">
                                 <div className="profile-hr-block">

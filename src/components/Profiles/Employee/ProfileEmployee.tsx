@@ -5,18 +5,32 @@ import Text from "../../../reusableComponents/text/Text";
 import { useTranslation } from "react-i18next";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
+import axios from "axios";
 
-function ProfileEmployee() {
+interface profileHrProps {
+    userID: string;
+}
+
+interface UserDataEmployee {
+    name: string,
+    surname: string,
+    country: string,
+    city: string,
+    position: string,
+    additionalInfo: string[],
+    description: string,
+}
+
+function ProfileEmployee({userID}: profileHrProps) {
     const { t } = useTranslation();
+    const [userData, setUserData] = useState<UserDataEmployee | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
 
-    const [text, setText] = useState<string>("");
+    const [text, setText] = useState<string>();
 
     const [isTextChanged, setIsTextChanged] = useState<boolean>(false);
 
-    const [additionalInfo, setAdditionalInfo] = useState<string[]>([
-        "https://example.com",
-        "Phone number",
-    ]);
+    const [additionalInfo, setAdditionalInfo] = useState<string[]>([]);
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -33,22 +47,48 @@ function ProfileEmployee() {
     };
 
     useEffect(() => {
-        setIsTextChanged(text !== "");
-    }, [text]);
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/getUserInfo/${userID}`);
+                const userData = response.data;
 
-    const handleSaveAdditionalInfo = (): void => {
+                setUserData(userData);
+                setText(userData.description || "");
+                setAdditionalInfo(userData.additionalInfo || []);
+                setEditedText((userData.additionalInfo || []).join("\n"));
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            } finally {
+                setLoading(false);
+                setIsTextChanged(false);
+            }
+        };
+
+        fetchUserData();
+    }, [userID]);
+
+
+    useEffect(() => {
+        if (!loading) {
+            setIsTextChanged(text !== userData?.description);
+        }
+    }, [text, userData, loading]);
+
+    const handleSaveAdditionalInfo =  async () => {
         const parsedInfo = editedText
             .split("\n")
             .map((line) => line.trim())
             .filter((line) => line !== "");
         setAdditionalInfo(parsedInfo);
+        await axios.put(`http://localhost:8080/setAdditionalInfo${userID}`, parsedInfo);
         setIsEditing(false);
-
-        console.log("Data sent to server:", parsedInfo);
     };
 
-    const handleSubmit = (): void => {
-        console.log("Quill text submitted:", text);
+    const handleSubmit = async () => {
+        await axios.put(`http://localhost:8080/setAboutMe${userID}`, text,{
+            headers: {
+                "Content-Type": "text/plain",
+            },})
         setIsTextChanged(false);
     };
 
@@ -64,6 +104,10 @@ function ProfileEmployee() {
         return <span>{info}</span>;
     };
 
+    if (loading) {
+        return <Text fontSize={24}>Loading...</Text>; // Або індикатор завантаження
+    }
+
     return (
         <div id="profile-employee">
             <div className="bg-circle" id="left-middle-bg-circle"></div>
@@ -76,16 +120,16 @@ function ProfileEmployee() {
                     <div id="profile-employee-main-content-wrapper">
                         <div id="profile-employee-left-content-wrapper">
                             <div id="profile-employee-user-info-wrapper">
-                                <Text fontSize={30} as="h1">Ім’я Прізвище</Text>
-                                <Text fontSize={25} as="h2">Посада</Text>
-                                <Text fontSize={25} as="h2">Країна, місто</Text>
+                                <Text fontSize={30} as="h1">{userData?.name && userData?.surname ? `${userData.name} ${userData.surname}` : t("profileEmployee.nameSurname")}</Text>
+                                <Text fontSize={25} as="h2">{userData?.position ? `${userData.position}` : t("profileEmployee.position")}</Text>
+                                <Text fontSize={25} as="h2">{userData?.country && userData?.city ? `${userData.country}, ${userData.city}` : t("profileEmployee.countryCity")}</Text>
                             </div>
                             <div id="profile-employee-other-info-wrapper">
                                 <div className="profile-employee-block">
                                     <Text fontSize={20} as="h2">{t("profileEmployee.myResume")}</Text>
                                     <Text fontSize={20} as="a">{t("profileEmployee.downloadHere")}</Text>
                                 </div>
-                                <div className="profile-employee-block">
+                                <div className="profile-employee-block" id="profile-employee-additional">
                                     <Text fontSize={20} as="h2" id="additional-information-text">
                                         {t("profileEmployee.additionalInformation")}
                                     </Text>
@@ -110,7 +154,7 @@ function ProfileEmployee() {
                                                 value={editedText}
                                                 onChange={(e) => setEditedText(e.target.value)}
                                                 className="edit-textarea"
-                                                placeholder="Enter each item (links or text) on a new line"
+                                                placeholder={t("profileEmployee.textArea")}
                                             />
                                             <Button
                                                 fontSize={20}
@@ -146,7 +190,7 @@ function ProfileEmployee() {
                                 <ReactQuill
                                     theme="bubble"
                                     value={text}
-                                    onChange={setText}
+                                    onChange={(value: string) => setText(value)}
                                     modules={modules}
                                     placeholder={t("profileHR.aboutPlaceholder")}
                                     id="profile-employee-about-text"
