@@ -14,6 +14,12 @@
     gap: 12px;
   }
 
+  .title {
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+  }
+
   .vacancy-button-wrapper{
     display: flex;
     flex-direction: column;

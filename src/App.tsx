@@ -1,13 +1,14 @@
 import Security from './components/Security/Security';
 import Header from './components/Header/Header';
+import ProfileEmployee from "./components/Profiles/Employee/ProfileEmployee";
 import  "./App.scss"
 import "./utils/i18n"
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import ProfileHR from "./components/Profiles/HR/ProfileHR";
 import Home from "./components/Home/Home";
 import VacancyCreator from "./components/VacancyCreator/VacancyCreator";
 import Error from "./components/404Error/404Error";
-import Profile from "./components/Profiles/Profile";
-import VideoChat from "./components/VideoChat/VideoChat";
+import Catalog from "./components/Catalog/Catalog";
 
 function App() {
   return (
@@ -18,9 +19,10 @@ function App() {
             <Route path="*" element={<Error />} />
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Security />} />
-            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/profile/employee" element={<ProfileEmployee />} />
+            <Route path="/profile/hr" element={<ProfileHR />} />
             <Route path="/vacancy/create" element={<VacancyCreator />} />
-            <Route path="/video-chat" element={<VideoChat />} />
+            <Route path="/catalog" element={<Catalog />} />
         </Routes>
     </div>
       </Router>
