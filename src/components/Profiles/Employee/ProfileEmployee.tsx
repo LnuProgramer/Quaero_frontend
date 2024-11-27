@@ -25,6 +25,7 @@ function ProfileEmployee({userID}: profileHrProps) {
     const { t } = useTranslation();
     const [userData, setUserData] = useState<UserDataEmployee | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [isMyProfile, setIsMyProfile] = useState<boolean>(false);
 
     const [text, setText] = useState<string>();
 
@@ -47,6 +48,15 @@ function ProfileEmployee({userID}: profileHrProps) {
     };
 
     useEffect(() => {
+        const checkUsers = () => {
+            if(userID == localStorage.getItem("id")) {
+                setIsMyProfile(true);
+            }
+            else {
+                setIsMyProfile(false);
+            }
+        }
+
         const fetchUserData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/getUserInfo/${userID}`);
@@ -65,6 +75,7 @@ function ProfileEmployee({userID}: profileHrProps) {
         };
 
         fetchUserData();
+        checkUsers();
     }, [userID]);
 
 
@@ -127,7 +138,7 @@ function ProfileEmployee({userID}: profileHrProps) {
                             <div id="profile-employee-other-info-wrapper">
                                 <div className="profile-employee-block">
                                     <Text fontSize={20} as="h2">{t("profileEmployee.myResume")}</Text>
-                                    <Text fontSize={20} as="a">{t("profileEmployee.downloadHere")}</Text>
+                                    <Text fontSize={20} as="a">{t(`profileEmployee${isMyProfile ? ".downloadHere" : ".uploadHere"}`)}</Text>
                                 </div>
                                 <div className="profile-employee-block" id="profile-employee-additional">
                                     <Text fontSize={20} as="h2" id="additional-information-text">
@@ -140,13 +151,13 @@ function ProfileEmployee({userID}: profileHrProps) {
                                                     {renderAdditionalInfo(info)}
                                                 </Text>
                                             ))}
-                                            <Button
+                                            {isMyProfile && (<Button
                                                 fontSize={20}
                                                 fontWeight={500}
                                                 buttonText={t("profileEmployee.edit")}
                                                 className="additional-info-buttons"
                                                 onClick={() => setIsEditing(true)}
-                                            />
+                                            />)}
                                         </>
                                     ) : (
                                         <div>
@@ -194,8 +205,9 @@ function ProfileEmployee({userID}: profileHrProps) {
                                     modules={modules}
                                     placeholder={t("profileHR.aboutPlaceholder")}
                                     id="profile-employee-about-text"
+                                    readOnly={!isMyProfile}
                                 />
-                                {isTextChanged && (
+                                {isTextChanged && isMyProfile && (
                                     <div id="submit-button-wrapper">
                                         <Button
                                             fontSize={20}

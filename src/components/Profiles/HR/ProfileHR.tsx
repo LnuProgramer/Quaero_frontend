@@ -6,6 +6,7 @@ import {useTranslation} from "react-i18next";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import axios from "axios";
+import { IoSettingsSharp } from "react-icons/io5";
 
 interface profileHrProps {
     userID: string;
@@ -25,6 +26,8 @@ function ProfileHR({userID}: profileHrProps) {
     const { t } = useTranslation();
     const [userData, setUserData] = useState<UserDataHr | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [isMyProfile, setIsMyProfile] = useState<boolean>(false);
+
 
     // Стан для введеного тексту в ReactQuill
     const [text, setText] = useState<string>("");
@@ -48,6 +51,15 @@ function ProfileHR({userID}: profileHrProps) {
     };
 
     useEffect(() => {
+
+        const checkUsers = () => {
+            if(userID == localStorage.getItem("id")) {
+                setIsMyProfile(true);
+            }
+            else {
+                setIsMyProfile(false);
+            }
+        }
         const fetchUserData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/getUserInfo/${userID}`);
@@ -67,6 +79,7 @@ function ProfileHR({userID}: profileHrProps) {
         };
 
         fetchUserData();
+        checkUsers();
     }, [userID]);
 
     useEffect(() => {
@@ -120,12 +133,14 @@ function ProfileHR({userID}: profileHrProps) {
                                 <Text fontSize={30} as="h1">{userData?.name && userData?.surname ? `${userData.name} ${userData.surname}` : t("profileHR.nameSurname")}</Text>
                                 <Text fontSize={25} as="h2">{userData?.companyName ? `${userData.companyName}` : t("profileHR.companyName")}</Text>
                                 <Text fontSize={25} as="h2">{userData?.country && userData?.city ? `${userData.country}, ${userData.city}` : t("profileEmployee.countryCity")}</Text>
+                                {isMyProfile && (<IoSettingsSharp size={25} id="setting-icon" />)}
                             </div>
                             <div id="profile-hr-other-info-wrapper">
-                                <div className="profile-hr-block">
+                                {isMyProfile && (<div className="profile-hr-block">
                                     <Text fontSize={20} as="h2">{t("profileHR.myContacts")}</Text>
                                     <Text fontSize={20} as="a">{t("profileHR.moreDetailsHere")}</Text>
-                                </div>
+                                </div>)}
+
                                 <div className="profile-hr-block">
                                     <Text fontSize={20} as="h2" id="additional-information-text">
                                         {t("profileHR.additionalInformation")}
@@ -137,13 +152,13 @@ function ProfileHR({userID}: profileHrProps) {
                                                     {renderAdditionalInfo(info)}
                                                 </Text>
                                             ))}
-                                            <Button
+                                            {isMyProfile && ( <Button
                                                 fontSize={20}
                                                 fontWeight={500}
                                                 buttonText={t("profileHR.edit")}
                                                 className="additional-info-buttons"
                                                 onClick={() => setIsEditing(true)}
-                                            />
+                                            />)}
                                         </>
                                     ) : (
                                         <div>
@@ -167,13 +182,13 @@ function ProfileHR({userID}: profileHrProps) {
                             </div>
                         </div>
                         <div id="profile-hr-right-content-wrapper">
-                            <div id="profile-hr-buttons-wrapper">
+                            {isMyProfile && (<div id="profile-hr-buttons-wrapper">
                                 <Button fontSize={20} fontWeight={500} buttonText={t("profileHR.addNewVacancy")}
                                         className="profile-hr-buttons"/>
                                 <Button fontSize={20} fontWeight={500} buttonText={t("profileHR.openVacancies")}
                                         className="profile-hr-buttons"/>
-                            </div>
-                            <div id="profile-hr-about-wrapper" className="profile-hr-block">
+                            </div>)}
+                            <div id="profile-hr-about-wrapper" className={`profile-hr-block ${!isMyProfile && "margin"}`}>
                                 <Text fontSize={20} as="h2">{t("profileHR.aboutCompany")}</Text>
                                 <ReactQuill
                                     theme="bubble"
@@ -182,8 +197,9 @@ function ProfileHR({userID}: profileHrProps) {
                                     modules={modules}
                                     placeholder={t("profileHR.aboutPlaceholder")}
                                     id="profile-hr-about-text"
+                                    readOnly={!isMyProfile}
                                 />
-                                {isTextChanged && (
+                                {isTextChanged && isMyProfile && (
                                     <div id="submit-button-wrapper">
                                         <Button
                                             fontSize={20}

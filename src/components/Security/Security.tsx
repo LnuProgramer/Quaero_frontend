@@ -34,7 +34,7 @@ const Security: React.FC = () => {
     try {
       if (isLogin) {
         const response = await axios.post('http://localhost:8080/auth/signIn', {
-          usernameOrEmail: formData.email,
+          email: formData.email,
           password: formData.password,
         });
         localStorage.setItem('accessToken ', response.data.accessToken);

@@ -78,6 +78,17 @@
   flex-direction: column;
   align-items: center;
 
+  #setting-icon{
+    position: absolute;
+    left: 450px;
+    top: 370px;
+    transition: scale 0.3s ease-in-out;
+    &:hover{
+      scale: 1.2;
+      cursor: pointer;
+    }
+  }
+
   h1{
     font-weight: 500;
     margin: 6px;
@@ -109,6 +120,9 @@
   -moz-box-shadow: 0 4px 4px 0 rgba(0,0,0,0.25);
   box-shadow: 0 4px 4px 0 rgba(0,0,0,0.25);
 
+  &.margin{
+    margin-top: 120px;
+  }
   h2{
     font-weight: normal;
   }

@@ -34,6 +34,7 @@ i18n.use(initReactI18next).init({
                 profileEmployee: {
                     myResume: "My resume",
                     downloadHere: "Download Here",
+                    uploadHere: "Upload Here",
                     additionalInformation: "Additional information:",
                     establishContact: "Establish contact",
                     writeMessage: "Write a message",
@@ -155,6 +156,7 @@ i18n.use(initReactI18next).init({
                 profileEmployee: {
                     myResume: "Моє резюме",
                     downloadHere: "Завантажити тут",
+                    uploadHere: "Загрузити резюме",
                     additionalInformation: "Додаткова інформація:",
                     establishContact: "Встановити контакт",
                     writeMessage: "Написати повідомлення",
