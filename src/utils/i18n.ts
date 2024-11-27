@@ -67,7 +67,7 @@ i18n.use(initReactI18next).init({
                 },
 
                 vacancy: {
-                    applyPosition: "Apply for position"
+                    applyPosition: "Apply for position",
                 },
 
                 header: {
@@ -99,6 +99,11 @@ i18n.use(initReactI18next).init({
                     salary: "Salary",
                     detailedRequirements: "Detailed description of requirements",
                     create: "Create vacancy",
+                    name: "Vacancy name",
+                    category: "Category",
+                    yearsOfExperience: "Years of experience",
+                    language: "language",
+                    languageLevel: "Language level",
                 },
                 errorPage:{
                     error: "Error 404",
@@ -220,6 +225,11 @@ i18n.use(initReactI18next).init({
                     salary: "Зарплата",
                     detailedRequirements: "Детальний опис вимог",
                     create: "Створити",
+                    name: "Ім'я ваканції",
+                    category: "Каегорія",
+                    yearsOfExperience: "Досвід роботи",
+                    language: "Мова",
+                    languageLevel: "Рівень мови",
                 },
                 errorPage:{
                     error: "Помилка 404",
