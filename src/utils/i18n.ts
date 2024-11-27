@@ -41,6 +41,10 @@ i18n.use(initReactI18next).init({
                     aboutPlaceholder: "Write something here...",
                     save: "Save",
                     edit: "Edit",
+                    nameSurname: "Name and Surname",
+                    position: "Position",
+                    countryCity: "Country, City",
+                    textArea:"Enter each item (links or text) on a new line..."
                 },
 
                 profileHR: {
@@ -53,6 +57,10 @@ i18n.use(initReactI18next).init({
                     aboutPlaceholder: "Write something here...",
                     save: "Save",
                     edit: "Edit",
+                    nameSurname: "Name and Surname",
+                    companyName: "Company name",
+                    countryCity: "Country, City",
+                    textArea:"Enter each item (links or text) on a new line..."
                 },
 
                 vacancy: {
@@ -154,6 +162,10 @@ i18n.use(initReactI18next).init({
                     aboutPlaceholder: "Напишіть щось тут...",
                     save: "Зберегти",
                     edit: "Редагувати",
+                    nameSurname: "Ім'я та Прізвище",
+                    position: "Позиція",
+                    countryCity: "Країна, місто",
+                    textArea:"Введіть кожен елемент (посилання або текст) у новому рядку..."
                 },
 
                 profileHR: {
@@ -166,6 +178,10 @@ i18n.use(initReactI18next).init({
                     aboutPlaceholder: "Напишіть щось тут...",
                     save: "Зберегти",
                     edit: "Редагувати",
+                    nameSurname: "Ім'я та Прізвище",
+                    companyName: "Назва компанії",
+                    countryCity: "Країна, місто",
+                    textArea:"Введіть кожен елемент (посилання або текст) у новому рядку..."
                 },
 
                 vacancy: {

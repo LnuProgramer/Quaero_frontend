@@ -33,7 +33,7 @@ const Security: React.FC = () => {
     e.preventDefault();
     try {
       if (isLogin) {
-        const response = await axios.post('http://localhost:8080/auth/login', {
+        const response = await axios.post('http://localhost:8080/auth/signIn', {
           usernameOrEmail: formData.email,
           password: formData.password,
         });
@@ -47,7 +47,7 @@ const Security: React.FC = () => {
           return;
         }
 
-        const response = await axios.post('http://localhost:8080/auth/register', {
+        const response = await axios.post('http://localhost:8080/auth/signUp', {
           email: formData.email,
           password: formData.password,
           firstName: formData.firstName,
@@ -135,7 +135,7 @@ const Security: React.FC = () => {
                       <input
                           type="radio"
                           name="role"
-                          value="employer"
+                          value="ROLE_RECRUITER"
                           onChange={handleInputChange}
                           required
                       />
@@ -146,7 +146,7 @@ const Security: React.FC = () => {
                           className="radio"
                           type="radio"
                           name="role"
-                          value="employee"
+                          value="ROLE_EMPLOYEE"
                           onChange={handleInputChange}
                           required
                       />

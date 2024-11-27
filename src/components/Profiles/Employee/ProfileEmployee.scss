@@ -76,6 +76,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 
   h1{
     font-weight: 500;
@@ -107,6 +108,16 @@
   -webkit-box-shadow: 0 4px 4px 0 rgba(0,0,0,0.25);
   -moz-box-shadow: 0 4px 4px 0 rgba(0,0,0,0.25);
   box-shadow: 0 4px 4px 0 rgba(0,0,0,0.25);
+
+  &#profile-employee-additional{
+    textarea, p, span, a{
+      font-size: 18px;
+      letter-spacing: 1.8px;
+      text-align: center;
+    }
+
+  }
+
 
   h2{
     font-weight: normal;
