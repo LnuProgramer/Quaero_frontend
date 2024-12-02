@@ -61,6 +61,8 @@ const Security: React.FC = () => {
       }
     } catch (error) {
       console.error('Auth error', error);
+    } finally {
+      window.location.href = "/"
     }
   };
 

@@ -84,3 +84,14 @@
     flex-direction: column;
     gap: 20px;
 }
+
+/* Додаємо стиль для посилання, щоб воно виглядало як звичайний текст */
+.vacancy-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* При ховер ефекті */
+.vacancy-link:hover {
+    color: inherit;
+}

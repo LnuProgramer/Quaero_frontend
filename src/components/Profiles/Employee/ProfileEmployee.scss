@@ -140,6 +140,17 @@
   }
 }
 
+.setting-icon{
+  position: absolute;
+  left: 450px;
+  top: 370px;
+  transition: scale 0.3s ease-in-out;
+  &:hover{
+    scale: 1.2;
+    cursor: pointer;
+  }
+}
+
 #profile-employee-right-content-wrapper{
   width: 72.5%;
   display: flex;

@@ -133,7 +133,7 @@ function ProfileHR({userID}: profileHrProps) {
                                 <Text fontSize={30} as="h1">{userData?.name && userData?.surname ? `${userData.name} ${userData.surname}` : t("profileHR.nameSurname")}</Text>
                                 <Text fontSize={25} as="h2">{userData?.companyName ? `${userData.companyName}` : t("profileHR.companyName")}</Text>
                                 <Text fontSize={25} as="h2">{userData?.country && userData?.city ? `${userData.country}, ${userData.city}` : t("profileEmployee.countryCity")}</Text>
-                                {isMyProfile && (<IoSettingsSharp size={25} id="setting-icon" />)}
+                                {isMyProfile && (<IoSettingsSharp size={25} onClick={() => window.location.href = "/profile/settings"}  className="setting-icon" />)}
                             </div>
                             <div id="profile-hr-other-info-wrapper">
                                 {isMyProfile && (<div className="profile-hr-block">
@@ -184,9 +184,9 @@ function ProfileHR({userID}: profileHrProps) {
                         <div id="profile-hr-right-content-wrapper">
                             {isMyProfile && (<div id="profile-hr-buttons-wrapper">
                                 <Button fontSize={20} fontWeight={500} buttonText={t("profileHR.addNewVacancy")}
-                                        className="profile-hr-buttons"/>
+                                        onClick={() => window.location.href = "/vacancy/create"} className="profile-hr-buttons"/>
                                 <Button fontSize={20} fontWeight={500} buttonText={t("profileHR.openVacancies")}
-                                        className="profile-hr-buttons"/>
+                                        onClick={() => window.location.href = "/catalog"} className="profile-hr-buttons"/>
                             </div>)}
                             <div id="profile-hr-about-wrapper" className={`profile-hr-block ${!isMyProfile && "margin"}`}>
                                 <Text fontSize={20} as="h2">{t("profileHR.aboutCompany")}</Text>

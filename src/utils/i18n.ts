@@ -65,7 +65,19 @@ i18n.use(initReactI18next).init({
                     countryCity: "Country, City",
                     textArea:"Enter each item (links or text) on a new line..."
                 },
-
+                profileEditor: {
+                    profileSettings: "Profile settings",
+                    firstName: "First name",
+                    lastName: "Last name",
+                    phone: "Phone number",
+                    country: "Country",
+                    city: "City",
+                    position: "Position",
+                    companyName: "Company name",
+                    photo: "Profile photo",
+                    save: "Save",
+                    exit: "Log out of account",
+                },
                 vacancy: {
                     applyPosition: "Apply for position",
                 },
@@ -73,7 +85,7 @@ i18n.use(initReactI18next).init({
                 header: {
                     loginNav: "Login",
                     vacancies: "Vacancies",
-                    messages: "Messages",
+                    messages: "Video chat",
                     profile: "Profile",
                     searchPlaceHolder: "Search...",
                 },
@@ -99,7 +111,6 @@ i18n.use(initReactI18next).init({
                     salary: "Salary",
                     detailedRequirements: "Detailed description of requirements",
                     create: "Create vacancy",
-                    name: "Vacancy name",
                     category: "Category",
                     yearsOfExperience: "Years of experience",
                     language: "language",
@@ -193,6 +204,20 @@ i18n.use(initReactI18next).init({
                     textArea:"Введіть кожен елемент (посилання або текст) у новому рядку..."
                 },
 
+                profileEditor: {
+                    profileSettings: "Налаштування профілю",
+                    firstName: "Ім'я",
+                    lastName: "Прізвище",
+                    phone: "Номер телефону",
+                    country: "Країна",
+                    city: "Місто",
+                    position: "Позиція",
+                    companyName: "Назва компанії",
+                    photo: "Фото профілю",
+                    save: "Зберегти",
+                    exit: "Вийти з облікового запису",
+                },
+
                 vacancy: {
                     applyPosition: "Подайте заявку на посаду"
                 },
@@ -200,7 +225,7 @@ i18n.use(initReactI18next).init({
                 header: {
                     loginNav: "Увійти",
                     vacancies: "Вакансії",
-                    messages: "Повідомлення",
+                    messages: "Відео чат",
                     profile: "Профіль",
                     searchPlaceHolder: "Пошук...",
                 },
@@ -225,8 +250,7 @@ i18n.use(initReactI18next).init({
                     salary: "Зарплата",
                     detailedRequirements: "Детальний опис вимог",
                     create: "Створити",
-                    name: "Ім'я ваканції",
-                    category: "Каегорія",
+                    category: "Категорія",
                     yearsOfExperience: "Досвід роботи",
                     language: "Мова",
                     languageLevel: "Рівень мови",

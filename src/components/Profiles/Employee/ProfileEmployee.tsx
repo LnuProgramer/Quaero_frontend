@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import axios from "axios";
+import { IoSettingsSharp } from "react-icons/io5";
 
 interface profileHrProps {
     userID: string;
@@ -134,6 +135,7 @@ function ProfileEmployee({userID}: profileHrProps) {
                                 <Text fontSize={30} as="h1">{userData?.name && userData?.surname ? `${userData.name} ${userData.surname}` : t("profileEmployee.nameSurname")}</Text>
                                 <Text fontSize={25} as="h2">{userData?.position ? `${userData.position}` : t("profileEmployee.position")}</Text>
                                 <Text fontSize={25} as="h2">{userData?.country && userData?.city ? `${userData.country}, ${userData.city}` : t("profileEmployee.countryCity")}</Text>
+                                {isMyProfile && (<IoSettingsSharp size={25} onClick={() => window.location.href = "/profile/settings"} className="setting-icon" />)}
                             </div>
                             <div id="profile-employee-other-info-wrapper">
                                 <div className="profile-employee-block">
@@ -186,6 +188,7 @@ function ProfileEmployee({userID}: profileHrProps) {
                                     fontSize={20}
                                     fontWeight={500}
                                     buttonText={t("profileEmployee.establishContact")}
+                                    onClick={() => window.location.href = "/"}
                                     className="profile-employee-buttons"
                                 />
                                 <Button
@@ -193,6 +196,7 @@ function ProfileEmployee({userID}: profileHrProps) {
                                     fontWeight={500}
                                     buttonColor="primary"
                                     buttonText={t("profileEmployee.writeMessage")}
+                                    onClick={() => window.location.href = "/"}
                                     className="profile-employee-buttons"
                                 />
                             </div>
