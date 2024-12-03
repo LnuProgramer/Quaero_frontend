@@ -6,7 +6,6 @@ const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
 i18n.use(initReactI18next).init({
     debug: true,
     fallbackLng: 'en',
-    //NOSONAR
     resources: {
         en:{
 
