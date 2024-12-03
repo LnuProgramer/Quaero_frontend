@@ -1,34 +1,112 @@
 .vacancy-page {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    gap: 20px;
     padding: 20px;
+    background-color: #fff8f5;
+    font-family: 'Arial', sans-serif;
+    min-height: 87.5vh;
 }
 
 .vacancy-details {
-    width: 60%;
+    flex: 3;
+    background-color: #ffffff;
+    border-radius: 12px;
     padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.similar-vacancies {
-    width: 35%;
-    padding: 20px;
-    background-color: #ffe0e0;
-    border-radius: 8px;
+.vacancy-details h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333333;
+}
+
+.vacancy-details p {
+    font-size: 16px;
+    color: #555555;
+    margin: 8px 0;
+    width: 70%;
+}
+
+.vacancy-details strong {
+    font-weight: bold;
+    color: #000000;
 }
 
 .apply-button {
     display: block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #1e90ff;
-    color: #fff;
+    width: 30%;
+    background: #4a90e2; /* Синя кнопка */
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 0;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
+    margin-top: 20px;
     cursor: pointer;
+    text-align: center;
+    transition: background 0.3s;
 }
 
 .apply-button:hover {
-    background-color: #1c86ee;
+    background: #357abd; /* Темніший синій */
+}
+
+/* Схожі вакансії */
+.similar-vacancies {
+    flex: 2;
+}
+
+.similar-vacancies h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333333;
+}
+
+.similar-vacancies ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.short-vacancy {
+    background-color: #ffe8e4; /* Світло-рожевий фон */
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.short-vacancy h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333333;
+}
+
+.short-vacancy p {
+    font-size: 14px;
+    color: #666666;
+    margin: 5px 0;
+}
+
+.short-vacancy .view-details {
+    display: inline-block;
+    margin-top: 10px;
+    color: #4a90e2;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.short-vacancy .view-details:hover {
+    color: #357abd; /* Темніший синій */
 }

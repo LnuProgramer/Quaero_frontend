@@ -8,31 +8,33 @@ import "react-quill/dist/quill.bubble.css";
 import axios from "axios";
 
 interface FormDataVacancy {
-    company_name: string,
+    companyName: string,
     description : string,
-    position_title : string,
-    salary : string,
-    years_of_experience : string,
-    category_id : string,
-    employment_type_id : string,
-    language_level : string,
-    language_name : string,
-    name: string,
+    positionTitle : string,
+    salary : number,
+    yearsOfExperience : number,
+    categoryName : string,
+    employmentTypeName : string,
+    languages: Array<{ languageName: string; languageLevel: string }>;
 }
 
 function VacancyCreator() {
     const {t} = useTranslation();
+    const id = localStorage.getItem("id");
     const [formData, setFormData] = useState<FormDataVacancy>({
-        company_name: "",
+        companyName: "",
         description : "",
-        position_title : "",
-        salary : "",
-        years_of_experience : "",
-        category_id : "",
-        employment_type_id : "",
-        language_level : "",
-        language_name : "",
-        name: "",
+        positionTitle : "",
+        salary : 0,
+        yearsOfExperience : 0,
+        categoryName : "frontend",
+        employmentTypeName : "onSite",
+        languages: [
+            {
+                languageName: "",
+                languageLevel: "beginner"
+            }
+        ]
     });
 
     const modules = {
@@ -47,22 +49,21 @@ function VacancyCreator() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const userId = localStorage.getItem("id");
-        if (!userId) {
+        if (!id) {
             console.error("User ID not found in localStorage.");
             return;
         }
 
         const vacancyData = {
             ...formData,
-            user_id: userId,
+            user_id: id,
         };
 
         try {
-            const res = await axios.post("http://localhost:3030/creating-vacancy", vacancyData);
-            console.log("Vacancy created successfully:", res.data);
+            await axios.post(`http://localhost:8080/setVacancy${id}`, vacancyData);
         } catch (error) {
-            console.error("Error creating vacancy:", error);
+        } finally {
+            window.location.href = `/profile/${id}`
         }
     }
 
@@ -80,50 +81,89 @@ function VacancyCreator() {
             <form id="vacancy-creator-wrapper" onSubmit={handleSubmit}>
                 <div id="vacancy-creator-inputs-wrapper">
                     <Text fontSize={24} as="h1">{t("vacancyCreator.createVacancy")}</Text>
-                    <Text fontSize={20} as="h2">{t("vacancyCreator.name")}</Text>
-                    <input className="input" name="name" value={formData.name} onChange={handleInputChange}></input>
                     <Text fontSize={20} as="h2">{t("vacancyCreator.position")}</Text>
-                    <input className="input" name="position_title" value={formData.position_title} onChange={handleInputChange}></input>
+                    <input className="input" name="positionTitle" value={formData.positionTitle}
+                           onChange={handleInputChange} required></input>
                     <Text fontSize={20} as="h2">{t("vacancyCreator.company")}</Text>
-                    <input className="input" name="company_name" value={formData.company_name} onChange={handleInputChange}></input>
+                    <input className="input" name="companyName" value={formData.companyName}
+                           onChange={handleInputChange} required></input>
                     <Text fontSize={20} as="h2">{t("vacancyCreator.category")}</Text>
                     <select
                         className="input"
                         name="category_id"
-                        value={formData.category_id}
+                        value={formData.categoryName}
                         onChange={handleInputChange}
+                        required
                     >
-                        <option value="Frontend">Frontend</option>
-                        <option value="Backend">Backend</option>
-                        <option value="Mobile">Mobile</option>
+                        <option value="frontend">Frontend</option>
+                        <option value="backend">Backend</option>
+                        <option value="mobile">Mobile</option>
                     </select>
                     <Text fontSize={20} as="h2">{t("vacancyCreator.yearsOfExperience")}</Text>
-                    <input className="input" name="years_of_experience" value={formData.years_of_experience} onChange={handleInputChange}></input>
+                    <input className="input" inputMode="numeric" name="yearsOfExperience" value={formData.yearsOfExperience}
+                           onChange={(e) => {
+                               const numericValue = e.target.value.replace(/\D/g, ""); // Видаляє всі символи, крім цифр
+                               setFormData((prevFormData) => ({
+                                   ...prevFormData,
+                                   yearsOfExperience: numericValue ? Number(numericValue) : 0, // Конвертація у число
+                               }));
+                           }}
+                           required></input>
                     <Text fontSize={20} as="h2">{t("vacancyCreator.workFormat")}</Text>
-                    <select className="input" name="employment_type_id" value={formData.employment_type_id}
-                            onChange={handleInputChange}>
-                        <option value="On-site">On-site</option>
-                        <option value="Remote">Remote</option>
-                        <option value="Hibrid">Hybrid</option>
+                    <select className="input" name="employmentTypeName" value={formData.employmentTypeName}
+                            onChange={handleInputChange} required>
+                        <option value="onSite">On-site</option>
+                        <option value="remote">Remote</option>
+                        <option value="hybrid">Hybrid</option>
                     </select>
                     <Text fontSize={20} as="h2">{t("vacancyCreator.salary")}</Text>
-                    <input className="input" name="salary" value={formData.salary} onChange={handleInputChange}></input>
+                    <input
+                        className="input"
+                        inputMode="numeric"
+                        name="salary"
+                        value={formData.salary}
+                        onChange={(e) => {
+                            const numericValue = e.target.value.replace(/\D/g, ""); // Видаляє всі символи, крім цифр
+                            setFormData((prevFormData) => ({
+                                ...prevFormData,
+                                salary: numericValue ? Number(numericValue) : 0, // Конвертація у число
+                            }));
+                        }}
+                        required
+                    />
+
                     <Text fontSize={20} as="h2">{t("vacancyCreator.language")}</Text>
-                    <input className="input" name="language_name" value={formData.language_name}
-                           onChange={handleInputChange}></input>
+                    <input className="input" name="languageName" value={formData.languages[0]?.languageName || ""}
+                           onChange={(e) => {
+                               const updatedLanguages = [...formData.languages];
+                               updatedLanguages[0] = {
+                                   ...updatedLanguages[0],
+                                   languageName: e.target.value,
+                               };
+                               setFormData({...formData, languages: updatedLanguages});
+                           }} required></input>
                     <Text fontSize={20} as="h2">{t("vacancyCreator.languageLevel")}</Text>
                     <select
                         className="input"
-                        name="language_level"
-                        value={formData.language_level}
-                        onChange={handleInputChange}
+                        name="languageLevel"
+                        value={formData.languages[0]?.languageLevel || ""}
+                        onChange={(e) => {
+                            const updatedLanguages = [...formData.languages];
+                            updatedLanguages[0] = {
+                                ...updatedLanguages[0],
+                                languageLevel: e.target.value,
+                            };
+                            setFormData({...formData, languages: updatedLanguages});
+                        }}
+                        required
                     >
-                        <option value="Beginner">Beginner</option>
-                        <option value="Pre-intermediate">Pre-intermediate</option>
-                        <option value="Upper-Intermediate">Upper-Intermediate</option>
-                        <option value="Advanced ">Advanced</option>
-                        <option value="Proficiency">Proficiency</option>
-                        <option value="Native">Native</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="preIntermediate">Pre-intermediate</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="upperIntermediate">Upper-Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                        <option value="proficiency">Proficiency</option>
+                        <option value="native">Native</option>
                     </select>
                     <Text fontSize={20} as="h2">{t("vacancyCreator.detailedRequirements")}</Text>
                     <ReactQuill theme="bubble" value={formData.description} onChange={handleQuillChange}

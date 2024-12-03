@@ -1,18 +1,74 @@
-import React, { useEffect, useState } from "react";
+// Catalog.tsx
+import React, { useState } from "react";
 import Vacancy from "../../reusableComponents/vacancy/Vacancy";
 import "./Catalog.css";
 import { useTranslation } from "react-i18next";
 import Text from "../../reusableComponents/text/Text";
+import { Link } from "react-router-dom";
 
 type VacancyData = {
+    id: string;
     positionTitle: string;
     companyName: string;
     categoryName: string;
     employmentType: string;
     languageName: string;
-    salary: number;
+    salary: string;
     experience: number;
+    description: string;
 };
+
+// Вручну додані вакансії
+const vacanciesList: VacancyData[] = [
+    {
+        id: "1",
+        positionTitle: "Senior Software Engineer",
+        companyName: "TechCorp",
+        categoryName: "IT & Software Development",
+        employmentType: "Full-Time",
+        languageName: "English",
+        salary: "8000-12000",
+        experience: 5,
+        description:
+            "As a Senior Software Engineer at TechCorp, you will be responsible for developing high-quality applications...",
+    },
+    {
+        id: "2",
+        positionTitle: "Graphic Designer",
+        companyName: "Creative Minds",
+        categoryName: "Design",
+        employmentType: "Full-Time",
+        languageName: "English",
+        salary: "4000-6000",
+        experience: 2,
+        description:
+            "We are looking for a creative Graphic Designer to join our team at Creative Minds...",
+    },
+    {
+        id: "3",
+        positionTitle: "Business Analyst",
+        companyName: "FinTech Inc.",
+        categoryName: "Business",
+        employmentType: "Part-Time",
+        languageName: "German",
+        salary: "5000-7000",
+        experience: 3,
+        description:
+            "FinTech Inc. is seeking a skilled Business Analyst to improve our financial products...",
+    },
+    {
+        id: "4",
+        positionTitle: "1",
+        companyName: "1",
+        categoryName: "Frontend",
+        employmentType: "Remote",
+        languageName: "Spanish",
+        salary: "1000",
+        experience: 1,
+        description:
+            "Test",
+    },
+];
 
 type Filters = {
     positionTitle: string;
@@ -29,13 +85,14 @@ type Filters = {
 };
 
 function Catalog() {
-    const [vacancies, setVacancies] = useState<VacancyData[]>([]);
+    const { t } = useTranslation();
+
     const [filters, setFilters] = useState<Filters>({
         positionTitle: "",
         companyName: "",
-        categoryName: "all",
-        employmentType: "all",
-        languageName: "all",
+        categoryName: "",
+        employmentType: "",
+        languageName: "",
         minSalary: 0,
         maxSalary: 0,
         minYearsOfExperience: 0,
@@ -43,44 +100,92 @@ function Catalog() {
         sortBy: "salary",
         sortDirection: "asc",
     });
-    const { t } = useTranslation();
 
-    const fetchVacancies = async () => {
-        try {
-            const appliedFilters = {
-                ...filters,
-                companyName: filters.companyName || undefined,
-                minSalary: filters.minSalary > 0 ? filters.minSalary : undefined,
-                maxSalary: filters.maxSalary > 0 ? filters.maxSalary : undefined,
-                minYearsOfExperience:
-                    filters.minYearsOfExperience > 0
-                        ? filters.minYearsOfExperience
-                        : undefined,
-                maxYearsOfExperience:
-                    filters.maxYearsOfExperience > 0
-                        ? filters.maxYearsOfExperience
-                        : undefined,
-            };
+    // Функція для фільтрації вакансій
+    const applyFilters = (): VacancyData[] => {
+        let filtered = vacanciesList;
 
-            const response = await fetch("https://localhost:3000/catalog", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(appliedFilters),
-            });
-
-            const data: VacancyData[] = await response.json();
-            setVacancies(data);
-        } catch (error) {
-            console.error("Failed to fetch vacancies:", error);
+        // Фільтруємо за назвою вакансії
+        if (filters.positionTitle) {
+            filtered = filtered.filter((vacancy) =>
+                vacancy.positionTitle
+                    .toLowerCase()
+                    .includes(filters.positionTitle.toLowerCase())
+            );
         }
-    };
 
-    // Завантаження вакансій при зміні фільтрів
-    useEffect(() => {
-        fetchVacancies();
-    }, [filters]);
+        // Фільтруємо за назвою компанії
+        if (filters.companyName) {
+            filtered = filtered.filter((vacancy) =>
+                vacancy.companyName
+                    .toLowerCase()
+                    .includes(filters.companyName.toLowerCase())
+            );
+        }
+
+        // Фільтруємо за категорією
+        if (filters.categoryName) {
+            filtered = filtered.filter(
+                (vacancy) => vacancy.categoryName === filters.categoryName
+            );
+        }
+
+        // Фільтруємо за типом зайнятості
+        if (filters.employmentType) {
+            filtered = filtered.filter(
+                (vacancy) => vacancy.employmentType === filters.employmentType
+            );
+        }
+
+        // Фільтруємо за мовою
+        if (filters.languageName) {
+            filtered = filtered.filter(
+                (vacancy) => vacancy.languageName === filters.languageName
+            );
+        }
+
+        // Фільтруємо за зарплатою
+        if (filters.minSalary > 0 || filters.maxSalary > 0) {
+            filtered = filtered.filter((vacancy) => {
+                const [minSalary, maxSalary] = vacancy.salary
+                    .split("-")
+                    .map(Number);
+                return (
+                    (filters.minSalary === 0 || maxSalary >= filters.minSalary) &&
+                    (filters.maxSalary === 0 || minSalary <= filters.maxSalary)
+                );
+            });
+        }
+
+        // Фільтруємо за досвідом
+        if (filters.minYearsOfExperience > 0) {
+            filtered = filtered.filter(
+                (vacancy) => vacancy.experience >= filters.minYearsOfExperience
+            );
+        }
+        if (filters.maxYearsOfExperience > 0) {
+            filtered = filtered.filter(
+                (vacancy) => vacancy.experience <= filters.maxYearsOfExperience
+            );
+        }
+
+        // Сортування
+        if (filters.sortBy === "salary") {
+            filtered = filtered.sort((a, b) => {
+                const [minA] = a.salary.split("-").map(Number);
+                const [minB] = b.salary.split("-").map(Number);
+                return filters.sortDirection === "asc" ? minA - minB : minB - minA;
+            });
+        } else if (filters.sortBy === "positionTitle") {
+            filtered = filtered.sort((a, b) => {
+                return filters.sortDirection === "asc"
+                    ? a.positionTitle.localeCompare(b.positionTitle)
+                    : b.positionTitle.localeCompare(a.positionTitle);
+            });
+        }
+
+        return filtered;
+    };
 
     const handleFilterChange = (field: keyof Filters, value: string | number) => {
         setFilters((prevFilters) => ({
@@ -89,12 +194,16 @@ function Catalog() {
         }));
     };
 
+    const filteredVacancies = applyFilters();
+
     return (
         <div className="catalog-container">
             <div className="filters-sidebar">
                 {/* Пошук за назвою вакансії */}
                 <div className="search-bar">
-                    <Text fontSize={24} as="h2">{t("catalog.search")}</Text>
+                    <Text fontSize={24} as="h2">
+                        {t("catalog.search")}
+                    </Text>
                     <input
                         type="text"
                         placeholder="Search by position title"
@@ -107,7 +216,9 @@ function Catalog() {
                 </div>
                 {/* Пошук за назвою компанії */}
                 <div className="search-bar">
-                    <Text fontSize={24} as="h2">{t("catalog.searchByCompany")}</Text>
+                    <Text fontSize={24} as="h2">
+                        {t("catalog.searchByCompany")}
+                    </Text>
                     <input
                         type="text"
                         placeholder="Search by company name"
@@ -118,42 +229,52 @@ function Catalog() {
                         className="search-in"
                     />
                 </div>
-                <Text fontSize={24} as="h2">{t("catalog.filters")}</Text>
-                <Text fontSize={20} as="h3">{t("catalog.category")}</Text>
+                <Text fontSize={24} as="h2">
+                    {t("catalog.filters")}
+                </Text>
+                <Text fontSize={20} as="h3">
+                    {t("catalog.category")}
+                </Text>
                 <select
                     value={filters.categoryName}
-                    onChange={(e) =>
-                        handleFilterChange("categoryName", e.target.value)
-                    }
+                    onChange={(e) => handleFilterChange("categoryName", e.target.value)}
                 >
-                    <option value="all">{t("catalog.optionAll")}</option>
-                    <option value="Frontend">Frontend</option>
-                    <option value="Backend">Backend</option>
-                    <option value="Mobile">Mobile</option>
+                    <option value="">{t("catalog.optionAll")}</option>
+                    <option value="IT & Software Development">
+                        IT & Software Development
+                    </option>
+                    <option value="Design">Design</option>
+                    <option value="Business">Business</option>
+                    <option value="Healthcare">Healthcare</option>
                 </select>
-                <Text fontSize={20} as="h3">{t("catalog.workType")}</Text>
+                <Text fontSize={20} as="h3">
+                    {t("catalog.workType")}
+                </Text>
                 <select
                     value={filters.employmentType}
                     onChange={(e) =>
                         handleFilterChange("employmentType", e.target.value)
                     }
                 >
-                    <option value="all">{t("catalog.optionAll")}</option>
-                    <option value="Remote">{t("catalog.optionRemote")}</option>
-                    <option value="On-site">{t("catalog.optionOnSite")}</option>
+                    <option value="">{t("catalog.optionAll")}</option>
+                    <option value="Full-Time">Full-Time</option>
+                    <option value="Part-Time">Part-Time</option>
                 </select>
-                <Text fontSize={20} as="h3">{t("catalog.language")}</Text>
+                <Text fontSize={20} as="h3">
+                    {t("catalog.language")}
+                </Text>
                 <select
                     value={filters.languageName}
-                    onChange={(e) =>
-                        handleFilterChange("languageName", e.target.value)
-                    }
+                    onChange={(e) => handleFilterChange("languageName", e.target.value)}
                 >
-                    <option value="all">{t("catalog.optionAll")}</option>
+                    <option value="">{t("catalog.optionAll")}</option>
                     <option value="English">English</option>
-                    <option value="Ukrainian">Ukrainian</option>
+                    <option value="German">German</option>
+                    <option value="Spanish">Spanish</option>
                 </select>
-                <Text fontSize={20} as="h3">{t("catalog.salaryRange")}</Text>
+                <Text fontSize={20} as="h3">
+                    {t("catalog.salaryRange")}
+                </Text>
                 <input
                     type="number"
                     placeholder="Min salary"
@@ -170,7 +291,9 @@ function Catalog() {
                         handleFilterChange("maxSalary", Number(e.target.value))
                     }
                 />
-                <Text fontSize={20} as="h3">{t("catalog.experienceRange")}</Text>
+                <Text fontSize={20} as="h3">
+                    {t("catalog.experienceRange")}
+                </Text>
                 <input
                     type="number"
                     placeholder="Min years of experience"
@@ -193,17 +316,19 @@ function Catalog() {
                         )
                     }
                 />
-                <Text fontSize={20} as="h3">{t("catalog.sortBy")}</Text>
+                <Text fontSize={20} as="h3">
+                    {t("catalog.sortBy")}
+                </Text>
                 <select
                     value={filters.sortBy}
-                    onChange={(e) =>
-                        handleFilterChange("sortBy", e.target.value)
-                    }
+                    onChange={(e) => handleFilterChange("sortBy", e.target.value)}
                 >
                     <option value="salary">{t("catalog.salary")}</option>
                     <option value="positionTitle">{t("catalog.positionTitle")}</option>
                 </select>
-                <Text fontSize={20} as="h3">{t("catalog.sortDirection")}</Text>
+                <Text fontSize={20} as="h3">
+                    {t("catalog.sortDirection")}
+                </Text>
                 <select
                     value={filters.sortDirection}
                     onChange={(e) =>
@@ -215,24 +340,28 @@ function Catalog() {
                 </select>
             </div>
 
-            {/* Список вакансій */}
             <div className="vacancies-list">
-                {vacancies.length > 0 ? (
-                    vacancies.map((vacancy, index) => (
-                        <Vacancy
-                            key={index}
-                            title={vacancy.positionTitle}
-                            company={vacancy.companyName}
-                            location={vacancy.employmentType}
-                            workType={vacancy.employmentType}
-                            salary={`${vacancy.salary}$`}
-                            category={vacancy.categoryName}
-                            language={vacancy.languageName}
-                            experience={vacancy.experience}
-                        />
+                {filteredVacancies.length > 0 ? (
+                    filteredVacancies.map((vacancy) => (
+                        <Link
+                            to={`/position/${vacancy.id}`}
+                            key={vacancy.id}
+                            className="vacancy-link"
+                        >
+                            <Vacancy
+                                title={vacancy.positionTitle}
+                                company={vacancy.companyName}
+                                location={vacancy.employmentType}
+                                workType={vacancy.employmentType}
+                                salary={`${vacancy.salary}$`}
+                                category={vacancy.categoryName}
+                                language={vacancy.languageName}
+                                experience={vacancy.experience}
+                            />
+                        </Link>
                     ))
                 ) : (
-                    <p>No vacancies found</p>
+                    <p>{t("catalog.noVacancies") || "No vacancies found"}</p>
                 )}
             </div>
         </div>

@@ -11,6 +11,7 @@ import Position from "./components/Position/Position";
 import Profile from "./components/Profiles/Profile";
 import VideoChat from "./components/VideoChat/VideoChat";
 import { AuthProvider } from './utils/AuthContext';
+import ProfileSetting from "./components/ProfileSetting/ProfileSetting";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
                       <Route path="/" element={<Home />} />
                       <Route path="/login" element={<Security />} />
                       <Route path="/profile/:id" element={<Profile />} />
+                      <Route path="/profile/settings" element={<ProfileSetting />}/>
                       <Route path="/vacancy/create" element={<VacancyCreator />} />
                       <Route path="/catalog" element={<Catalog />} />
                       <Route path="/position/:vacancyId" element={<Position />} />

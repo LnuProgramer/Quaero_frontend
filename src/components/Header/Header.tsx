@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Header.css';
 import Text from "../../reusableComponents/text/Text";
 import { useTranslation } from "react-i18next";
@@ -6,8 +6,16 @@ import { useAuth } from '../../utils/AuthContext';
 
 const Header: React.FC = () => {
     const { isLoggedIn, setIsLoggedIn } = useAuth();
+    const [isLoggedIn1, setIsLoggedIn1] = useState(false);
     const { t, i18n } = useTranslation();
     const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+    useEffect(() => {
+        if(localStorage.getItem("id"))
+            setIsLoggedIn1(true)
+        else
+            setIsLoggedIn1(false);
+    }, []);
 
     const toggleSearch = () => {
         setIsSearchOpen(!isSearchOpen);
@@ -29,7 +37,7 @@ const Header: React.FC = () => {
             <div className="left-nav">
                 <div className="logo">
                     <Text className="mainLogo" fontSize={30} as="a" href="/">Quaero</Text>
-                    <Text fontSize={13} as="p">vacancies for you</Text>
+                    <Text fontSize={13} as="p">Jobs for you</Text>
                 </div>
                 <div className={`search-container ${isSearchOpen ? 'open' : ''}`}>
                     <button className="search-button" onClick={toggleSearch}>
@@ -40,17 +48,14 @@ const Header: React.FC = () => {
                 </div>
             </div>
             <nav className="nav">
-                {isLoggedIn ? (
+                {isLoggedIn1 ? (
                     <>
-                        <Text className="right-nav" fontSize={25} as="a" href="/notifications">
+                        <Text className="right-nav" fontSize={25} as="a" href="/video-chat">
                             {t("header.messages")}
                         </Text>
-                        <Text className="right-nav" fontSize={25} as="a" href="/profile">
+                        <Text className="right-nav" fontSize={25} as="a" href={`/profile/${localStorage.getItem("id")}`}>
                             {t("header.profile")}
                         </Text>
-                        <button onClick={() => setIsLoggedIn(false)}>
-                            {t("header.logout")}
-                        </button>
                     </>
                 ) : (
                     <Text className="right-nav" fontSize={25} as="a" href="/login">

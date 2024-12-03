@@ -37,7 +37,7 @@ function Vacancy({ title, company, location, workType, salary, category, languag
                 <Text fontSize={20} as="p">{t("catalog.workType")}: {workType}</Text>
                 <Text fontSize={20} as="p">{t("catalog.category")}: {category}</Text>
                 <Text fontSize={20} as="p">{t("catalog.language")}: {language}</Text>
-                <Text fontSize={20} as="p">{t("catalog.experience")}: {experience} {t("vacancy.years")}</Text>
+                <Text fontSize={20} as="p">{t("catalog.experience")}: {experience} {t("catalog.years")}</Text>
                 <Text fontSize={24} as="h3">{t("catalog.salary")}: {salary}</Text>
             </div>
             <div className="vacancy-button-wrapper">
