@@ -6,9 +6,10 @@ const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
 i18n.use(initReactI18next).init({
     debug: true,
     fallbackLng: 'en',
+    //NOSONAR
     resources: {
         en:{
-            // SONAR-IGNORE-START
+
             translation:{
                 homePage: {
                     jobSearch: "Job search",
@@ -284,7 +285,7 @@ i18n.use(initReactI18next).init({
                 }
             }
         }
-    },// SONAR-IGNORE-END
+    },
     lng: savedLanguage, // Використовуємо збережену мову
     interpolation: {
         escapeValue: false, // React вже екранує дані
