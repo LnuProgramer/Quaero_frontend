@@ -6,15 +6,14 @@ import { useAuth } from '../../utils/AuthContext';
 
 const Header: React.FC = () => {
     const { isLoggedIn, setIsLoggedIn } = useAuth();
-    const [isLoggedIn1, setIsLoggedIn1] = useState(false);
     const { t, i18n } = useTranslation();
     const [isSearchOpen, setIsSearchOpen] = useState(false);
 
     useEffect(() => {
         if(localStorage.getItem("id"))
-            setIsLoggedIn1(true)
+            setIsLoggedIn(true)
         else
-            setIsLoggedIn1(false);
+            setIsLoggedIn(false);
     }, []);
 
     const toggleSearch = () => {
@@ -48,7 +47,7 @@ const Header: React.FC = () => {
                 </div>
             </div>
             <nav className="nav">
-                {isLoggedIn1 ? (
+                {isLoggedIn ? (
                     <>
                         <Text className="right-nav" fontSize={25} as="a" href="/video-chat">
                             {t("header.messages")}
