@@ -1,80 +1,31 @@
-// Catalog.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Vacancy from "../../reusableComponents/vacancy/Vacancy";
 import "./Catalog.css";
 import { useTranslation } from "react-i18next";
 import Text from "../../reusableComponents/text/Text";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 type VacancyData = {
     id: string;
     positionTitle: string;
     companyName: string;
     categoryName: string;
-    employmentType: string;
-    languageName: string;
-    salary: string;
+    employmentTypeName: string;
+    languages: [{
+        languageName: string;
+        languageLevel: string
+    }];
+    salary: number;
     experience: number;
     description: string;
 };
-
-// Вручну додані вакансії
-const vacanciesList: VacancyData[] = [
-    {
-        id: "1",
-        positionTitle: "Senior Software Engineer",
-        companyName: "TechCorp",
-        categoryName: "IT & Software Development",
-        employmentType: "Full-Time",
-        languageName: "English",
-        salary: "8000-12000",
-        experience: 5,
-        description:
-            "As a Senior Software Engineer at TechCorp, you will be responsible for developing high-quality applications...",
-    },
-    {
-        id: "2",
-        positionTitle: "Graphic Designer",
-        companyName: "Creative Minds",
-        categoryName: "Design",
-        employmentType: "Full-Time",
-        languageName: "English",
-        salary: "4000-6000",
-        experience: 2,
-        description:
-            "We are looking for a creative Graphic Designer to join our team at Creative Minds...",
-    },
-    {
-        id: "3",
-        positionTitle: "Business Analyst",
-        companyName: "FinTech Inc.",
-        categoryName: "Business",
-        employmentType: "Part-Time",
-        languageName: "German",
-        salary: "5000-7000",
-        experience: 3,
-        description:
-            "FinTech Inc. is seeking a skilled Business Analyst to improve our financial products...",
-    },
-    {
-        id: "4",
-        positionTitle: "1",
-        companyName: "1",
-        categoryName: "Frontend",
-        employmentType: "Remote",
-        languageName: "Spanish",
-        salary: "1000",
-        experience: 1,
-        description:
-            "Test",
-    },
-];
 
 type Filters = {
     positionTitle: string;
     companyName: string;
     categoryName: string;
-    employmentType: string;
+    employmentTypeName: string;
     languageName: string;
     minSalary: number;
     maxSalary: number;
@@ -91,7 +42,7 @@ function Catalog() {
         positionTitle: "",
         companyName: "",
         categoryName: "",
-        employmentType: "",
+        employmentTypeName: "",
         languageName: "",
         minSalary: 0,
         maxSalary: 0,
@@ -100,8 +51,23 @@ function Catalog() {
         sortBy: "salary",
         sortDirection: "asc",
     });
+    const [vacanciesList, setVacanciesList] = useState<VacancyData[]>([]);
 
-    // Функція для фільтрації вакансій
+    useEffect(() => {
+        const getAllFilteredAndSortedRequest = async () => {
+            const response = await axios.post(`http://localhost:8080/getAllFilteredAndSorted?page=0&size=10`, filters)
+            setVacanciesList(response.data.content);
+        }
+        getAllFilteredAndSortedRequest();
+    }, [filters])
+
+    const handleFilterChange = (field: keyof Filters, value: string | number) => {
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [field]: value,
+        }));
+    };
+
     const applyFilters = (): VacancyData[] => {
         let filtered = vacanciesList;
 
@@ -131,31 +97,32 @@ function Catalog() {
         }
 
         // Фільтруємо за типом зайнятості
-        if (filters.employmentType) {
+        if (filters.employmentTypeName) {
             filtered = filtered.filter(
-                (vacancy) => vacancy.employmentType === filters.employmentType
+                (vacancy) => vacancy.employmentTypeName === filters.employmentTypeName
             );
         }
 
         // Фільтруємо за мовою
         if (filters.languageName) {
-            filtered = filtered.filter(
-                (vacancy) => vacancy.languageName === filters.languageName
+            filtered = filtered.filter((vacancy) =>
+                vacancy.languages.some(
+                    (lang) => lang.languageName === filters.languageName
+                )
             );
         }
 
         // Фільтруємо за зарплатою
         if (filters.minSalary > 0 || filters.maxSalary > 0) {
             filtered = filtered.filter((vacancy) => {
-                const [minSalary, maxSalary] = vacancy.salary
-                    .split("-")
-                    .map(Number);
+                const salary = vacancy.salary;
                 return (
-                    (filters.minSalary === 0 || maxSalary >= filters.minSalary) &&
-                    (filters.maxSalary === 0 || minSalary <= filters.maxSalary)
+                    (filters.minSalary === 0 || salary >= filters.minSalary) &&
+                    (filters.maxSalary === 0 || salary <= filters.maxSalary)
                 );
             });
         }
+
 
         // Фільтруємо за досвідом
         if (filters.minYearsOfExperience > 0) {
@@ -172,11 +139,12 @@ function Catalog() {
         // Сортування
         if (filters.sortBy === "salary") {
             filtered = filtered.sort((a, b) => {
-                const [minA] = a.salary.split("-").map(Number);
-                const [minB] = b.salary.split("-").map(Number);
-                return filters.sortDirection === "asc" ? minA - minB : minB - minA;
+                const salaryA = a.salary;
+                const salaryB = b.salary;
+                return filters.sortDirection === "asc" ? salaryA - salaryB : salaryB - salaryA;
             });
-        } else if (filters.sortBy === "positionTitle") {
+
+    } else if (filters.sortBy === "positionTitle") {
             filtered = filtered.sort((a, b) => {
                 return filters.sortDirection === "asc"
                     ? a.positionTitle.localeCompare(b.positionTitle)
@@ -185,13 +153,6 @@ function Catalog() {
         }
 
         return filtered;
-    };
-
-    const handleFilterChange = (field: keyof Filters, value: string | number) => {
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            [field]: value,
-        }));
     };
 
     const filteredVacancies = applyFilters();
@@ -251,9 +212,9 @@ function Catalog() {
                     {t("catalog.workType")}
                 </Text>
                 <select
-                    value={filters.employmentType}
+                    value={filters.employmentTypeName}
                     onChange={(e) =>
-                        handleFilterChange("employmentType", e.target.value)
+                        handleFilterChange("employmentTypeName", e.target.value)
                     }
                 >
                     <option value="">{t("catalog.optionAll")}</option>
@@ -276,45 +237,48 @@ function Catalog() {
                     {t("catalog.salaryRange")}
                 </Text>
                 <input
-                    type="number"
+                    type="text"
                     placeholder="Min salary"
-                    value={filters.minSalary}
-                    onChange={(e) =>
-                        handleFilterChange("minSalary", Number(e.target.value))
-                    }
+                    value={filters.minSalary || ""}
+                    onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, ""); // Видаляє все, крім цифр
+                        const sanitizedValue = value.replace(/^0+(?=\d)/, ""); // Видаляє провідні нулі
+                        handleFilterChange("minSalary", sanitizedValue ? Number(sanitizedValue) : 0);
+                    }}
                 />
                 <input
-                    type="number"
+                    type="text"
                     placeholder="Max salary"
-                    value={filters.maxSalary}
-                    onChange={(e) =>
-                        handleFilterChange("maxSalary", Number(e.target.value))
-                    }
+                    value={filters.maxSalary || ""}
+                    onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, ""); // Видаляє все, крім цифр
+                        const sanitizedValue = value.replace(/^0+(?=\d)/, ""); // Видаляє провідні нулі
+                        handleFilterChange("maxSalary", sanitizedValue ? Number(sanitizedValue) : 0);
+                    }}
                 />
+
                 <Text fontSize={20} as="h3">
                     {t("catalog.experienceRange")}
                 </Text>
                 <input
-                    type="number"
+                    type="text"
                     placeholder="Min years of experience"
-                    value={filters.minYearsOfExperience}
-                    onChange={(e) =>
-                        handleFilterChange(
-                            "minYearsOfExperience",
-                            Number(e.target.value)
-                        )
-                    }
+                    value={filters.minYearsOfExperience || ""}
+                    onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, ""); // Видаляє все, крім цифр
+                        const sanitizedValue = value.replace(/^0+(?=\d)/, ""); // Видаляє провідні нулі
+                        handleFilterChange("minYearsOfExperience", sanitizedValue ? Number(sanitizedValue) : 0);
+                    }}
                 />
                 <input
-                    type="number"
+                    type="text"
                     placeholder="Max years of experience"
-                    value={filters.maxYearsOfExperience}
-                    onChange={(e) =>
-                        handleFilterChange(
-                            "maxYearsOfExperience",
-                            Number(e.target.value)
-                        )
-                    }
+                    value={filters.maxYearsOfExperience || ""}
+                    onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, ""); // Видаляє все, крім цифр
+                        const sanitizedValue = value.replace(/^0+(?=\d)/, ""); // Видаляє провідні нулі
+                        handleFilterChange("maxYearsOfExperience", sanitizedValue ? Number(sanitizedValue) : 0);
+                    }}
                 />
                 <Text fontSize={20} as="h3">
                     {t("catalog.sortBy")}
@@ -351,17 +315,17 @@ function Catalog() {
                             <Vacancy
                                 title={vacancy.positionTitle}
                                 company={vacancy.companyName}
-                                location={vacancy.employmentType}
-                                workType={vacancy.employmentType}
+                                location={vacancy.employmentTypeName}
+                                workType={vacancy.employmentTypeName}
                                 salary={`${vacancy.salary}$`}
                                 category={vacancy.categoryName}
-                                language={vacancy.languageName}
+                                language={vacancy.languages && vacancy.languages.length > 0 ? vacancy.languages[0].languageName : "N/A"}
                                 experience={vacancy.experience}
                             />
                         </Link>
                     ))
                 ) : (
-                    <p>{t("catalog.noVacancies") || "No vacancies found"}</p>
+                    <p>{t("catalog.noVacanies") || "No vacancies found"}</p>
                 )}
             </div>
         </div>
