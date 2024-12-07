@@ -8,7 +8,7 @@ import "react-quill/dist/quill.bubble.css";
 import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
 
-interface profileHrProps {
+interface ProfileHrProps {
     userID: string;
 }
 
@@ -22,7 +22,7 @@ interface UserDataEmployee {
     description: string,
 }
 
-function ProfileEmployee({userID}: profileHrProps) {
+function ProfileEmployee({userID}: ProfileHrProps) {
     const { t } = useTranslation();
     const [userData, setUserData] = useState<UserDataEmployee | null>(null);
     const [loading, setLoading] = useState<boolean>(true);

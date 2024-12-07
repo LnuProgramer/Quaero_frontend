@@ -5,6 +5,16 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import Text from "../../reusableComponents/text/Text";
 
+function RoleCheck(role: string | null, id: string) {
+    if (role === "ROLE_RECRUITER") {
+        return <ProfileHR userID={id}/>
+    } else if (role === "ROLE_EMPLOYEE") {
+        return <ProfileEmployee userID={id}/>
+    } else {
+        return <div>Role not recognized</div>
+    }
+}
+
 function Profile() {
     const [role, setRole] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -35,15 +45,7 @@ function Profile() {
     }
 
     return (
-        <div>
-            {role === "ROLE_RECRUITER" ? (
-                <ProfileHR userID={id} />
-            ) : role === "ROLE_EMPLOYEE" ? (
-                <ProfileEmployee userID={id} />
-            ) : (
-                <div>Role not recognized</div>
-            )}
-        </div>
+        RoleCheck(role, id)
     );
 }
 
