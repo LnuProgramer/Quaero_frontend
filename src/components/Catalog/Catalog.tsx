@@ -237,45 +237,48 @@ function Catalog() {
                     {t("catalog.salaryRange")}
                 </Text>
                 <input
-                    type="number"
+                    type="text"
                     placeholder="Min salary"
-                    value={filters.minSalary}
-                    onChange={(e) =>
-                        handleFilterChange("minSalary", Number(e.target.value))
-                    }
+                    value={filters.minSalary || ""}
+                    onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, ""); // Видаляє все, крім цифр
+                        const sanitizedValue = value.replace(/^0+(?=\d)/, ""); // Видаляє провідні нулі
+                        handleFilterChange("minSalary", sanitizedValue ? Number(sanitizedValue) : 0);
+                    }}
                 />
                 <input
-                    type="number"
+                    type="text"
                     placeholder="Max salary"
-                    value={filters.maxSalary}
-                    onChange={(e) =>
-                        handleFilterChange("maxSalary", Number(e.target.value))
-                    }
+                    value={filters.maxSalary || ""}
+                    onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, ""); // Видаляє все, крім цифр
+                        const sanitizedValue = value.replace(/^0+(?=\d)/, ""); // Видаляє провідні нулі
+                        handleFilterChange("maxSalary", sanitizedValue ? Number(sanitizedValue) : 0);
+                    }}
                 />
+
                 <Text fontSize={20} as="h3">
                     {t("catalog.experienceRange")}
                 </Text>
                 <input
-                    type="number"
+                    type="text"
                     placeholder="Min years of experience"
-                    value={filters.minYearsOfExperience}
-                    onChange={(e) =>
-                        handleFilterChange(
-                            "minYearsOfExperience",
-                            Number(e.target.value)
-                        )
-                    }
+                    value={filters.minYearsOfExperience || ""}
+                    onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, ""); // Видаляє все, крім цифр
+                        const sanitizedValue = value.replace(/^0+(?=\d)/, ""); // Видаляє провідні нулі
+                        handleFilterChange("minYearsOfExperience", sanitizedValue ? Number(sanitizedValue) : 0);
+                    }}
                 />
                 <input
-                    type="number"
+                    type="text"
                     placeholder="Max years of experience"
-                    value={filters.maxYearsOfExperience}
-                    onChange={(e) =>
-                        handleFilterChange(
-                            "maxYearsOfExperience",
-                            Number(e.target.value)
-                        )
-                    }
+                    value={filters.maxYearsOfExperience || ""}
+                    onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, ""); // Видаляє все, крім цифр
+                        const sanitizedValue = value.replace(/^0+(?=\d)/, ""); // Видаляє провідні нулі
+                        handleFilterChange("maxYearsOfExperience", sanitizedValue ? Number(sanitizedValue) : 0);
+                    }}
                 />
                 <Text fontSize={20} as="h3">
                     {t("catalog.sortBy")}
@@ -322,7 +325,7 @@ function Catalog() {
                         </Link>
                     ))
                 ) : (
-                    <p>{t("catalog.noVacancies") || "No vacancies found"}</p>
+                    <p>{t("catalog.noVacanies") || "No vacancies found"}</p>
                 )}
             </div>
         </div>
