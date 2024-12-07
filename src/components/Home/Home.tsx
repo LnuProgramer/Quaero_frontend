@@ -4,11 +4,10 @@ import Button from "../../reusableComponents/button/Button";
 import { useTranslation } from "react-i18next";
 import Text from "../../reusableComponents/text/Text";
 import { FaXTwitter, FaInstagram, FaFacebookF } from "react-icons/fa6";
-import Vacancy from "../../reusableComponents/vacancy/Vacancy";
 
 function Home() {
 
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
     return (
         <div id="home">
             <div className="home-circles" id="home-circle-small-1"></div>
