@@ -67,9 +67,9 @@ const Header: React.FC = () => {
                     onClick={() => handleLanguageChange('en')}
                     className={`lang-btn ${i18n.language === 'en' ? 'active' : ''}`}
                 >
-                    EN
+                    EN{''}
                 </button>
-                |
+                |{''}
                 <button
                     onClick={() => handleLanguageChange('uk')}
                     className={`lang-btn ${i18n.language === 'uk' ? 'active' : ''}`}

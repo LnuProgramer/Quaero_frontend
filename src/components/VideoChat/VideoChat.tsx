@@ -10,7 +10,7 @@ type RTCConnectionConfig = {
     iceServers: RTCIceServer[];
 };
 
-const VideoChat: React.FC = () => {
+function VideoChat () {
     const [muted, setMuted] = useState<boolean>(false);
     const [videoOff, setVideoOff] = useState<boolean>(false);
     const [incomingCall, setIncomingCall] = useState<boolean>(false);
@@ -67,9 +67,11 @@ const VideoChat: React.FC = () => {
         const peerConnection = new RTCPeerConnection(config);
         peerConnectionRef.current = peerConnection;
 
+
         localStreamRef.current?.getTracks().forEach((track) =>
-            peerConnection.addTrack(track, localStreamRef.current!)
+            peerConnection.addTrack(track, localStreamRef.current as MediaStream)
         );
+
 
         peerConnection.ontrack = (event) => {
             if (remoteVideoRef.current) {
@@ -221,10 +223,12 @@ const VideoChat: React.FC = () => {
             <div id="video-chat-wrapper">
                 <div id="video-chat-video">
                     <div className="video-div">
-                    <video ref={localVideoRef} autoPlay muted></video>
+                        <video ref={localVideoRef} autoPlay muted><track kind="captions"/></video>
                     </div>
-                    <div className="video-div" >
-                    <video ref={remoteVideoRef} autoPlay></video>
+                    <div className="video-div">
+                        <video ref={remoteVideoRef} autoPlay>
+                            <track kind="captions"/>
+                        </video>
                     </div>
                 </div>
                 <div id="video-chat-buttons-wrapper">
@@ -236,7 +240,7 @@ const VideoChat: React.FC = () => {
                     </div>
                     <div id="video-chat-buttons-right-wrapper">
                         <Button buttonColor="green" fontSize={0}
-                                onClick={() => startCall(prompt('Enter user ID to call') || '')}
+                                onClick={() => startCall(prompt('Enter user ID to call') ?? '')}
                                 buttonText={<MdCall size={25}/>}/>
                         <Button buttonColor="pink" fontSize={0} onClick={endCall} buttonText={<MdCallEnd size={25}/>}/>
                     </div>
@@ -251,6 +255,6 @@ const VideoChat: React.FC = () => {
                 </div>
             </div>
     );
-};
+}
 
 export default VideoChat;

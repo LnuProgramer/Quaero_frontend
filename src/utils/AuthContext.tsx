@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useMemo, useState, ReactNode } from 'react';
 
 interface AuthContextProps {
     isLoggedIn: boolean;
@@ -21,8 +21,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     };
 
+    // Мемоізація об'єкта значення
+    const value = useMemo(
+        () => ({ isLoggedIn, setIsLoggedIn: handleSetIsLoggedIn }),
+        [isLoggedIn]
+    );
+
     return (
-        <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn: handleSetIsLoggedIn }}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     );

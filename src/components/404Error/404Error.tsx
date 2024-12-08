@@ -3,7 +3,7 @@ import Text from "../../reusableComponents/text/Text";
 import { useTranslation } from "react-i18next";
 import "./404Error.scss";
 
-function Error()
+function ErrorPage()
 {
     const { t } = useTranslation();
     return (
@@ -16,4 +16,4 @@ function Error()
     );
 }
 
-export default Error;
+export default ErrorPage;
