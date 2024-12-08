@@ -9,7 +9,7 @@ interface TextProps extends React.HTMLAttributes<HTMLElement> {
     rel?: string; // Для SEO і безпеки
 }
 
-function Text({ fontSize, as: Component = 'p', children, href, target, rel, ...rest }: TextProps) {
+function Text({ fontSize, as: Component = 'p', children, href, target, rel, ...rest }: Readonly<TextProps>) {
     const letterSpacing = fontSize / 10;
 
     if (Component === 'a' && href) {
