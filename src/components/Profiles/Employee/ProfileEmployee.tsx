@@ -8,7 +8,7 @@ import "react-quill/dist/quill.bubble.css";
 import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
 
-interface ProfileHrProps {
+interface ProfileEmployeeProps {
     userID: string;
 }
 
@@ -22,7 +22,7 @@ interface UserDataEmployee {
     description: string,
 }
 
-function ProfileEmployee({userID}: ProfileHrProps) {
+function ProfileEmployee({userID}: Readonly<ProfileEmployeeProps>) {
     const { t } = useTranslation();
     const [userData, setUserData] = useState<UserDataEmployee | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -50,7 +50,7 @@ function ProfileEmployee({userID}: ProfileHrProps) {
 
     useEffect(() => {
         const checkUsers = () => {
-            if(userID == localStorage.getItem("id")) {
+            if(userID === localStorage.getItem("id")) {
                 setIsMyProfile(true);
             }
             else {

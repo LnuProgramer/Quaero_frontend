@@ -22,7 +22,7 @@ interface UserDataHr {
     description: string,
 }
 
-function ProfileHR({userID}: ProfileHrProps) {
+function ProfileHR({userID}: Readonly<ProfileHrProps>) {
     const { t } = useTranslation();
     const [userData, setUserData] = useState<UserDataHr | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -53,7 +53,7 @@ function ProfileHR({userID}: ProfileHrProps) {
     useEffect(() => {
 
         const checkUsers = () => {
-            if(userID == localStorage.getItem("id")) {
+            if(userID === localStorage.getItem("id")) {
                 setIsMyProfile(true);
             }
             else {
