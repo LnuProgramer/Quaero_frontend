@@ -24,7 +24,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     // Мемоізація об'єкта значення
     const value = useMemo(
         () => ({ isLoggedIn, setIsLoggedIn: handleSetIsLoggedIn }),
-        [isLoggedIn, handleSetIsLoggedIn]
+        [isLoggedIn]
     );
 
     return (
