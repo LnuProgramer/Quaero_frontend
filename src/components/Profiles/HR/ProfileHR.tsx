@@ -9,7 +9,7 @@ import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
 
 interface ProfileHrProps {
-    userID: string;
+    hrID: string;
 }
 
 interface UserDataHr {
@@ -22,14 +22,13 @@ interface UserDataHr {
     description: string,
 }
 
-function ProfileHR({userID}: Readonly<ProfileHrProps>) {
+function ProfileHR({hrID}: Readonly<ProfileHrProps>) {
     const { t } = useTranslation();
     const [userData, setUserData] = useState<UserDataHr | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [isMyProfile, setIsMyProfile] = useState<boolean>(false);
 
 
-    // Стан для введеного тексту в ReactQuill
     const [text, setText] = useState<string>("");
 
     const [isTextChanged, setIsTextChanged] = useState<boolean>(false);
@@ -53,7 +52,7 @@ function ProfileHR({userID}: Readonly<ProfileHrProps>) {
     useEffect(() => {
 
         const checkUsers = () => {
-            if(userID === localStorage.getItem("id")) {
+            if(hrID === localStorage.getItem("id")) {
                 setIsMyProfile(true);
             }
             else {
@@ -62,7 +61,7 @@ function ProfileHR({userID}: Readonly<ProfileHrProps>) {
         }
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/getUserInfo/${userID}`);
+                const response = await axios.get(`http://localhost:8080/getUserInfo/${hrID}`);
                 const userData = response.data;
 
                 setUserData(userData);
@@ -80,7 +79,7 @@ function ProfileHR({userID}: Readonly<ProfileHrProps>) {
 
         fetchUserData();
         checkUsers();
-    }, [userID]);
+    }, [hrID]);
 
     useEffect(() => {
         if (!loading) {
@@ -94,12 +93,12 @@ function ProfileHR({userID}: Readonly<ProfileHrProps>) {
             .map((line) => line.trim())
             .filter((line) => line !== "");
         setAdditionalInfo(parsedInfo);
-        await axios.put(`http://localhost:8080/setAdditionalInfo${userID}`, parsedInfo);
+        await axios.put(`http://localhost:8080/setAdditionalInfo${hrID}`, parsedInfo);
         setIsEditing(false);
     };
 
     const handleSubmit = async () => {
-        await axios.put(`http://localhost:8080/setAboutMe${userID}`, text,{
+        await axios.put(`http://localhost:8080/setAboutMe${hrID}`, text,{
             headers: {
                 "Content-Type": "text/plain",
             },})
@@ -107,7 +106,7 @@ function ProfileHR({userID}: Readonly<ProfileHrProps>) {
     };
 
     const renderAdditionalInfo = (info: string): JSX.Element => {
-        const urlPattern = /^(https?:\/\/[^\s]+)$/i; // Регулярний вираз для перевірки URL
+        const urlPattern = /^(https?:\/\/\S+)$/i; // Регулярний вираз для перевірки URL
         if (urlPattern.test(info)) {
             return (
                 <a href={info} target="_blank" rel="noopener noreferrer" className="info-link">

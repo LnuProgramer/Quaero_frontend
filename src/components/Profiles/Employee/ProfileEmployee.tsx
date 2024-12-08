@@ -9,7 +9,7 @@ import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
 
 interface ProfileEmployeeProps {
-    userID: string;
+    employeeID: string;
 }
 
 interface UserDataEmployee {
@@ -22,7 +22,7 @@ interface UserDataEmployee {
     description: string,
 }
 
-function ProfileEmployee({userID}: Readonly<ProfileEmployeeProps>) {
+function ProfileEmployee({employeeID}: Readonly<ProfileEmployeeProps>) {
     const { t } = useTranslation();
     const [userData, setUserData] = useState<UserDataEmployee | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -50,7 +50,7 @@ function ProfileEmployee({userID}: Readonly<ProfileEmployeeProps>) {
 
     useEffect(() => {
         const checkUsers = () => {
-            if(userID === localStorage.getItem("id")) {
+            if(employeeID === localStorage.getItem("id")) {
                 setIsMyProfile(true);
             }
             else {
@@ -60,7 +60,7 @@ function ProfileEmployee({userID}: Readonly<ProfileEmployeeProps>) {
 
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/getUserInfo/${userID}`);
+                const response = await axios.get(`http://localhost:8080/getUserInfo/${employeeID}`);
                 const userData = response.data;
 
                 setUserData(userData);
@@ -77,7 +77,7 @@ function ProfileEmployee({userID}: Readonly<ProfileEmployeeProps>) {
 
         fetchUserData();
         checkUsers();
-    }, [userID]);
+    }, [employeeID]);
 
 
     useEffect(() => {
@@ -92,12 +92,12 @@ function ProfileEmployee({userID}: Readonly<ProfileEmployeeProps>) {
             .map((line) => line.trim())
             .filter((line) => line !== "");
         setAdditionalInfo(parsedInfo);
-        await axios.put(`http://localhost:8080/setAdditionalInfo${userID}`, parsedInfo);
+        await axios.put(`http://localhost:8080/setAdditionalInfo${employeeID}`, parsedInfo);
         setIsEditing(false);
     };
 
     const handleSubmit = async () => {
-        await axios.put(`http://localhost:8080/setAboutMe${userID}`, text,{
+        await axios.put(`http://localhost:8080/setAboutMe${employeeID}`, text,{
             headers: {
                 "Content-Type": "text/plain",
             },})
@@ -105,7 +105,7 @@ function ProfileEmployee({userID}: Readonly<ProfileEmployeeProps>) {
     };
 
     const renderAdditionalInfo = (info: string): JSX.Element => {
-        const urlPattern = /^(https?:\/\/[^\s]+)$/i;
+        const urlPattern = /^(https?:\/\/\S+)$/i;
         if (urlPattern.test(info)) {
             return (
                 <a href={info} target="_blank" rel="noopener noreferrer" className="info-link">

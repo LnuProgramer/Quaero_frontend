@@ -7,9 +7,9 @@ import Text from "../../reusableComponents/text/Text";
 
 function RoleCheck(role: string | null, id: string) {
     if (role === "ROLE_RECRUITER") {
-        return <ProfileHR userID={id}/>
+        return <ProfileHR hrID={id}/>
     } else if (role === "ROLE_EMPLOYEE") {
-        return <ProfileEmployee userID={id}/>
+        return <ProfileEmployee employeeID={id}/>
     } else {
         return <div>Role not recognized</div>
     }
