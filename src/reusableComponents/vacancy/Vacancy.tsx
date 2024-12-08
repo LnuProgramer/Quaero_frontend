@@ -16,7 +16,7 @@ type VacancyProps = {
     link?: string; // Посилання на вакансію
 };
 
-function Vacancy({ title, company, location, workType, salary, category, language, experience, link }: VacancyProps) {
+function Vacancy({ title, company, location, workType, salary, category, language, experience, link }: Readonly<VacancyProps>) {
     const { t } = useTranslation();
 
     return (
@@ -26,7 +26,7 @@ function Vacancy({ title, company, location, workType, salary, category, languag
                     fontSize={24}
                     className="title"
                     as="a"
-                    href={link || "#"}
+                    href={link ?? "#"}
                     target="_blank"
                     rel="noopener noreferrer"
                 >
