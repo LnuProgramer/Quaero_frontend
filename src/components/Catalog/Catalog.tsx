@@ -120,7 +120,6 @@ function Catalog() {
                         className="search-in"
                     />
                 </div>
-                {/* Пошук за назвою компанії */}
                 <div className="search-bar">
                     <Text fontSize={24} as="h2">
                         {t("catalog.searchByCompany")}
