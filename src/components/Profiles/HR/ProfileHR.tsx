@@ -7,6 +7,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
+import Loader from "../../../reusableComponents/loader/Loader";
 
 interface ProfileHrProps {
     hrID: string;
@@ -116,6 +117,10 @@ function ProfileHR({hrID}: Readonly<ProfileHrProps>) {
         }
         return <span>{info}</span>;
     };
+
+    if (loading) {
+        return <Loader />
+    }
 
     return (
         <div id="profile-hr">

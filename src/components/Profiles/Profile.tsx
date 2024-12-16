@@ -4,6 +4,7 @@ import ProfileHR from "./HR/ProfileHR";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Text from "../../reusableComponents/text/Text";
+import Loader from "../../reusableComponents/loader/Loader";
 
 function RoleCheck(role: string | null, id: string) {
     if (role === "ROLE_RECRUITER") {
@@ -25,6 +26,7 @@ function Profile() {
             try {
                 if (id) {
                     const response = await axios.get(`http://localhost:8080/getRole/${id}`);
+
                     setRole(response.data);
                 }
             } catch (error) {
@@ -41,7 +43,7 @@ function Profile() {
     }
 
     if (loading) {
-        return <Text fontSize={24}>Loading...</Text>;
+        return <Loader />;
     }
 
     return (
