@@ -26,7 +26,6 @@ function Profile() {
             try {
                 if (id) {
                     const response = await axios.get(`http://localhost:8080/getRole/${id}`);
-
                     setRole(response.data);
                 }
             } catch (error) {

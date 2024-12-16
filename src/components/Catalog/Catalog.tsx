@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import Text from "../../reusableComponents/text/Text";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Loader from "../../reusableComponents/loader/Loader";
 
 type VacancyData = {
     id: string;
@@ -53,6 +54,7 @@ function Catalog() {
     });
     const [debouncedFilters, setDebouncedFilters] = useState(filters);
     const [vacanciesList, setVacanciesList] = useState<VacancyData[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const handler = setTimeout(() => {
@@ -71,6 +73,9 @@ function Catalog() {
                 setVacanciesList(response.data.content);
             } catch (error) {
                 console.error("Error fetching vacancies:", error);
+            }
+            finally {
+                setIsLoading(false);
             }
         };
         getAllFilteredAndSortedRequest();
@@ -95,7 +100,9 @@ function Catalog() {
         });
     };
 
-
+    if(isLoading) {
+    return <Loader />
+}
     return (
         <div className="catalog-container">
             <div className="filters-sidebar">

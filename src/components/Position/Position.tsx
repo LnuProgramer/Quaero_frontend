@@ -4,6 +4,7 @@ import "./Position.css";
 import axios from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
+import Loader from "../../reusableComponents/loader/Loader";
 
 type VacancyData = {
     id: string;
@@ -50,7 +51,7 @@ const Position: React.FC = () => {
     }, [vacancyId]);
 
     if (!vacancy) {
-        return <div>Loading...</div>;
+        return <Loader />;
     }
 
     return (
