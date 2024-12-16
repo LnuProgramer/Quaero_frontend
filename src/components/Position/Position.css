@@ -110,3 +110,23 @@
 .short-vacancy .view-details:hover {
     color: #357abd; /* Темніший синій */
 }
+
+#vacancy-description-text{
+    width: 100%;
+    overflow-y: auto;
+
+    p, h1, h2, a, li {
+        font-size: 20px;
+        font-family: "Montserrat", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+        'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        letter-spacing: 2px;
+    }
+    h1{
+        font-size: 30px;
+        letter-spacing: 3px;
+    }
+    h2{
+        font-size: 25px;
+        letter-spacing: 2.5px;
+    }
+}

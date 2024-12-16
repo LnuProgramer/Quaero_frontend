@@ -17,7 +17,7 @@ type VacancyData = {
         languageLevel: string
     }];
     salary: number;
-    experience: number;
+    yearsOfExperience: number;
     description: string;
 };
 
@@ -241,7 +241,7 @@ function Catalog() {
                                 salary={`${vacancy.salary}$`}
                                 category={vacancy.categoryName}
                                 language={vacancy.languages && vacancy.languages.length > 0 ? vacancy.languages[0].languageName : "N/A"}
-                                experience={vacancy.experience}
+                                experience={vacancy.yearsOfExperience}
                             />
                         </Link>
                     ))
