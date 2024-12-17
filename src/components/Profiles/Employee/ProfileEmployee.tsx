@@ -7,6 +7,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
+import Loader from "../../../reusableComponents/loader/Loader";
 
 interface ProfileEmployeeProps {
     employeeID: string;
@@ -117,7 +118,7 @@ function ProfileEmployee({employeeID}: Readonly<ProfileEmployeeProps>) {
     };
 
     if (loading) {
-        return <Text fontSize={24}>Loading...</Text>; // Або індикатор завантаження
+        return <Loader />
     }
 
     return (
