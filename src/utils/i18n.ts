@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+const savedLanguage = localStorage.getItem('selectedLanguage') ?? 'en';
 
 i18n.use(initReactI18next).init({
     debug: true,
@@ -64,7 +64,8 @@ i18n.use(initReactI18next).init({
                     nameSurname: "Name and Surname",
                     companyName: "Company name",
                     countryCity: "Country, City",
-                    textArea:"Enter each item (links or text) on a new line..."
+                    textArea:"Enter each item (links or text) on a new line...",
+                    yourOpenVacancies: "Your open vacancies",
                 },
                 profileEditor: {
                     profileSettings: "Profile settings",
@@ -142,6 +143,12 @@ i18n.use(initReactI18next).init({
                     noVacanies: "No vacanies found",
                     salary: "Salary",
                     salaryRange: "Salary Range",
+                    searchByTitleDescription: "Search by position title",
+                    searchByCompanyDescription: "Search by company name",
+                    minSalary: "Min salary",
+                    maxSalary: "Max salary",
+                    minYears: "Min years of experience",
+                    maxYears: "Max years of experience",
                 }
             }
         },
@@ -202,7 +209,8 @@ i18n.use(initReactI18next).init({
                     nameSurname: "Ім'я та Прізвище",
                     companyName: "Назва компанії",
                     countryCity: "Країна, місто",
-                    textArea:"Введіть кожен елемент (посилання або текст) у новому рядку..."
+                    textArea:"Введіть кожен елемент (посилання або текст) у новому рядку...",
+                    yourOpenVacancies: "Ваші відкриті ваканції",
                 },
 
                 profileEditor: {
@@ -281,12 +289,18 @@ i18n.use(initReactI18next).init({
                     noVacanies: "Вакансій не знайдено",
                     salary: "Зарплата",
                     salaryRange: "Діапазон заробітних плат",
+                    searchByTitleDescription: "Пошук за назвою посади",
+                    searchByCompanyDescription: "Пошук за назвою компанії",
+                    minSalary: "Мінімальна зарплата",
+                    maxSalary: "Максимальна зарплата",
+                    minYears: "Мінімум років досвіду",
+                    maxYears: "Максимум років досвіду",
                 }
             }
         }
     },
-    lng: savedLanguage, // Використовуємо збережену мову
+    lng: savedLanguage,
     interpolation: {
-        escapeValue: false, // React вже екранує дані
+        escapeValue: false,
     },
 });
