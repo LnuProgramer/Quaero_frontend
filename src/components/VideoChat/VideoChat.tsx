@@ -205,16 +205,22 @@ function VideoChat () {
     const toggleMic = () => {
         const audioTrack = localStreamRef.current?.getAudioTracks()[0];
         if (audioTrack) {
-            setMuted(!muted);
-            audioTrack.enabled = !muted;
+            setMuted((prevMuted) => {
+                const newMuted = !prevMuted;
+                audioTrack.enabled = !newMuted;
+                return newMuted;
+            });
         }
     };
 
     const toggleVideo = () => {
         const videoTrack = localStreamRef.current?.getVideoTracks()[0];
         if (videoTrack) {
-            setVideoOff(!videoOff);
-            videoTrack.enabled = !videoOff;
+            setVideoOff((prevVideoOff) => {
+                const newVideoOff = !prevVideoOff;
+                videoTrack.enabled = !newVideoOff;
+                return newVideoOff;
+            });
         }
     };
 
