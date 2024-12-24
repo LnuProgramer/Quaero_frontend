@@ -46,8 +46,10 @@ const Position: React.FC = () => {
                 console.log(err)
             }
         }
-        getVacancyData()
-        getSimilarVacancy()
+        (async () => {
+           await getVacancyData();
+           await getSimilarVacancy();
+        })()
     }, [vacancyId]);
 
     if (!vacancy) {

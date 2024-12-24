@@ -8,6 +8,9 @@ import "react-quill/dist/quill.bubble.css";
 import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
 import Loader from "../../../reusableComponents/loader/Loader";
+import { Link } from "react-router-dom";
+import Vacancy from "../../../reusableComponents/vacancy/Vacancy";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 
 interface ProfileHrProps {
     hrID: string;
@@ -23,12 +26,30 @@ interface UserDataHr {
     description: string,
 }
 
+type ProfileHrVacancyData = {
+    id: string;
+    positionTitle: string;
+    companyName: string;
+    categoryName: string;
+    employmentTypeName: string;
+    languages: [{
+        languageName: string;
+        languageLevel: string
+    }];
+    salary: number;
+    yearsOfExperience: number;
+    description: string;
+};
+
 function ProfileHR({hrID}: Readonly<ProfileHrProps>) {
     const { t } = useTranslation();
     const [userData, setUserData] = useState<UserDataHr | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [isMyProfile, setIsMyProfile] = useState<boolean>(false);
-
+    const [vacancies, setVacancies] = useState<ProfileHrVacancyData[]>([]);
+    const [vacanciesPage, setVacanciesPage] = useState(0);
+    const [isFirstPage, setIsFirstPage] = useState(true);
+    const [isLastPage, setIsLastPage] = useState(false);
 
     const [text, setText] = useState<string>("");
 
@@ -62,23 +83,35 @@ function ProfileHR({hrID}: Readonly<ProfileHrProps>) {
         }
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/getUserInfo/${hrID}`);
-                const userData = response.data;
+                const userDataResponse = await axios.get(`http://localhost:8080/getUserInfo/${hrID}`);
+                const openVacanciesResponse = await axios.get(`http://localhost:8080/getVacanciesByHr/${hrID}?page=0&size=3`);
+                const userData = userDataResponse.data;
+                const vacancies = openVacanciesResponse.data;
 
                 setUserData(userData);
                 setText(userData.description || "");
                 setAdditionalInfo(userData.additionalInfo || []);
                 setEditedText((userData.additionalInfo || []).join("\n"));
+
+                if (vacancies) {
+                    setVacancies(vacancies.content);
+                    setIsFirstPage(vacancies.first)
+                    setIsLastPage(vacancies.last)
+                } else {
+                    setVacancies([]);
+                }
             } catch (error) {
                 console.error("Error fetching user data:", error);
-            }
-            finally {
+                setVacancies([]); // Безпечний fallback
+            } finally {
                 setLoading(false);
                 setIsTextChanged(false);
             }
-        };
+    };
 
-        fetchUserData();
+        (async () => {
+            await fetchUserData();
+        })()
         checkUsers();
     }, [hrID]);
 
@@ -121,6 +154,26 @@ function ProfileHR({hrID}: Readonly<ProfileHrProps>) {
     if (loading) {
         return <Loader />
     }
+
+    const pageHandler = async (toRight: boolean) => {
+        const newPage = toRight ? vacanciesPage + 1 : Math.max(vacanciesPage - 1, 0);
+        setVacanciesPage(newPage);
+        await executeRequest(newPage);
+    };
+
+
+    const executeRequest = async (currentPage: number) => {
+        try {
+            const response = await axios.get(
+                `http://localhost:8080/getVacanciesByHr/${hrID}?page=${currentPage}&size=3`,
+            );
+            setVacancies(response.data.content);
+            setIsFirstPage(response.data.first);
+            setIsLastPage(response.data.last);
+        } catch (error) {
+            console.error("Error fetching vacancies:", error);
+        }
+    };
 
     return (
         <div id="profile-hr">
@@ -218,6 +271,43 @@ function ProfileHR({hrID}: Readonly<ProfileHrProps>) {
                             </div>
                         </div>
                     </div>
+                    {vacancies && vacancies.length > 0 && (
+                        <div id="profile-hr-open-vacancies-wrapper">
+                            <Text fontSize={34} as="h1">{t("profileHR.yourOpenVacancies")}</Text>
+
+                            <div id="profile-hr-open-vacancies">
+                                {vacancies.map((vacancy) => (
+                                    <Link
+                                        to={`/position/${vacancy.id}`}
+                                        key={vacancy.id}
+                                        className="vacancy-link"
+                                    >
+                                        <Vacancy
+                                            title={vacancy.positionTitle}
+                                            company={vacancy.companyName}
+                                            location={vacancy.employmentTypeName}
+                                            workType={vacancy.employmentTypeName}
+                                            salary={`${vacancy.salary}$`}
+                                            category={vacancy.categoryName}
+                                            language={vacancy.languages && vacancy.languages.length > 0 ? vacancy.languages[0].languageName : "N/A"}
+                                            experience={vacancy.yearsOfExperience}
+                                            showButton={hrID !== localStorage.getItem("id")}
+                                        />
+                                    </Link>
+                                ))}
+                            </div>
+                            <div id="catalog-button-wraper">
+                                <Button className="change-page-button" buttonColor={isFirstPage ? "grey" : "primary"}
+                                        fontSize={24} buttonText={<FaArrowLeft size={40}/>}
+                                        onClick={() => pageHandler(false)}
+                                        disabled={isFirstPage}/>
+                                <Button className="change-page-button" buttonColor={isLastPage ? "grey" : "primary"}
+                                        fontSize={24} buttonText={<FaArrowRight size={40}/>}
+                                        onClick={() => pageHandler(true)}
+                                        disabled={isLastPage}/>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

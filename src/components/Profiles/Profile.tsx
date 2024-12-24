@@ -34,7 +34,9 @@ function Profile() {
                 setLoading(false);
             }
         };
-        fetchRole();
+        (async () => {
+            await fetchRole();
+        })()
     }, [id]);
 
     if (!id) {

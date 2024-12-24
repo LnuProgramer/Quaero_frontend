@@ -79,8 +79,10 @@ function ProfileSetting() {
             }
         }
 
-        fetchRole();
-        fetchUserInfo();
+        (async () => {
+            await fetchRole();
+            await fetchUserInfo();
+        })()
     }, [id]);
 
     if (!id) {
