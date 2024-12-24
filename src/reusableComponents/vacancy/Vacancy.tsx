@@ -8,15 +8,16 @@ type VacancyProps = {
     title: string;
     company: string;
     location: string;
-    workType: string; // Remote або On-site
+    workType: string;
     salary: string;
-    category: string; // Frontend, Backend, Mobile
-    language: string; // English, Ukrainian
-    experience: number; // Years of experience
-    link?: string; // Посилання на вакансію
+    category: string;
+    language: string;
+    experience: number;
+    link?: string;
+    showButton?: boolean;
 };
 
-function Vacancy({ title, company, location, workType, salary, category, language, experience, link }: Readonly<VacancyProps>) {
+function Vacancy({ title, company, location, workType, salary, category, language, experience, link, showButton=true }: Readonly<VacancyProps>) {
     const { t } = useTranslation();
 
     return (
@@ -40,7 +41,8 @@ function Vacancy({ title, company, location, workType, salary, category, languag
                 <Text fontSize={20} as="p">{t("catalog.experience")}: {experience} {t("catalog.years")}</Text>
                 <Text fontSize={24} as="h3">{t("catalog.salary")}: {salary}</Text>
             </div>
-            <div className="vacancy-button-wrapper">
+            {showButton && (
+                <div className="vacancy-button-wrapper">
                 <Button
                     fontSize={24}
                     buttonText={t("vacancy.applyPosition")}
@@ -48,6 +50,7 @@ function Vacancy({ title, company, location, workType, salary, category, languag
                     buttonColor="primary"
                 />
             </div>
+            )}
         </div>
     );
 }

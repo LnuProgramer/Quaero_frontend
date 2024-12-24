@@ -76,7 +76,9 @@ function ProfileEmployee({employeeID}: Readonly<ProfileEmployeeProps>) {
             }
         };
 
-        fetchUserData();
+        (async () => {
+            await fetchUserData();
+        })()
         checkUsers();
     }, [employeeID]);
 

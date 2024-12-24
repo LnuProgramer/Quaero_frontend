@@ -82,16 +82,30 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 20px;
 }
 
-/* Додаємо стиль для посилання, щоб воно виглядало як звичайний текст */
 .vacancy-link {
     text-decoration: none;
     color: inherit;
+    width: 100%;
 }
 
-/* При ховер ефекті */
 .vacancy-link:hover {
     color: inherit;
+}
+
+#catalog-button-wraper{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.change-page-button{
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }

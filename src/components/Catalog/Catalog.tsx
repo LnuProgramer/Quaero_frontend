@@ -6,6 +6,8 @@ import Text from "../../reusableComponents/text/Text";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Loader from "../../reusableComponents/loader/Loader";
+import Button from "../../reusableComponents/button/Button";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 
 type VacancyData = {
     id: string;
@@ -53,6 +55,9 @@ function Catalog() {
         sortDirection: "asc",
     });
     const [debouncedFilters, setDebouncedFilters] = useState(filters);
+    const [isFirst, setIsFirst] = useState(true);
+    const [isLast, setIsLast] = useState(false);
+    const [page, setPage] = useState(0);
     const [vacanciesList, setVacanciesList] = useState<VacancyData[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -67,10 +72,12 @@ function Catalog() {
         const getAllFilteredAndSortedRequest = async () => {
             try {
                 const response = await axios.post(
-                    `http://localhost:8080/getAllFilteredAndSorted?page=0&size=10`,
+                    `http://localhost:8080/getAllFilteredAndSorted?page=0&size=3`,
                     debouncedFilters
                 );
                 setVacanciesList(response.data.content);
+                setIsFirst(response.data.first);
+                setIsLast(response.data.last);
             } catch (error) {
                 console.error("Error fetching vacancies:", error);
             }
@@ -78,8 +85,32 @@ function Catalog() {
                 setIsLoading(false);
             }
         };
-        getAllFilteredAndSortedRequest();
+        (async () => {
+            await getAllFilteredAndSortedRequest();
+        })();
     }, [debouncedFilters]);
+
+    const pageHandler = async (toRight: boolean) => {
+        const newPage = toRight ? page + 1 : Math.max(page - 1, 0);
+        setPage(newPage);
+        await executeRequest(newPage);
+    };
+
+
+    const executeRequest = async (currentPage: number) => {
+        try {
+            const response = await axios.post(
+                `http://localhost:8080/getAllFilteredAndSorted?page=${currentPage}&size=3`,
+                debouncedFilters
+            );
+            setVacanciesList(response.data.content);
+            setIsFirst(response.data.first);
+            setIsLast(response.data.last);
+        } catch (error) {
+            console.error("Error fetching vacancies:", error);
+        }
+    };
+
 
     const handleFilterChange = (field: keyof Filters, value: string | number) => {
         setFilters((prevFilters) => ({
@@ -112,7 +143,7 @@ function Catalog() {
                     </Text>
                     <input
                         type="text"
-                        placeholder="Search by position title"
+                        placeholder={t("catalog.searchByTitleDescription")}
                         value={filters.positionTitle}
                         onChange={(e) =>
                             handleFilterChange("positionTitle", e.target.value)
@@ -126,7 +157,7 @@ function Catalog() {
                     </Text>
                     <input
                         type="text"
-                        placeholder="Search by company name"
+                        placeholder={t("catalog.searchByCompanyDescription")}
                         value={filters.companyName}
                         onChange={(e) =>
                             handleFilterChange("companyName", e.target.value)
@@ -182,13 +213,13 @@ function Catalog() {
                 </Text>
                 <input
                     type="text"
-                    placeholder="Min salary"
+                    placeholder={t("catalog.minSalary")}
                     value={filters.minSalary || ""}
                     onChange={(e) => handleNumericFilterChange("minSalary", e.target.value)}
                 />
                 <input
                     type="text"
-                    placeholder="Max salary"
+                    placeholder={t("catalog.maxSalary")}
                     value={filters.maxSalary || ""}
                     onChange={(e) => handleNumericFilterChange("maxSalary", e.target.value)}
                 />
@@ -197,13 +228,13 @@ function Catalog() {
                 </Text>
                 <input
                     type="text"
-                    placeholder="Min years of experience"
+                    placeholder={t("catalog.minYears")}
                     value={filters.minYearsOfExperience || ""}
                     onChange={(e) => handleNumericFilterChange("minYearsOfExperience", e.target.value)}
                 />
                 <input
                     type="text"
-                    placeholder="Max years of experience"
+                    placeholder={t("catalog.maxYears")}
                     value={filters.maxYearsOfExperience || ""}
                     onChange={(e) => handleNumericFilterChange("maxYearsOfExperience", e.target.value)}
                 />
@@ -254,7 +285,16 @@ function Catalog() {
                 ) : (
                     <p>{t("catalog.noVacanies") || "No vacancies found"}</p>
                 )}
+                <div id="catalog-button-wraper">
+                    <Button className="change-page-button" buttonColor={isFirst ? "grey" : "primary"}
+                            fontSize={24} buttonText={<FaArrowLeft size={40} />} onClick={() => pageHandler(false)}
+                    disabled={isFirst} />
+                    <Button className="change-page-button" buttonColor={isLast ? "grey" : "primary"}
+                            fontSize={24}  buttonText={<FaArrowRight size={40} />} onClick={() => pageHandler(true)}
+                    disabled={isLast}/>
+                </div>
             </div>
+
         </div>
     );
 }
