@@ -15,7 +15,7 @@ function Home() {
             <div className="home-circles home-gradient-1" id="home-circle-big-1"></div>
             <div className="home-circles home-gradient-2" id="home-circle-big-2"></div>
             <div id="home-buttons-wrapper">
-                <Button fontSize={28} buttonText={t("homePage.jobSearch")} className="home-buttons"/>
+                <Button fontSize={28} buttonText={t("homePage.jobSearch")} className="home-buttons" onClick={() => window.location.href = "/catalog"}/>
                 <Button fontSize={28} buttonText={t("homePage.postAd")} buttonColor="pink" className="home-buttons"/>
             </div>
             <div id="home-additional-info-wrapper">
