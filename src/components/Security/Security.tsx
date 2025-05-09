@@ -37,8 +37,8 @@ const Security: React.FC = () => {
           email: formData.email,
           password: formData.password,
         });
-        localStorage.setItem('accessToken ', response.data.accessToken);
-        localStorage.setItem('refreshToken ', response.data.refreshToken);
+        localStorage.setItem('accessToken', response.data.accessToken);
+        localStorage.setItem('refreshToken', response.data.refreshToken);
         localStorage.setItem('id', response.data.userId);
         return;
       } else {
@@ -54,8 +54,8 @@ const Security: React.FC = () => {
           lastName: formData.lastName,
           role: formData.role,
         });
-        localStorage.setItem('accessToken ', response.data.accessToken);
-        localStorage.setItem('refreshToken ', response.data.refreshToken);
+        localStorage.setItem('accessToken', response.data.accessToken);
+        localStorage.setItem('refreshToken', response.data.refreshToken);
         localStorage.setItem('id', response.data.userId);
         return;
       }

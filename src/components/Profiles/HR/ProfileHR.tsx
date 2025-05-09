@@ -5,12 +5,12 @@ import Text from "../../../reusableComponents/text/Text";
 import {useTranslation} from "react-i18next";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
-import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
 import Loader from "../../../reusableComponents/loader/Loader";
 import { Link } from "react-router-dom";
 import Vacancy from "../../../reusableComponents/vacancy/Vacancy";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+import authAxios from "../../../utils/authAxios";
 
 interface ProfileHrProps {
     hrID: string;
@@ -72,7 +72,6 @@ function ProfileHR({hrID}: Readonly<ProfileHrProps>) {
     };
 
     useEffect(() => {
-
         const checkUsers = () => {
             if(hrID === localStorage.getItem("id")) {
                 setIsMyProfile(true);
@@ -83,8 +82,8 @@ function ProfileHR({hrID}: Readonly<ProfileHrProps>) {
         }
         const fetchUserData = async () => {
             try {
-                const userDataResponse = await axios.get(`http://localhost:8080/getUserInfo/${hrID}`);
-                const openVacanciesResponse = await axios.get(`http://localhost:8080/getVacanciesByHr/${hrID}?page=0&size=3`);
+                const userDataResponse = await authAxios.get(`http://localhost:8080/profile/getUserInfo/${hrID}`);
+                const openVacanciesResponse = await authAxios.get(`http://localhost:8080/job-vacancy/getVacanciesByHr/${hrID}?page=0&size=3`);
                 const userData = userDataResponse.data;
                 const vacancies = openVacanciesResponse.data;
 
@@ -127,12 +126,12 @@ function ProfileHR({hrID}: Readonly<ProfileHrProps>) {
             .map((line) => line.trim())
             .filter((line) => line !== "");
         setAdditionalInfo(parsedInfo);
-        await axios.put(`http://localhost:8080/setAdditionalInfo${hrID}`, parsedInfo);
+        await authAxios.put(`http://localhost:8080/profile/setAdditionalInfo/${hrID}`, parsedInfo);
         setIsEditing(false);
     };
 
     const handleSubmit = async () => {
-        await axios.put(`http://localhost:8080/setAboutMe${hrID}`, text,{
+        await authAxios.put(`http://localhost:8080/profile/setAboutMe/${hrID}`, text,{
             headers: {
                 "Content-Type": "text/plain",
             },})
@@ -164,8 +163,8 @@ function ProfileHR({hrID}: Readonly<ProfileHrProps>) {
 
     const executeRequest = async (currentPage: number) => {
         try {
-            const response = await axios.get(
-                `http://localhost:8080/getVacanciesByHr/${hrID}?page=${currentPage}&size=3`,
+            const response = await authAxios.get(
+                `http://localhost:8080/getVacanciesByHr/job-vacancy/${hrID}?page=${currentPage}&size=3`,
             );
             setVacancies(response.data.content);
             setIsFirstPage(response.data.first);

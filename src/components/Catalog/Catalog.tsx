@@ -96,7 +96,6 @@ function Catalog() {
         await executeRequest(newPage);
     };
 
-
     const executeRequest = async (currentPage: number) => {
         try {
             const response = await axios.post(

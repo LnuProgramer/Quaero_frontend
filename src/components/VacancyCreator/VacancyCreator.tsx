@@ -6,6 +6,7 @@ import "./VacancyCreator.scss"
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import axios from "axios";
+import authAxios from "../../utils/authAxios";
 
 interface FormDataVacancy {
     companyName: string,
@@ -60,7 +61,7 @@ function VacancyCreator() {
         };
 
         try {
-            await axios.post(`http://localhost:8080/setVacancy${id}`, vacancyData);
+            await authAxios.post(`http://localhost:8080/job-vacancy/setVacancy/${id}`, vacancyData);
         } catch (error) {
         } finally {
             window.location.href = `/profile/${id}`

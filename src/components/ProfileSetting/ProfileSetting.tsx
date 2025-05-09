@@ -4,6 +4,7 @@ import axios from "axios";
 import Text from "../../reusableComponents/text/Text";
 import "./ProfileSetting.scss"
 import Button from "../../reusableComponents/button/Button";
+import authAxios from "../../utils/authAxios";
 
 interface FormDataProfile {
     firstName: string,
@@ -36,7 +37,7 @@ function ProfileSetting() {
         };
 
         try {
-            await axios.patch(`http://localhost:8080/setUserInfo/${id}`, vacancyData);
+            await authAxios.patch(`http://localhost:8080/profile/setUserInfo/${id}`, vacancyData);
         } catch (error) {
             return;
         } finally {
@@ -53,7 +54,7 @@ function ProfileSetting() {
         const fetchRole = async () => {
             try {
                 if (id) {
-                    const response = await axios.get(`http://localhost:8080/getRole/${id}`);
+                    const response = await authAxios.get(`http://localhost:8080/profile/getRole/${id}`);
                     setRole(response.data);
                 }
             } catch (error) {
@@ -62,7 +63,7 @@ function ProfileSetting() {
         };
         const fetchUserInfo = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/getUserInfo/${id}`);
+                const response = await authAxios.get(`http://localhost:8080/profile/getUserInfo/${id}`);
                 const userData = response.data;
 
                 setFormData({

@@ -8,6 +8,7 @@ import "react-quill/dist/quill.bubble.css";
 import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
 import Loader from "../../../reusableComponents/loader/Loader";
+import authAxios from "../../../utils/authAxios";
 
 interface ProfileEmployeeProps {
     employeeID: string;
@@ -61,7 +62,7 @@ function ProfileEmployee({employeeID}: Readonly<ProfileEmployeeProps>) {
 
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/getUserInfo/${employeeID}`);
+                const response = await authAxios.get(`http://localhost:8080/getUserInfo/${employeeID}`);
                 const userData = response.data;
 
                 setUserData(userData);
@@ -95,12 +96,12 @@ function ProfileEmployee({employeeID}: Readonly<ProfileEmployeeProps>) {
             .map((line) => line.trim())
             .filter((line) => line !== "");
         setAdditionalInfo(parsedInfo);
-        await axios.put(`http://localhost:8080/setAdditionalInfo${employeeID}`, parsedInfo);
+        await authAxios.put(`http://localhost:8080/setAdditionalInfo${employeeID}`, parsedInfo);
         setIsEditing(false);
     };
 
     const handleSubmit = async () => {
-        await axios.put(`http://localhost:8080/setAboutMe${employeeID}`, text,{
+        await authAxios.put(`http://localhost:8080/setAboutMe${employeeID}`, text,{
             headers: {
                 "Content-Type": "text/plain",
             },})

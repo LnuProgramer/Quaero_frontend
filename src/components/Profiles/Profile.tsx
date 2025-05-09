@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import ProfileEmployee from "./Employee/ProfileEmployee";
 import ProfileHR from "./HR/ProfileHR";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import Text from "../../reusableComponents/text/Text";
 import Loader from "../../reusableComponents/loader/Loader";
+import authAxios from "../../utils/authAxios";
 
 function RoleCheck(role: string | null, id: string) {
     if (role === "ROLE_RECRUITER") {
@@ -25,18 +25,21 @@ function Profile() {
         const fetchRole = async () => {
             try {
                 if (id) {
-                    const response = await axios.get(`http://localhost:8080/getRole/${id}`);
+                    const response = await authAxios.get(`http://localhost:8080/profile/getRole/${id}`);
+                    const newAccessToken = response.headers["x-new-access-token"];
+                    if (newAccessToken) {
+                        localStorage.setItem("accessToken", newAccessToken);
+                    }
                     setRole(response.data);
                 }
             } catch (error) {
-                console.error("Помилка під час отримання ролі:", error);
+                console.error("Error while fetching role:", error);
             } finally {
                 setLoading(false);
             }
         };
-        (async () => {
-            await fetchRole();
-        })()
+
+        fetchRole();
     }, [id]);
 
     if (!id) {
