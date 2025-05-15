@@ -4,7 +4,6 @@ import { initReactI18next } from 'react-i18next';
 const savedLanguage = localStorage.getItem('selectedLanguage') ?? 'en';
 
 i18n.use(initReactI18next).init({
-    debug: true,
     fallbackLng: 'en',
     resources: {
         en:{

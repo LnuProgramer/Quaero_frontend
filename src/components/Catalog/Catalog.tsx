@@ -8,6 +8,7 @@ import axios from "axios";
 import Loader from "../../reusableComponents/loader/Loader";
 import Button from "../../reusableComponents/button/Button";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+import { clearCache, getCache } from "../../utils/memoryCashe";
 
 type VacancyData = {
     id: string;
@@ -71,13 +72,21 @@ function Catalog() {
     useEffect(() => {
         const getAllFilteredAndSortedRequest = async () => {
             try {
-                const response = await axios.post(
-                    `http://localhost:8080/getAllFilteredAndSorted?page=0&size=3`,
-                    debouncedFilters
-                );
-                setVacanciesList(response.data.content);
-                setIsFirst(response.data.first);
-                setIsLast(response.data.last);
+                const cached = getCache("catalog_prefetch");
+                if (cached) {
+                    setVacanciesList(cached.content);
+                    setIsFirst(cached.first);
+                    setIsLast(cached.last);
+                    clearCache("catalog_prefetch");
+                } else {
+                    const response = await axios.post(
+                        `http://localhost:8080/job-vacancy/getAllFilteredAndSorted?page=0&size=3`,
+                        debouncedFilters
+                    );
+                    setVacanciesList(response.data.content);
+                    setIsFirst(response.data.first);
+                    setIsLast(response.data.last);
+                }
             } catch (error) {
                 console.error("Error fetching vacancies:", error);
             }
@@ -99,7 +108,7 @@ function Catalog() {
     const executeRequest = async (currentPage: number) => {
         try {
             const response = await axios.post(
-                `http://localhost:8080/getAllFilteredAndSorted?page=${currentPage}&size=3`,
+                `http://localhost:8080/job-vacancy/getAllFilteredAndSorted?page=${currentPage}&size=3`,
                 debouncedFilters
             );
             setVacanciesList(response.data.content);

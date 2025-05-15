@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from "react-i18next";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import Text from "../../reusableComponents/text/Text";
 import "./ProfileSetting.scss"
 import Button from "../../reusableComponents/button/Button";
@@ -17,6 +17,7 @@ interface FormDataProfile {
 }
 
 function ProfileSetting() {
+    const navigate = useNavigate();
     const {t} = useTranslation();
     const [role, setRole] = useState<string | null>(null);
     const id = localStorage.getItem("id");
@@ -41,7 +42,7 @@ function ProfileSetting() {
         } catch (error) {
             return;
         } finally {
-            window.location.href = `/profile/${id}`
+            navigate(`/profile/${id}`)
         }
     }
 
@@ -136,7 +137,7 @@ function ProfileSetting() {
                                 localStorage.removeItem("id");
                                 localStorage.removeItem("accessToken ");
                                 localStorage.removeItem("refreshToken ");
-                                window.location.href = "/"
+                                navigate("/")
                     }}></Button>
                 </div>
             </form>

@@ -3,8 +3,10 @@ import './Header.css';
 import Text from "../../reusableComponents/text/Text";
 import { useTranslation } from "react-i18next";
 import { useAuth } from '../../utils/AuthContext';
+import { Link, useNavigate } from "react-router-dom";
 
-const Header: React.FC = () => {
+function Header() {
+    const navigate = useNavigate();
     const { isLoggedIn, setIsLoggedIn } = useAuth();
     const { t, i18n } = useTranslation();
     const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -19,7 +21,7 @@ const Header: React.FC = () => {
     const toggleSearch = () => {
         setIsSearchOpen(!isSearchOpen);
         if (!isSearchOpen) {
-            window.location.href = "/catalog";
+            navigate("/catalog")
         }
     };
 
@@ -41,7 +43,7 @@ const Header: React.FC = () => {
                 <div className={`search-container ${isSearchOpen ? 'open' : ''}`}>
                     <button className="search-button" onClick={toggleSearch}>
                         <div className="search-icon-wrapper">
-                            <img className="search-icon" src="/images/header/Search.svg" alt="search-icon" />
+                            <img className="search-icon" src={"/images/header/Search.svg"} alt="search-icon" />
                         </div>
                     </button>
                 </div>
@@ -49,16 +51,22 @@ const Header: React.FC = () => {
             <nav className="nav">
                 {isLoggedIn ? (
                     <>
-                        <Text className="right-nav" fontSize={25} as="a" href="/video-chat">
+                        <Text className="right-nav" fontSize={25} as="span">
+                            <Link to={"/video-chat"}>
                             {t("header.messages")}
+                            </Link>
                         </Text>
-                        <Text className="right-nav" fontSize={25} as="a" href={`/profile/${localStorage.getItem("id")}`}>
+                        <Text className="right-nav" fontSize={25} as="span">
+                            <Link to={`/profile/${localStorage.getItem("id")}`}>
                             {t("header.profile")}
+                            </Link>
                         </Text>
                     </>
                 ) : (
-                    <Text className="right-nav" fontSize={25} as="a" href="/login">
+                    <Text className="right-nav" fontSize={25} as="span">
+                        <Link to={"/login"}>
                         {t("header.loginNav")}
+                        </Link>
                     </Text>
                 )}
             </nav>
@@ -79,6 +87,6 @@ const Header: React.FC = () => {
             </div>
         </header>
     );
-};
+}
 
 export default Header;

@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import Text from "../../reusableComponents/text/Text";
 import Loader from "../../reusableComponents/loader/Loader";
 import authAxios from "../../utils/authAxios";
+import { getCache } from "../../utils/memoryCashe";
 
 function RoleCheck(role: string | null, id: string) {
     if (role === "ROLE_RECRUITER") {
@@ -24,13 +25,22 @@ function Profile() {
     useEffect(() => {
         const fetchRole = async () => {
             try {
-                if (id) {
-                    const response = await authAxios.get(`http://localhost:8080/profile/getRole/${id}`);
-                    const newAccessToken = response.headers["x-new-access-token"];
-                    if (newAccessToken) {
-                        localStorage.setItem("accessToken", newAccessToken);
+                const cachedUserRole = getCache("prefetchedUserRole")
+                console.log(cachedUserRole)
+                console.log("ROLE:", getCache("prefetchedUserRole"));
+                console.log("USER DATA:", getCache("prefetchedUserData"));
+                if (cachedUserRole){
+                    setRole(cachedUserRole);
+                }
+                else {
+                    if (id) {
+                        const response = await authAxios.get(`http://localhost:8080/profile/getRole/${id}`);
+                        const newAccessToken = response.headers["x-new-access-token"];
+                        if (newAccessToken) {
+                            localStorage.setItem("accessToken", newAccessToken);
+                        }
+                        setRole(response.data);
                     }
-                    setRole(response.data);
                 }
             } catch (error) {
                 console.error("Error while fetching role:", error);

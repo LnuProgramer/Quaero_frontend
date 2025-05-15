@@ -5,10 +5,10 @@ import Text from "../../../reusableComponents/text/Text";
 import { useTranslation } from "react-i18next";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
-import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
 import Loader from "../../../reusableComponents/loader/Loader";
 import authAxios from "../../../utils/authAxios";
+import { useNavigate } from "react-router-dom";
 
 interface ProfileEmployeeProps {
     employeeID: string;
@@ -25,6 +25,7 @@ interface UserDataEmployee {
 }
 
 function ProfileEmployee({employeeID}: Readonly<ProfileEmployeeProps>) {
+    const navigate = useNavigate();
     const { t } = useTranslation();
     const [userData, setUserData] = useState<UserDataEmployee | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -139,7 +140,7 @@ function ProfileEmployee({employeeID}: Readonly<ProfileEmployeeProps>) {
                                 <Text fontSize={30} as="h1">{userData?.name && userData?.surname ? `${userData.name} ${userData.surname}` : t("profileEmployee.nameSurname")}</Text>
                                 <Text fontSize={25} as="h2">{userData?.position ? `${userData.position}` : t("profileEmployee.position")}</Text>
                                 <Text fontSize={25} as="h2">{userData?.country && userData?.city ? `${userData.country}, ${userData.city}` : t("profileEmployee.countryCity")}</Text>
-                                {isMyProfile && (<IoSettingsSharp size={25} onClick={() => window.location.href = "/profile/settings"} className="setting-icon" />)}
+                                {isMyProfile && (<IoSettingsSharp size={25} onClick={() => navigate("/profile/settings")} className="setting-icon" />)}
                             </div>
                             <div id="profile-employee-other-info-wrapper">
                                 <div className="profile-employee-block">
@@ -192,7 +193,7 @@ function ProfileEmployee({employeeID}: Readonly<ProfileEmployeeProps>) {
                                     fontSize={20}
                                     fontWeight={500}
                                     buttonText={t("profileEmployee.establishContact")}
-                                    onClick={() => window.location.href = "/"}
+                                    onClick={() => {navigate("/")}}
                                     className="profile-employee-buttons"
                                 />
                                 <Button
@@ -200,7 +201,7 @@ function ProfileEmployee({employeeID}: Readonly<ProfileEmployeeProps>) {
                                     fontWeight={500}
                                     buttonColor="primary"
                                     buttonText={t("profileEmployee.writeMessage")}
-                                    onClick={() => window.location.href = "/"}
+                                    onClick={() => navigate("/")}
                                     className="profile-employee-buttons"
                                 />
                             </div>

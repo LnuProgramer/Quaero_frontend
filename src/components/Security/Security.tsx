@@ -3,6 +3,7 @@ import axios from 'axios';
 import './Security.css';
 import Text from "../../reusableComponents/text/Text";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
   email: string;
@@ -12,7 +13,8 @@ interface FormData {
   role?: string;
 }
 
-const Security: React.FC = () => {
+function Security() {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState<FormData>({
@@ -62,7 +64,7 @@ const Security: React.FC = () => {
     } catch (error) {
       console.error('Auth error', error);
     } finally {
-      window.location.href = "/"
+      navigate("/")
     }
   };
 

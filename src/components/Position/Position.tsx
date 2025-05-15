@@ -11,7 +11,7 @@ type VacancyData = {
     positionTitle: string;
     companyName: string;
     categoryName: string;
-    employmentType: string;
+    employmentTypeName: string;
     languages: [{
         languageName: string;
         languageLevel: string
@@ -21,15 +21,15 @@ type VacancyData = {
     description: string;
 };
 
-const Position: React.FC = () => {
-    const { vacancyId } = useParams<{ vacancyId: string }>(); // Отримуємо параметр vacancyId
+function Position() {
+    const { vacancyId } = useParams<{ vacancyId: string }>();
     const [vacancy, setVacancy] = useState<VacancyData | null>(null);
     const [similarVacancies, setSimilarVacancies] = useState<VacancyData[]>([]);
 
     useEffect(() => {
         const getVacancyData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/getVacancy/${vacancyId}`)
+                const response = await axios.get(`http://localhost:8080/job-vacancy/getVacancy/${vacancyId}`)
                 setVacancy(response.data)
             }
             catch (err){
@@ -39,7 +39,7 @@ const Position: React.FC = () => {
 
         const getSimilarVacancy = async () => {
             try {
-                const response = await  axios.get(`http://localhost:8080/getSimilarVacanciesById?vacancyId=${vacancyId}size=3`)
+                const response = await axios.get(`http://localhost:8080/job-vacancy/getSimilarVacanciesById/${vacancyId}?size=3`)
                 setSimilarVacancies(response.data)
             }
             catch (err){
@@ -77,13 +77,13 @@ const Position: React.FC = () => {
                                 id="vacancy-description-text"></ReactQuill>
                 </div>
                 <p>
-                    <strong>Employment Type:</strong> {vacancy.employmentType}
+                    <strong>Employment Type:</strong> {vacancy.employmentTypeName}
                 </p>
                 <p>
                     <strong>Required Experience:</strong> {vacancy.yearsOfExperience} years
                 </p>
                 <div>
-                    <strong>Language:</strong> {vacancy.languages[0].languageName}
+                    <strong>Language:</strong> {vacancy.languages[0]? vacancy.languages[0].languageName : "N/A"}
                 </div>
                 <button className="apply-button">Apply for position</button>
             </div>

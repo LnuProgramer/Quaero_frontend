@@ -1,23 +1,28 @@
-import Security from './components/Security/Security';
-import Header from './components/Header/Header';
+import { Suspense, lazy } from "react";
 import "./utils/i18n"
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import Home from "./components/Home/Home";
-import VacancyCreator from "./components/VacancyCreator/VacancyCreator";
-import Catalog from "./components/Catalog/Catalog";
-import Position from "./components/Position/Position";
-import Profile from "./components/Profiles/Profile";
-import VideoChat from "./components/VideoChat/VideoChat";
 import { AuthProvider } from './utils/AuthContext';
-import ProfileSetting from "./components/ProfileSetting/ProfileSetting";
-import ErrorPage from "./components/404Error/404Error";
+import { PagePredictor } from "./utils/PagePredictor";
+import Header from "./components/Header/Header";
+
+const Home = lazy(() => import(/* webpackChunkName: "home" */ "./components/Home/Home"));
+const Security = lazy(() => import(/* webpackChunkName: "security" */ "./components/Security/Security"));
+const Profile = lazy(() => import(/* webpackChunkName: "profile" */ "./components/Profiles/Profile"));
+const ProfileSetting = lazy(() => import(/* webpackChunkName: "settings" */ "./components/ProfileSetting/ProfileSetting"));
+const VacancyCreator = lazy(() => import(/* webpackChunkName: "create" */ "./components/VacancyCreator/VacancyCreator"));
+const Catalog = lazy(() => import(/* webpackChunkName: "catalog" */ "./components/Catalog/Catalog"));
+const Position = lazy(() => import(/* webpackChunkName: "position" */ "./components/Position/Position"));
+const VideoChat = lazy(() => import(/* webpackChunkName: "videoChat" */ "./components/VideoChat/VideoChat"));
+const ErrorPage = lazy(() => import("./components/404Error/404Error"));
 
 function App() {
   return (
       <AuthProvider>
           <Router>
               <div className="App">
+                  <PagePredictor>
                   <Header />
+                      <Suspense fallback={<div>Loading...</div>}>
                   <Routes>
                       <Route path="*" element={<ErrorPage />} />
                       <Route path="/" element={<Home />} />
@@ -29,6 +34,8 @@ function App() {
                       <Route path="/position/:vacancyId" element={<Position />} />
                       <Route path="/video-chat" element={<VideoChat />} />
                   </Routes>
+                      </Suspense>
+                      </PagePredictor>
               </div>
           </Router>
       </AuthProvider>

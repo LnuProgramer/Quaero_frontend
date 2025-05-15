@@ -4,9 +4,10 @@ import Button from "../../reusableComponents/button/Button";
 import { useTranslation } from "react-i18next";
 import Text from "../../reusableComponents/text/Text";
 import { FaXTwitter, FaInstagram, FaFacebookF } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
-
+    const navigate = useNavigate();
     const {t} = useTranslation();
     return (
         <div id="home">
@@ -15,7 +16,7 @@ function Home() {
             <div className="home-circles home-gradient-1" id="home-circle-big-1"></div>
             <div className="home-circles home-gradient-2" id="home-circle-big-2"></div>
             <div id="home-buttons-wrapper">
-                <Button fontSize={28} buttonText={t("homePage.jobSearch")} className="home-buttons" onClick={() => window.location.href = "/catalog"}/>
+                <Button fontSize={28} buttonText={t("homePage.jobSearch")} className="home-buttons" onClick={() => navigate("/catalog")}/>
                 <Button fontSize={28} buttonText={t("homePage.postAd")} buttonColor="pink" className="home-buttons"/>
             </div>
             <div id="home-additional-info-wrapper">
