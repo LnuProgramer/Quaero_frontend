@@ -5,6 +5,7 @@ import Button from "../../reusableComponents/button/Button";
 import Text from "../../reusableComponents/text/Text";
 import { MdCall, MdCallEnd } from "react-icons/md";
 import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from "react-icons/fa";
+import { markRenderEnd } from "../../utils/measureRender";
 
 type RTCConnectionConfig = {
     iceServers: RTCIceServer[];
@@ -27,7 +28,6 @@ function VideoChat () {
     };
 
     useEffect(() => {
-        // Initialize socket connection
         socket.current = io('http://localhost:3030');
 
         socket.current.on('connect', () => {
@@ -44,13 +44,13 @@ function VideoChat () {
         socket.current.on('ice-candidate', handleIceCandidate);
         socket.current.on('call-ended', handleCallEnded);
 
+        markRenderEnd("VideoChat");
         return () => {
             socket.current?.disconnect();
         };
     }, []);
 
     useEffect(() => {
-        // Access user media
         navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             .then((stream) => {
                 localStreamRef.current = stream;

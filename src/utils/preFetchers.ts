@@ -53,3 +53,34 @@ export const prefetchProfileData = async () => {
         import(/* webpackPrefetch: true */ "../components/Profiles/Employee/ProfileEmployee")
     }
 }
+
+export const prefetchSettingsData = async () => {
+    const userId = localStorage.getItem("id")
+    import(/* webpackPrefetch: true */ "../components/ProfileSetting/ProfileSetting")
+    const userDataResponse = await authAxios.get(`http://localhost:8080/profile/getUserInfo/${userId}`);
+    setCache("prefetchedUserData", userDataResponse.data);
+
+    const userRoleResponse = await authAxios.get(`http://localhost:8080/profile/getRole/${userId}`);
+    const newAccessToken = userRoleResponse.headers["x-new-access-token"];
+    setCache("prefetchedUserRole", userRoleResponse.data);
+
+    if (newAccessToken) {
+        localStorage.setItem("accessToken", newAccessToken);
+    }
+}
+
+export const prefetchHomeData = async () => {
+    import(/* webpackPrefetch: true */ "../components/Home/Home");
+}
+
+export const prefetchLoginData = async () => {
+    import(/* webpackPrefetch: true */ "../components/Security/Security");
+}
+
+export const prefetchVideoChatData = async () => {
+    import(/* webpackPrefetch: true */ "../components/VideoChat/VideoChat");
+}
+
+export const prefetchCreateData = async () => {
+    import(/* webpackPrefetch: true */ "../components/VacancyCreator/VacancyCreator");
+}

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import { AuthProvider } from './utils/AuthContext';
 import { PagePredictor } from "./utils/PagePredictor";
 import Header from "./components/Header/Header";
+import Loader from "./reusableComponents/loader/Loader";
 
 const Home = lazy(() => import(/* webpackChunkName: "home" */ "./components/Home/Home"));
 const Security = lazy(() => import(/* webpackChunkName: "security" */ "./components/Security/Security"));
@@ -15,6 +16,7 @@ const Position = lazy(() => import(/* webpackChunkName: "position" */ "./compone
 const VideoChat = lazy(() => import(/* webpackChunkName: "videoChat" */ "./components/VideoChat/VideoChat"));
 const ErrorPage = lazy(() => import("./components/404Error/404Error"));
 
+
 function App() {
   return (
       <AuthProvider>
@@ -22,7 +24,7 @@ function App() {
               <div className="App">
                   <PagePredictor>
                   <Header />
-                      <Suspense fallback={<div>Loading...</div>}>
+                      <Suspense fallback={<Loader />}>
                   <Routes>
                       <Route path="*" element={<ErrorPage />} />
                       <Route path="/" element={<Home />} />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Text from "../../reusableComponents/text/Text";
 import { useTranslation } from "react-i18next";
 import Button from "../../reusableComponents/button/Button";
@@ -7,6 +7,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import authAxios from "../../utils/authAxios";
 import { useNavigate } from "react-router-dom";
+import { markRenderEnd } from "../../utils/measureRender";
 
 interface FormDataVacancy {
     companyName: string,
@@ -78,6 +79,9 @@ function VacancyCreator() {
         setFormData({ ...formData, description: value });
     };
 
+    useEffect(() => {
+        markRenderEnd("VacancyCreator");
+    }, []);
     return (
         <div id="vacancy-creator">
             <form id="vacancy-creator-wrapper" onSubmit={handleSubmit}>

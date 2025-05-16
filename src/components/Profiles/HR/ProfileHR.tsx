@@ -11,7 +11,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Vacancy from "../../../reusableComponents/vacancy/Vacancy";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import authAxios from "../../../utils/authAxios";
-import { getCache } from "../../../utils/memoryCashe";
+import { clearCache, getCache } from "../../../utils/memoryCashe";
+import { markRenderEnd, markRenderStart } from "../../../utils/measureRender";
 
 interface ProfileHrProps {
     hrID: string;
@@ -85,57 +86,62 @@ function ProfileHR({hrID}: Readonly<ProfileHrProps>) {
         const fetchUserData = async () => {
             try {
                 const cachedUserData = getCache("prefetchedUserData");
-                const cachedOpenVacancies = getCache("prefetchedOpenVacancies")
+                const cachedOpenVacancies = getCache("prefetchedOpenVacancies");
+                const promises: Promise<any>[] = [];
+
                 if (cachedUserData) {
+                    clearCache("prefetchedUserData")
                     setUserData(cachedUserData);
                     setText(cachedUserData.description || "");
                     setAdditionalInfo(cachedUserData.additionalInfo || []);
                     setEditedText((cachedUserData.additionalInfo || []).join("\n"));
-                }
-                else {
-                    const userDataResponse = await authAxios.get(`http://localhost:8080/profile/getUserInfo/${hrID}`);
-                    const userDataHR = userDataResponse.data;
-                    setUserData(userDataHR);
-                    setText(userDataHR.description || "");
-                    setAdditionalInfo(userDataHR.additionalInfo || []);
-                    setEditedText((userDataHR.additionalInfo || []).join("\n"));
-                }
-                if (cachedOpenVacancies){
-                    const vacanciesData = cachedOpenVacancies;
-                    if (vacanciesData) {
-                        setVacancies(vacanciesData.content);
-                        setIsFirstPage(vacanciesData.first)
-                        setIsLastPage(vacanciesData.last)
-                    } else {
-                        setVacancies([]);
-                    }
-                }
-                else
-                {
-                    const openVacanciesResponse = await authAxios.get(`http://localhost:8080/job-vacancy/getVacanciesByHr/${hrID}?page=0&size=3`);
-                    const vacanciesData = openVacanciesResponse.data;
-                    if (vacanciesData) {
-                        setVacancies(vacanciesData.content);
-                        setIsFirstPage(vacanciesData.first)
-                        setIsLastPage(vacanciesData.last)
-                    } else {
-                        setVacancies([]);
-                    }
+                } else {
+                    promises.push(
+                        authAxios.get(`http://localhost:8080/profile/getUserInfo/${hrID}`).then(response => {
+                            const userDataHR = response.data;
+                            setUserData(userDataHR);
+                            setText(userDataHR.description || "");
+                            setAdditionalInfo(userDataHR.additionalInfo || []);
+                            setEditedText((userDataHR.additionalInfo || []).join("\n"));
+                        })
+                    );
                 }
 
+                if (cachedOpenVacancies) {
+                    clearCache("prefetchedOpenVacancies")
+                    const vacanciesData = cachedOpenVacancies;
+                    setVacancies(vacanciesData.content);
+                    setIsFirstPage(vacanciesData.first);
+                    setIsLastPage(vacanciesData.last);
+                } else {
+                    promises.push(
+                        authAxios.get(`http://localhost:8080/job-vacancy/getVacanciesByHr/${hrID}?page=0&size=3`).then(response => {
+                            const vacanciesData = response.data;
+                            setVacancies(vacanciesData.content);
+                            setIsFirstPage(vacanciesData.first);
+                            setIsLastPage(vacanciesData.last);
+                        })
+                    );
+                }
+
+                await Promise.all(promises);
             } catch (error) {
                 console.error("Error fetching user data:", error);
                 setVacancies([]);
             } finally {
-                setLoading(false);
-                setIsTextChanged(false);
+                setTimeout(() => {
+                    setLoading(false);
+                    setIsTextChanged(false);
+                });
             }
-    };
+        };
+
 
         (async () => {
             await fetchUserData();
         })()
         checkUsers();
+        markRenderEnd("ProfileHR")
     }, [hrID]);
 
     useEffect(() => {
@@ -214,7 +220,10 @@ function ProfileHR({hrID}: Readonly<ProfileHrProps>) {
                                 <Text fontSize={30} as="h1">{userData?.name && userData?.surname ? `${userData.name} ${userData.surname}` : t("profileHR.nameSurname")}</Text>
                                 <Text fontSize={25} as="h2">{userData?.companyName ? `${userData.companyName}` : t("profileHR.companyName")}</Text>
                                 <Text fontSize={25} as="h2">{userData?.country && userData?.city ? `${userData.country}, ${userData.city}` : t("profileEmployee.countryCity")}</Text>
-                                {isMyProfile && (<IoSettingsSharp size={25} onClick={() => navigate("/profile/settings")} className="setting-icon" />)}
+                                {isMyProfile && (<IoSettingsSharp size={25} onClick={() => {
+                                    markRenderStart()
+                                    navigate("/profile/settings");
+                                }} className="setting-icon" />)}
                             </div>
                             <div id="profile-hr-other-info-wrapper">
                                 {isMyProfile && (<div className="profile-hr-block">
@@ -265,9 +274,15 @@ function ProfileHR({hrID}: Readonly<ProfileHrProps>) {
                         <div id="profile-hr-right-content-wrapper">
                             {isMyProfile && (<div id="profile-hr-buttons-wrapper">
                                 <Button fontSize={20} fontWeight={500} buttonText={t("profileHR.addNewVacancy")}
-                                        onClick={() => navigate("/vacancy/create")} className="profile-hr-buttons"/>
+                                        onClick={() => {
+                                            markRenderStart();
+                                            navigate("/vacancy/create");
+                                        }} className="profile-hr-buttons"/>
                                 <Button fontSize={20} fontWeight={500} buttonText={t("profileHR.openVacancies")}
-                                        onClick={() => navigate("/catalog")} className="profile-hr-buttons"/>
+                                        onClick={() => {
+                                            markRenderStart();
+                                            navigate("/catalog");
+                                        }} className="profile-hr-buttons"/>
                             </div>)}
                             <div id="profile-hr-about-wrapper" className={`profile-hr-block ${!isMyProfile && "margin"}`}>
                                 <Text fontSize={20} as="h2">{t("profileHR.aboutCompany")}</Text>

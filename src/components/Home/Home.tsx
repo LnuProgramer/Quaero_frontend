@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import "./Home.scss"
 import Button from "../../reusableComponents/button/Button";
 import { useTranslation } from "react-i18next";
 import Text from "../../reusableComponents/text/Text";
 import { FaXTwitter, FaInstagram, FaFacebookF } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { markRenderEnd } from "../../utils/measureRender";
 
 function Home() {
     const navigate = useNavigate();
     const {t} = useTranslation();
+    useEffect(() => {
+        markRenderEnd("Home")
+    }, []);
     return (
         <div id="home">
             <div className="home-circles" id="home-circle-small-1"></div>

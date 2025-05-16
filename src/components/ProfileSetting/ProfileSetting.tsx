@@ -5,6 +5,8 @@ import Text from "../../reusableComponents/text/Text";
 import "./ProfileSetting.scss"
 import Button from "../../reusableComponents/button/Button";
 import authAxios from "../../utils/authAxios";
+import { clearCache, getCache } from "../../utils/memoryCashe";
+import { markRenderEnd } from "../../utils/measureRender";
 
 interface FormDataProfile {
     firstName: string,
@@ -54,9 +56,15 @@ function ProfileSetting() {
     useEffect(() => {
         const fetchRole = async () => {
             try {
-                if (id) {
-                    const response = await authAxios.get(`http://localhost:8080/profile/getRole/${id}`);
-                    setRole(response.data);
+                const cachedUserRole = getCache("prefetchedUserRole");
+                if (cachedUserRole) {
+                    clearCache("prefetchedUserRole")
+                    setRole(cachedUserRole)
+                } else {
+                    if (id) {
+                        const response = await authAxios.get(`http://localhost:8080/profile/getRole/${id}`);
+                        setRole(response.data);
+                }
                 }
             } catch (error) {
                 console.error("Помилка під час отримання ролі:", error);
@@ -64,8 +72,17 @@ function ProfileSetting() {
         };
         const fetchUserInfo = async () => {
             try {
-                const response = await authAxios.get(`http://localhost:8080/profile/getUserInfo/${id}`);
-                const userData = response.data;
+                let userData;
+                const cachedUserData = getCache("prefetchedUserData");
+                if(cachedUserData){
+                    clearCache("prefetchedUserData")
+                    console.log(cachedUserData);
+                    userData = cachedUserData
+                }
+                else {
+                    const response = await authAxios.get(`http://localhost:8080/profile/getUserInfo/${id}`);
+                    userData = response.data;
+                }
 
                 setFormData({
                     firstName: userData.name,
@@ -84,6 +101,7 @@ function ProfileSetting() {
         (async () => {
             await fetchRole();
             await fetchUserInfo();
+            markRenderEnd("ProfileSetting");
         })()
     }, [id]);
 

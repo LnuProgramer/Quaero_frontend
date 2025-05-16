@@ -4,6 +4,7 @@ import Text from "../../reusableComponents/text/Text";
 import { useTranslation } from "react-i18next";
 import { useAuth } from '../../utils/AuthContext';
 import { Link, useNavigate } from "react-router-dom";
+import { markRenderStart} from "../../utils/measureRender";
 
 function Header() {
     const navigate = useNavigate();
@@ -37,7 +38,8 @@ function Header() {
         <header className="header">
             <div className="left-nav">
                 <div className="logo">
-                    <Text className="mainLogo" fontSize={30} as="a" href="/">Quaero</Text>
+                    <Text className="mainLogo" fontSize={30} as="a">
+                        <Link to={"/"} onClick={() => markRenderStart()}>Quaero</Link></Text>
                     <Text fontSize={13} as="p">Jobs for you</Text>
                 </div>
                 <div className={`search-container ${isSearchOpen ? 'open' : ''}`}>
@@ -52,19 +54,19 @@ function Header() {
                 {isLoggedIn ? (
                     <>
                         <Text className="right-nav" fontSize={25} as="span">
-                            <Link to={"/video-chat"}>
+                            <Link to={"/video-chat"} onClick={() => markRenderStart()}>
                             {t("header.messages")}
                             </Link>
                         </Text>
                         <Text className="right-nav" fontSize={25} as="span">
-                            <Link to={`/profile/${localStorage.getItem("id")}`}>
+                            <Link to={`/profile/${localStorage.getItem("id")}`} onClick={() => markRenderStart()}>
                             {t("header.profile")}
                             </Link>
                         </Text>
                     </>
                 ) : (
                     <Text className="right-nav" fontSize={25} as="span">
-                        <Link to={"/login"}>
+                        <Link to={"/login"} onClick={() => markRenderStart()}>
                         {t("header.loginNav")}
                         </Link>
                     </Text>

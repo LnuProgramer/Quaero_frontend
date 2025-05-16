@@ -9,6 +9,7 @@ import Loader from "../../reusableComponents/loader/Loader";
 import Button from "../../reusableComponents/button/Button";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { clearCache, getCache } from "../../utils/memoryCashe";
+import { markRenderEnd } from "../../utils/measureRender";
 
 type VacancyData = {
     id: string;
@@ -96,6 +97,7 @@ function Catalog() {
         };
         (async () => {
             await getAllFilteredAndSortedRequest();
+            markRenderEnd("Catalog")
         })();
     }, [debouncedFilters]);
 

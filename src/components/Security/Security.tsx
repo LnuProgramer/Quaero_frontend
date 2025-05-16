@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Security.css';
 import Text from "../../reusableComponents/text/Text";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { markRenderEnd } from "../../utils/measureRender";
 
 interface FormData {
   email: string;
@@ -68,6 +69,9 @@ function Security() {
     }
   };
 
+  useEffect(() => {
+    markRenderEnd("Login")
+  }, []);
   return (
       <div className="page-container">
         <div className="form-container">
@@ -166,6 +170,6 @@ function Security() {
         </div>
       </div>
   );
-};
+}
 
 export default Security;

@@ -1,8 +1,13 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { prefetchCatalogData, prefetchProfileData } from "./preFetchers";
-import { getCache } from "./memoryCashe";
+import {
+    prefetchCatalogData, prefetchCreateData,
+    prefetchHomeData,
+    prefetchLoginData,
+    prefetchProfileData,
+    prefetchSettingsData, prefetchVideoChatData
+} from "./preFetchers";
 
 type Props = {
     children: React.ReactNode;
@@ -12,8 +17,18 @@ export const PagePredictor = ({ children }: Props) => {
     const location = useLocation();
 
     useEffect(() => {
-        const currentPage = location.pathname.replace("/", "") || "home";
-        console.log(currentPage);
+        const pathSegments = location.pathname.split("/").filter(Boolean);
+
+        let currentPage = pathSegments[0] || "home";
+        if (pathSegments[1] === "settings") {
+            currentPage = pathSegments[1]
+        }
+        else if (pathSegments[0] === "video-chat"){
+            currentPage = "videoChat"
+        }
+        else if (pathSegments[1] === "create")
+            currentPage = pathSegments[1]
+        console.log("Current page:", currentPage);
 
         axios.post("http://localhost:8080/ml/predict", { currentPage })
             .then((res) => {
@@ -36,23 +51,23 @@ export const PagePredictor = ({ children }: Props) => {
                 console.log("prefetch Profile");
                 break;
             case "home":
-                import(/* webpackPrefetch: true */ "../components/Home/Home");
+                await prefetchHomeData();
                 console.log("prefetch Home");
                 break;
             case "login":
-                import(/* webpackPrefetch: true */ "../components/Security/Security");
+              await prefetchLoginData()
                 console.log("prefetch Security");
                 break;
             case "settings":
-                import(/* webpackPrefetch: true */ "../components/ProfileSetting/ProfileSetting");
+                await prefetchSettingsData()
                 console.log("prefetch Settings");
                 break;
             case "videoChat":
-                import(/* webpackPrefetch: true */ "../components/VideoChat/VideoChat");
+                await prefetchVideoChatData()
                 console.log("prefetch VideoChat");
                 break;
             case "create":
-                import(/* webpackPrefetch: true */ "../components/VacancyCreator/VacancyCreator");
+                await prefetchCreateData()
                 console.log("prefetch VacancyCreator");
                 break;
             default:

@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import Text from "../../reusableComponents/text/Text";
 import Loader from "../../reusableComponents/loader/Loader";
 import authAxios from "../../utils/authAxios";
-import { getCache } from "../../utils/memoryCashe";
+import { clearCache, getCache } from "../../utils/memoryCashe";
 
 function RoleCheck(role: string | null, id: string) {
     if (role === "ROLE_RECRUITER") {
@@ -25,11 +25,9 @@ function Profile() {
     useEffect(() => {
         const fetchRole = async () => {
             try {
-                const cachedUserRole = getCache("prefetchedUserRole")
-                console.log(cachedUserRole)
-                console.log("ROLE:", getCache("prefetchedUserRole"));
-                console.log("USER DATA:", getCache("prefetchedUserData"));
+                const cachedUserRole = getCache("prefetchedUserRole");
                 if (cachedUserRole){
+                    clearCache("prefetchedUserRole")
                     setRole(cachedUserRole);
                 }
                 else {
