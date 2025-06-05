@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './Security.css';
+import './Security.scss';
 import Text from "../../reusableComponents/text/Text";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";

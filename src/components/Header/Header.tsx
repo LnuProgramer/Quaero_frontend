@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './Header.css';
+import './Header.scss';
 import Text from "../../reusableComponents/text/Text";
 import { useTranslation } from "react-i18next";
 import { useAuth } from '../../utils/AuthContext';

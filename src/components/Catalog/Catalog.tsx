@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Vacancy from "../../reusableComponents/vacancy/Vacancy";
-import "./Catalog.css";
+import "./Catalog.scss";
 import { useTranslation } from "react-i18next";
 import Text from "../../reusableComponents/text/Text";
 import { Link } from "react-router-dom";

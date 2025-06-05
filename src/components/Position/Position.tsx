@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import "./Position.css";
+import "./Position.scss";
 import axios from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
