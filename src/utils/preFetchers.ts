@@ -24,7 +24,6 @@ export const prefetchCatalogData = async () => {
             filters
         );
 
-        // Збережи в кеш (можна в localStorage або MemoryCache)
         setCache("prefetchedCatalogData", response.data);
         import(/* webpackPrefetch: true */ "../components/Catalog/Catalog");
     } catch (err) {

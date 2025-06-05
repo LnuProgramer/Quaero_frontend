@@ -13,7 +13,7 @@ type Props = {
     children: React.ReactNode;
 };
 
-export const PagePredictor = ({ children }: Props) => {
+    export const PagePredictor = ({ children }: Props) => {
     const location = useLocation();
 
     useEffect(() => {
@@ -28,7 +28,6 @@ export const PagePredictor = ({ children }: Props) => {
         }
         else if (pathSegments[1] === "create")
             currentPage = pathSegments[1]
-        console.log("Current page:", currentPage);
 
         axios.post("http://localhost:8080/ml/predict", { currentPage })
             .then((res) => {
@@ -47,7 +46,7 @@ export const PagePredictor = ({ children }: Props) => {
                 console.log("prefetch Catalog");
                 break;
             case "profile":
-                await prefetchProfileData();
+                //await prefetchProfileData();
                 console.log("prefetch Profile");
                 break;
             case "home":

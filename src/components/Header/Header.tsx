@@ -22,6 +22,7 @@ function Header() {
     const toggleSearch = () => {
         setIsSearchOpen(!isSearchOpen);
         if (!isSearchOpen) {
+            markRenderStart()
             navigate("/catalog")
         }
     };
